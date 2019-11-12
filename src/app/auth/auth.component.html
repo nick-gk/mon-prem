@@ -1,0 +1,77 @@
+<header class="landing">
+   <div class="landing-block u-force-center">
+      <div class="landing-block--left clearfix">
+         <div class="u-force-center landing-block--left-text">
+            <h1>
+               Monumente Premium
+            </h1>
+            <p>Alaturi de tine in momentele grele</p>
+         </div>
+      </div>
+      <div class="landing-block--right">
+
+
+         <!-- <div class="customer" *ngIf="authType === 'customer'">
+            <div class="auth__heading">
+               <a (click)="onBack()"><i class="fas fa-angle-left"></i> Înapoi</a>
+            </div>
+            <form action="" class="form u-force-center">
+               <h2>Acces clienți</h2>
+               <div class="form-group">
+                  <label for="CNP">CNP</label>
+                  <input type="number" name="CNP" placeholder="123456789101">
+               </div>
+               <div class="form-group">
+                  <label for="Cod secret">Cod secret</label>
+                  <input type="text" name="Parola">
+               </div>
+               <div class="form-group">
+                  <input type="Submit" value="Login">
+               </div>
+            </form>
+
+         </div> -->
+
+         <form #authForm="ngForm" (ngSubmit)="onSubmit(authForm)" class="form">
+            <h2>Înregistrare</h2>
+            <div class="form-group">
+               <label for="email">Email</label>
+               <input type="email" name="email" placeholder="example@website.com" ngModel required email>
+            </div>
+            <div class="form-group">
+               <label for="password">Parola</label>
+               <input type="password" name="password" ngModel minlength="6" required>
+            </div>
+            <div class="form-group">
+               <button class="btn" type="submit" [disabled]="!authForm.valid">Înregistrare</button>
+            </div>
+         </form>
+
+         <!-- <div class="employee" *ngIf="authType === 'employee'">
+            <div class="auth__heading">
+               <a (click)="onBack()"><i class="fas fa-angle-left"></i> Înapoi</a>
+            </div>
+            <form action="" class="form u-force-center">
+               <h2>Acces Angajati</h2>
+               <div class="form-group">
+                  <label for="email">Email</label>
+                  <input type="text" name="email" placeholder="office@granitpremium.ro">
+               </div>
+               <div class="form-group">
+                  <label for="Parola">Parola</label>
+                  <input type="text" name="Parola">
+               </div>
+               <div class="form-group">
+                  <input type="Submit" value="Login">
+               </div>
+            </form>
+         </div> -->
+
+         <!-- <div class="buttons" *ngIf="!authType">
+            <button class="btn" (click)="onEmployee()">Acces Angajati</button>
+            <button class="btn btn-primary" (click)="onCustomer()">Acces Clienti</button>
+         </div> -->
+
+      </div>
+   </div>
+</header>
