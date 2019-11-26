@@ -9,7 +9,7 @@
 body {
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
-  font-family: 'Roboto', sans-serif;
+  font-family: "Roboto", sans-serif;
   font-size: 1rem;
   line-height: 1.6;
 }
@@ -28,7 +28,7 @@ body {
   transform: translate(-50%, -50%);
 }
 .clearfix::after {
-  content: '';
+  content: "";
   clear: both;
   display: table;
 }
@@ -51,6 +51,14 @@ body {
   color: white;
   -webkit-box-shadow: 2px 1px 5px 0px #818181;
   box-shadow: 2px 1px 5px 0px #818181;
+}
+.btn-secondary {
+  -webkit-box-shadow: none;
+  box-shadow: none;
+  padding: 0.4rem 0.5rem;
+  border-radius: 2px;
+  font-size: 0.9rem;
+  background-color: #909090;
 }
 .form {
   width: 100%;
@@ -126,31 +134,32 @@ body {
 }
 .form-group__component {
   background-color: transparent;
+  margin-right: 0.4rem;
 }
 .form-group__component label {
   display: block;
   font-size: 0.9rem;
   margin-left: 0.2rem;
 }
+.form-group__component select {
+  width: auto !important;
+}
 .form-group__component select,
 .form-group__component input {
-  margin-right: 0.4rem;
   border: none;
   padding: 0.5rem;
   font-size: 1rem;
   color: #555;
   border-radius: 4px;
+  width: 100%;
 }
-.form-group__component input[type='number']::-webkit-inner-spin-button,
-.form-group__component input[type='number']::-webkit-outer-spin-button {
+.form-group__component input[type="number"]::-webkit-inner-spin-button,
+.form-group__component input[type="number"]::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
 .form-group__component select option {
   font-size: 0.9rem;
-}
-.form-group__component input[type='number'] {
-  width: 120px;
 }
 .form-group input:active,
 .form-group input:focus,
@@ -159,7 +168,7 @@ body {
   outline-offset: 1px;
   outline-style: auto;
 }
-.form-group input[type='submit'] {
+.form-group input[type="submit"] {
   border: none;
   padding: 0.5rem 2rem;
   background-color: #ca992b;
@@ -192,7 +201,7 @@ body {
   -ms-flex-order: 2;
   order: 2;
 }
-.form-group input[type='submit']:hover {
+.form-group input[type="submit"]:hover {
   background-color: #a37d24;
 }
 .landing {

@@ -6,21 +6,35 @@ import { AppComponent } from './app.component';
 import { AuthModule } from './auth/auth.module';
 import { StoreModule } from '@ngrx/store';
 import * as fromApp from './store/app.reducer';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { EffectsModule } from '@ngrx/effects';
 import { AuthEffects } from './auth/store/auth.effects';
+import { AuthInterceptorService } from './auth/auth-interceptor.service';
+import { DashboardModule } from './dashboard/dashboard.module';
+import { HeaderComponent } from './header/header.component';
+import { OrdersComponent } from './orders/orders.component';
+import { OrdersModule } from './orders/orders.module';
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent, HeaderComponent],
   imports: [
+    HttpClientModule,
     BrowserModule,
     AppRoutingModule,
     AuthModule,
+    OrdersModule,
     StoreModule.forRoot(fromApp.appReducer),
     HttpClientModule,
-    EffectsModule.forRoot([AuthEffects])
+    EffectsModule.forRoot([AuthEffects]),
+    DashboardModule
   ],
-  providers: [],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptorService,
+      multi: true
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

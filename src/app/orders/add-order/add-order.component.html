@@ -1,0 +1,173 @@
+<div class="main__add">
+   <h2 class="page-title-h2">Creare Comandă</h2>
+   <form [formGroup]="orderForm" (ngSubmit)="onSubmit()" class="form">
+      <div class="form__grid">
+         <div class="form__left" formGroupName="customerForm">
+            <h3>Detalii client</h3>
+            <hr>
+            <div class="form-group form-group__col50">
+               <label for="customer_fname">Nume</label>
+               <input type="text" placeholder="Nume" name="customer_fname" id="customer_fname"
+                  formControlName="customer_fname" required>
+            </div>
+            <div class="form-group form-group__col50">
+               <label for="customer_lname">Prenume</label>
+               <input type="text" placeholder="Prenume" name="customer_lname" id="customer_lname"
+                  formControlName="customer_lname" required>
+            </div>
+            <div class="form-group form-group__col50">
+               <label for="country">Țara</label>
+               <input type="text" name="country" id="country" value="Romania" formControlName="country" required>
+            </div>
+            <div class="form-group form-group__col50">
+               <label for="city">Oraș</label>
+               <input type="text" name="city" id="city" formControlName="city" required>
+            </div>
+            <div class="form-group">
+               <label for="address">Adresa</label>
+               <input type="text" placeholder="Adresa" name="address" id="address" formControlName="address" required>
+            </div>
+            <div class="form-group form-group__col50">
+               <label for="cnp">CNP</label>
+               <input type="number" name="cnp" id="cnp" formControlName="cnp" required>
+            </div>
+
+            <div class="form-group form-group__col50">
+               <label for="customer_tel">Telefon</label>
+               <input type="tel" placeholder="" name="customer_tel" id="customer_tel" formControlName="customer_tel"
+                  required>
+            </div>
+         </div>
+
+         <div class="form__right" formGroupName="deadForm">
+            <h3>Date Defunct</h3>
+            <hr>
+            <div class="form-group form-group__col50">
+               <label for="d_fname">Nume</label>
+               <input type="text" placeholder="Nume" name="d_fname" id="d_fname" formControlName="d_fname" required>
+            </div>
+            <div class="form-group form-group__col50">
+               <label for="d_sname">Prenume</label>
+               <input type="text" placeholder="Prenume" name="d_sname" id="d_sname" formControlName="d_sname" required>
+            </div>
+            <div class="form-group form-group__col50">
+               <label for="bdate">Data Nașterii</label>
+               <input type="date" name="bdate" id="bdate" formControlName="bdate" required>
+            </div>
+            <div class="form-group form-group__col50">
+               <label for="ddate">Data decesului</label>
+               <input type="date" name="ddate" id="ddate" formControlName="ddate" required>
+            </div>
+            <div class="form-group">
+               <label for="cemetery">Cimitir</label>
+               <input type="text" placeholder="Numele Cimitirului" name="cemetery" id="cemetery"
+                  formControlName="cemetery" required>
+            </div>
+            <div class="form-group form-group__col50">
+               <label for="cemetery_city">Localitate</label>
+               <input type="text" placeholder="Localitatea Cimitirului" name="cemetery_city" id="cemetery_city"
+                  formControlName="cemetery_city" required>
+            </div>
+            <div class="form-group form-group__col50">
+               <label for="cemetery_country">Tara (cimitir)</label>
+               <input type="text" name="cemetery_country" id="cemetery_country" formControlName="cemetery_country"
+                  value="Romania" required>
+            </div>
+         </div>
+
+         <div class="form__below">
+            <div class="form__bellow-box--1" formArrayName="elemsForm">
+               <h3>Detalii comandă</h3>
+               <hr>
+               <div class="form-group__components" *ngFor="let element of elements.controls; let i=index"
+                  [formGroupName]="i">
+                  <div class="form-group__component">
+                     <label for="article">Articol</label>
+                     <select name="article" id="article" formControlName="article" required>
+                        <option value="Monument">Monument</option>
+                        <option value="Placa">Placa</option>
+                        <option value="Vaza">Vaza</option>
+                        <option value="Felinar">Felinar</option>
+                        <option value="Fotogravura">Fotogravura</option>
+                        <option value="Fotogravura Flori">Fotogravura Flori</option>
+                        <option value="Cruce">Cruce</option>
+                        <option value="Alte elemente fotogravura">Elemente Fotogravura</option>
+                        <option value="Forme">Forme</option>
+                     </select>
+                  </div>
+                  <div class="form-group__component">
+                     <label for="quantity">Cantitate</label>
+                     <input type="number" name="quantity" id="quantity" value="1" formControlName="quantity" required>
+                  </div>
+                  <div class="form-group__component">
+                     <label for="colour">Culoare</label>
+                     <select name="colour" id="colour" formControlName="colour" required>
+                        <option value="Negru">Negru</option>
+                        <option value="Rosu">Rosu</option>
+                        <option value="Gri">Gri</option>
+                        <option value="Verde">Verde</option>
+                     </select>
+                  </div>
+                  <div class="form-group__component">
+                     <label for="length">Lungime</label>
+                     <input type="number" name="length" id="length" value="0" formControlName="length" required>
+                  </div>
+                  <div class="form-group__component">
+                     <label for="width">Lățime</label>
+                     <input type="number" name="width" id="width" value="0" formControlName="width" required>
+                  </div>
+                  <div class="form-group__component">
+                     <label for="thickness">Grosime</label>
+                     <input type="number" name="thickness" id="thickness" value="0" formControlName="thickness"
+                        required>
+                  </div>
+                  <div class="form-group__component">
+                     <label for="uni_price">Pret Unitar</label>
+                     <input type="number" name="uni_price" id="uni_price" value="0" formControlName="uni_price"
+                        required>
+                  </div>
+                  <div class="form-group__component">
+                     <label for="price">Pret</label>
+                     <input type="number" name="price" id="price" value="0" formControlName="price" required>
+                  </div>
+               </div>
+               <input type="button" value="Adaugă Articol" (click)="onAddArticle()" class="btn btn-secondary">
+            </div>
+
+            <div formGroupName="summaryForm">
+               <hr>
+               <div class="form-group__stock">
+                  <label for="in_stock">In stock?</label>
+                  <input type="checkbox" value="in_stock" name="in_stock" id='in_stock' formControlName="in_stock"
+                     required>
+               </div>
+               <div class="form-group">
+                  <label for="add_image">Adaugă Imagine</label>
+                  <input type="url" id="add_image" name="add_image" formControlName="add_image">
+               </div>
+               <hr>
+
+               <div class="form-group form-group__col50">
+                  <label for="today_date">Data intocmirii</label>
+                  <input type="date" id="today_date" name="today_date" formControlName="today_date" required>
+               </div>
+               <div class="form-group form-group__col50">
+                  <label for="due_date">Data Limita</label>
+                  <input type="date" id="due_date" name="due_date" formControlName="due_date" required>
+               </div>
+               <div class="form-group form-group__col50">
+                  <label for="total">Suma Totala</label>
+                  <input type="number" placeholder="0 RON" id="total" name="total" formControlName="total" required>
+               </div>
+               <div class="form-group form-group__col50">
+                  <label for="avans">Avans</label>
+                  <input type="number" placeholder="0 RON" id="avans" name="avans" formControlName="avans" required>
+               </div>
+            </div>
+            <input type="submit" class="btn" value="Salvează">
+            <input type="reset" class="btn btn-primary" value="Resetează">
+
+         </div>
+      </div>
+   </form>
+</div>

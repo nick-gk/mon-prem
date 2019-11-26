@@ -1,10 +1,22 @@
-import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
-import { AppComponent } from './app.component';
+import { NgModule } from "@angular/core";
+import { Routes, RouterModule } from "@angular/router";
 
 const appRoutes: Routes = [
-  { path: '', component: AppComponent },
-  { path: 'auth', loadChildren: './auth/auth.module#AuthModule' }
+  {
+    path: "",
+    redirectTo: "/dashboard",
+    pathMatch: "full"
+  },
+  {
+    path: "dashboard",
+    loadChildren: "./dashboard/dashboard.module#DashboardModule"
+  },
+  {
+    path: "orders",
+    loadChildren: () =>
+      import("./orders/orders.module").then(m => m.OrdersModule)
+  },
+  { path: "auth", loadChildren: "./auth/auth.module#AuthModule" }
 ];
 
 @NgModule({

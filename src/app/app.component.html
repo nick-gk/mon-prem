@@ -1,4 +1,2 @@
-Hey
-<a routerLink="/auth">Register</a>
-
-<router-outlet></router-outlet>
+<app-header *ngIf="isAuthenticated"></app-header>
+<router-outlet *ngIf="!isAuthenticated"></router-outlet>

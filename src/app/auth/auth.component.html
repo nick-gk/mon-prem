@@ -3,19 +3,18 @@
       <div class="landing-block--left clearfix">
          <div class="u-force-center landing-block--left-text">
             <h1>
-               Monumente Premium
+               Nume Companie
             </h1>
-            <p>Alaturi de tine in momentele grele</p>
+            <p>Slogan</p>
          </div>
       </div>
       <div class="landing-block--right">
 
-
-         <!-- <div class="customer" *ngIf="authType === 'customer'">
+         <div class="customer" *ngIf="authType === 'customer'">
             <div class="auth__heading">
                <a (click)="onBack()"><i class="fas fa-angle-left"></i> Înapoi</a>
             </div>
-            <form action="" class="form u-force-center">
+            <!-- <form action="" class="form u-force-center">
                <h2>Acces clienți</h2>
                <div class="form-group">
                   <label for="CNP">CNP</label>
@@ -26,13 +25,13 @@
                   <input type="text" name="Parola">
                </div>
                <div class="form-group">
-                  <input type="Submit" value="Login">
+                  <input type="Submit" value="Login" (click)="onSubmit()">
                </div>
-            </form>
+            </form> -->
 
-         </div> -->
+         </div>
 
-         <form #authForm="ngForm" (ngSubmit)="onSubmit(authForm)" class="form">
+         <!-- <form #authForm="ngForm" (ngSubmit)="onSubmit(authForm)" class="form">
             <h2>Înregistrare</h2>
             <div class="form-group">
                <label for="email">Email</label>
@@ -45,32 +44,34 @@
             <div class="form-group">
                <button class="btn" type="submit" [disabled]="!authForm.valid">Înregistrare</button>
             </div>
-         </form>
+         </form> -->
 
-         <!-- <div class="employee" *ngIf="authType === 'employee'">
+         <div class="employee" *ngIf="authType === 'employee'">
             <div class="auth__heading">
                <a (click)="onBack()"><i class="fas fa-angle-left"></i> Înapoi</a>
             </div>
-            <form action="" class="form u-force-center">
+            <form #authForm="ngForm" (ngSubmit)="onSubmit(authForm)" *ngIf="!isLoading" class="form u-force-center">
                <h2>Acces Angajati</h2>
                <div class="form-group">
                   <label for="email">Email</label>
-                  <input type="text" name="email" placeholder="office@granitpremium.ro">
+                  <input type="email" name="email" id="email" placeholder="office@granitpremium.ro" ngModel required
+                     email>
                </div>
                <div class="form-group">
-                  <label for="Parola">Parola</label>
-                  <input type="text" name="Parola">
+                  <label for="password">Password</label>
+                  <input type="password" id="password" ngModel name="password" required minlength="6">
                </div>
                <div class="form-group">
-                  <input type="Submit" value="Login">
+                  <input type="submit" value="Login" [disabled]="!authForm.valid">
                </div>
-            </form>
-         </div> -->
 
-         <!-- <div class="buttons" *ngIf="!authType">
+            </form>
+         </div>
+
+         <div class="buttons" *ngIf="!authType">
             <button class="btn" (click)="onEmployee()">Acces Angajati</button>
             <button class="btn btn-primary" (click)="onCustomer()">Acces Clienti</button>
-         </div> -->
+         </div>
 
       </div>
    </div>
