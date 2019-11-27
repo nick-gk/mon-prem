@@ -1,12 +1,12 @@
-import * as AuthActions from './auth.actions';
-import { Actions, Effect, ofType } from '@ngrx/effects';
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Router } from '@angular/router';
-import { switchMap, tap, catchError, map } from 'rxjs/operators';
-import { User } from '../user.model';
-import { of } from 'rxjs';
-import { AuthService } from '../auth.service';
+import * as AuthActions from "./auth.actions";
+import { Actions, Effect, ofType } from "@ngrx/effects";
+import { Injectable } from "@angular/core";
+import { HttpClient } from "@angular/common/http";
+import { Router } from "@angular/router";
+import { switchMap, tap, catchError, map } from "rxjs/operators";
+import { User } from "../user.model";
+import { of } from "rxjs";
+import { AuthService } from "../auth.service";
 
 export interface AuthResponseData {
   idToken: string;
@@ -29,7 +29,7 @@ const handleAuthentication = resData => {
     expirationDate
   );
 
-  localStorage.setItem('userData', JSON.stringify(user));
+  localStorage.setItem("userData", JSON.stringify(user));
   return new AuthActions.AuthenticateSuccess({
     email: resData.email,
     id: resData.localId,
@@ -40,19 +40,19 @@ const handleAuthentication = resData => {
 };
 
 const handleError = (errorRes: any) => {
-  let errorMessage = 'An unknown error occured!';
+  let errorMessage = "An unknown error occured!";
   if (!errorRes.error || !errorRes.error.error) {
     return of(new AuthActions.AuthenticateFail(errorMessage));
   }
   switch (errorRes.error.error.message) {
-    case 'EMAIL_EXISTS':
-      errorMessage = 'This email exists already';
+    case "EMAIL_EXISTS":
+      errorMessage = "This email exists already";
       break;
-    case 'EMAIL_NOT_FOUND':
-      errorMessage = 'This email was not found';
+    case "EMAIL_NOT_FOUND":
+      errorMessage = "This email was not found";
       break;
-    case 'INVALID_PASSWORD':
-      errorMessage = 'This password is not correct';
+    case "INVALID_PASSWORD":
+      errorMessage = "This password is not correct";
       break;
   }
   return of(new AuthActions.AuthenticateFail(errorMessage));
@@ -74,7 +74,7 @@ export class AuthEffects {
       console.log(signupAction);
       return this.http
         .post<AuthResponseData>(
-          'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyCuEvQyyg9_qTLntcppoP8Wk5ba17uEiw8',
+          "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyCuEvQyyg9_qTLntcppoP8Wk5ba17uEiw8",
           {
             email: signupAction.payload.email,
             password: signupAction.payload.password,
@@ -101,7 +101,7 @@ export class AuthEffects {
     switchMap((authData: AuthActions.LoginStart) => {
       return this.http
         .post<AuthResponseData>(
-          'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyCuEvQyyg9_qTLntcppoP8Wk5ba17uEiw8',
+          "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyCuEvQyyg9_qTLntcppoP8Wk5ba17uEiw8",
           {
             email: authData.payload.email,
             password: authData.payload.password,
@@ -126,7 +126,8 @@ export class AuthEffects {
   authRedirect = this.actions$.pipe(
     ofType(AuthActions.AUTHENTICATE_SUCCESS),
     tap((authSuccessActions: AuthActions.AuthenticateSuccess) => {
-      if (authSuccessActions.payload.redirect) this.router.navigate(['/']);
+      if (authSuccessActions.payload.redirect)
+        this.router.navigate(["/dashboard"]);
     })
   );
 
@@ -135,8 +136,8 @@ export class AuthEffects {
     ofType(AuthActions.LOGOUT),
     tap(() => {
       this.authService.clearLogoutTimer();
-      localStorage.removeItem('userData');
-      this.router.navigate(['/auth']);
+      localStorage.removeItem("userData");
+      this.router.navigate(["/auth"]);
     })
   );
 
@@ -149,10 +150,10 @@ export class AuthEffects {
         id: string;
         _token: string;
         _tokenExpirationDate: string;
-      } = JSON.parse(localStorage.getItem('userData'));
+      } = JSON.parse(localStorage.getItem("userData"));
 
       if (!userData) {
-        return { type: '!userData' };
+        return { type: "!userData" };
       }
 
       const loadedUser = new User(
@@ -175,7 +176,7 @@ export class AuthEffects {
           redirect: false
         });
       }
-      return { type: '!token' };
+      return { type: "!token" };
     })
   );
 }

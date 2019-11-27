@@ -14,7 +14,7 @@
             <div class="auth__heading">
                <a (click)="onBack()"><i class="fas fa-angle-left"></i> Înapoi</a>
             </div>
-            <!-- <form action="" class="form u-force-center">
+            <form action="" class="form u-force-center">
                <h2>Acces clienți</h2>
                <div class="form-group">
                   <label for="CNP">CNP</label>
@@ -27,11 +27,11 @@
                <div class="form-group">
                   <input type="Submit" value="Login" (click)="onSubmit()">
                </div>
-            </form> -->
+            </form>
 
          </div>
 
-         <!-- <form #authForm="ngForm" (ngSubmit)="onSubmit(authForm)" class="form">
+         <!-- <form #authForm="ngForm" (ngSubmit)="onSignUp(authForm)" class="form">
             <h2>Înregistrare</h2>
             <div class="form-group">
                <label for="email">Email</label>
@@ -72,6 +72,8 @@
             <button class="btn" (click)="onEmployee()">Acces Angajati</button>
             <button class="btn btn-primary" (click)="onCustomer()">Acces Clienti</button>
          </div>
+
+         <p *ngIf="error">{{ this.error }}</p>
 
       </div>
    </div>

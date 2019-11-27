@@ -1,14 +1,14 @@
 <div class="container">
    <header class="header">
       <h2 class="header__logo">
-         <a routerLink="/dashboard" style="text-decoration: none;">Monumente Premium</a>
+         <a routerLink="/dashboard" style="text-decoration: none;">Nume Companie</a>
       </h2>
       <nav class="header__nav">
          <ul class="header__nav--left">
             Search
          </ul>
          <ul class="header__nav--right">
-            <li><a (click)="onLogout()">Logout</a></li>
+            <li><a (click)="onLogout()" style="cursor: pointer">Logout</a></li>
             <li><a href="#">Settings</a></li>
          </ul>
       </nav>
@@ -23,7 +23,7 @@
             </a>
          </li>
          <li class="sidebar__nav-item">
-            <a routerLink="/orders/add-order" class="sidebar__nav-item--link">
+            <a routerLink="orders/add-order" class="sidebar__nav-item--link">
                <i class="fas fa-arrow-right"></i>
                <span class="sidebar__nav-item--link--text">Adauga Comanda</span>
             </a>

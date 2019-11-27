@@ -7,7 +7,7 @@ import { OrdersListComponent } from "./orders-list/orders-list.component";
 
 const routes: Routes = [
   {
-    path: "",
+    path: "orders",
     component: OrdersComponent,
     canActivate: [AuthGuard],
     children: [
