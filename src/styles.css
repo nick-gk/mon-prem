@@ -64,6 +64,9 @@ body {
   width: 100%;
   padding: 2rem;
 }
+.form .error {
+  text-align: center;
+}
 .form__grid {
   display: -ms-grid;
   display: grid;

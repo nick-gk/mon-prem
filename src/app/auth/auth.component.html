@@ -27,6 +27,7 @@
                <div class="form-group">
                   <input type="Submit" value="Login" (click)="onSubmit()">
                </div>
+               <p *ngIf="error" class="error">{{ this.error }}</p>
             </form>
 
          </div>
@@ -64,7 +65,7 @@
                <div class="form-group">
                   <input type="submit" value="Login" [disabled]="!authForm.valid">
                </div>
-
+               <p *ngIf="error" class="error">{{ this.error }}</p>
             </form>
          </div>
 
@@ -73,7 +74,7 @@
             <button class="btn btn-primary" (click)="onCustomer()">Acces Clienti</button>
          </div>
 
-         <p *ngIf="error" class="error">{{ this.error }}</p>
+
 
       </div>
    </div>

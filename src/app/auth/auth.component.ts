@@ -25,6 +25,7 @@ export class AuthComponent implements OnInit, OnDestroy {
   }
   onBack() {
     this.authType = "";
+    this.error = null;
   }
 
   onSubmit(form: NgForm) {
