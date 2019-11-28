@@ -402,5 +402,6 @@ body {
   -ms-grid-column: 2;
   grid-column: 2;
   display: block;
+  height: 100%;
   background-color: #f8f9fa;
 }
