@@ -14,6 +14,7 @@ import { OrdersModule } from "./orders/orders.module";
 import { AuthModule } from "./auth/auth.module";
 import { DashboardModule } from "./dashboard/dashboard.module";
 import { DashboardComponent } from "./dashboard/dashboard.component";
+import { OrdersEffects } from "./orders/store/orders.effects";
 @NgModule({
   declarations: [AppComponent, HeaderComponent],
   imports: [
@@ -26,7 +27,7 @@ import { DashboardComponent } from "./dashboard/dashboard.component";
     OrdersModule,
     StoreModule.forRoot(fromApp.appReducer),
     HttpClientModule,
-    EffectsModule.forRoot([AuthEffects])
+    EffectsModule.forRoot([AuthEffects, OrdersEffects])
   ],
   providers: [
     {
