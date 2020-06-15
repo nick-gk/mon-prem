@@ -1,0 +1,51 @@
+<div [formGroup]="this.controlContainer.control">
+   <div formArrayName="elemsForm" *ngFor="let element of elements.controls; let i=index">
+      <div class="form-group__components" [formGroupName]="i">
+         <div class="form-group__component">
+            <label for="article">Articol</label>
+            <select name="article" id="article" formControlName="article" required>
+               <option value="select" selected disabled>Alege Component</option>
+               <option *ngFor="let comp of components">{{ comp }}</option>
+            </select>
+         </div>
+
+         <div class="form-group__component">
+            <label for="quantity">Cantitate</label>
+            <input type="number" name="quantity" id="quantity" value="1" formControlName="quantity" required>
+         </div>
+         <div class="form-group__component">
+            <label for="colour">Culoare</label>
+            <select name="colour" id="colour" formControlName="colour" required>
+               <option value="Negru">Negru</option>
+               <option value="Rosu">Rosu</option>
+               <option value="Gri">Gri</option>
+               <option value="Verde">Verde</option>
+            </select>
+         </div>
+         <div class="form-group__component">
+            <label for="length">Lungime</label>
+            <input type="number" name="length" id="length" value="0" formControlName="length" required>
+         </div>
+         <div class="form-group__component">
+            <label for="width">Lățime</label>
+            <input type="number" name="width" id="width" value="0" formControlName="width" required>
+         </div>
+         <div class="form-group__component">
+            <label for="thickness">Grosime</label>
+            <input type="number" name="thickness" id="thickness" value="0" formControlName="thickness" required>
+         </div>
+         <div class="form-group__component">
+            <label for="uni_price">Pret Unitar</label>
+            <input type="number" name="uni_price" id="uni_price" value="0" formControlName="uni_price" required>
+         </div>
+         <div class="form-group__component">
+            <label for="price">Pret</label>
+            <input type="number" name="price" id="price" value="0" formControlName="price" required>
+         </div>
+         <div class="form-group__component">
+            <label for="remove">&nbsp;</label>
+            <input type="button" class="btn btn-remove" name="remove" id="remove" value="x" (click)="onDelete(i)">
+         </div>
+      </div>
+   </div>
+</div>

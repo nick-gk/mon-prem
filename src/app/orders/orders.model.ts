@@ -1,9 +1,4 @@
-import { Component } from "./component.model";
-
-export class Order extends Component<string> {
-  controlType = "textbox";
-  type: string;
-
+export class Order {
   constructor(
     public customerForm: {
       customer_fname: string;
@@ -14,7 +9,7 @@ export class Order extends Component<string> {
       cnp: number;
       customer_tel: number;
     },
-    public deadForm: {
+    public deceasedForm: {
       d_fname: string;
       d_sname: string;
       bdate: Date;
@@ -26,29 +21,49 @@ export class Order extends Component<string> {
     public elemsForm: [
       {
         article: string;
-        quantity?: number;
-        colour?: string;
-        length?: number;
-        width?: number;
-        thickness?: number;
-        uni_price?: number;
-        price?: number;
-        model?: string;
-        component?: string;
+        quantity: number;
+        colour: string;
+        length: number;
+        width: number;
+        thickness: number;
+        uni_price: number;
+        price: number;
       }
     ],
     public summaryForm: {
-      add_image?: string;
       today_date: Date;
       due_date: Date;
       avans: number;
+      avansArray: [{ avans: number; avans_date: Date }];
       total: number;
-      obsc?: string;
+      left_amount: number;
+      obsc: string;
     },
-    options: {} = {}
-  ) {
-    super(options);
-    this.type = options["type"] || "";
-    console.log(elemsForm);
-  }
+    public progressForm: {
+      stock: {
+        checkStock: boolean;
+        responsibleName: string;
+        amount: number;
+        obsv: string;
+      };
+      prelucrare: {
+        checkPrelucrare: boolean;
+        responsibleName: string;
+        amount: number;
+        obsv: string;
+      };
+      engraving: {
+        checkEngraving: boolean;
+        responsibleName: string;
+        amount: number;
+        obsv: string;
+      };
+      mounting: {
+        checkMounting: boolean;
+        responsibleName: string;
+        amount: number;
+        obsv: string;
+      };
+    }
+  ) {}
 }

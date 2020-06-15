@@ -3,7 +3,7 @@ import * as OrdersActions from "./orders.actions";
 
 const initialState: State = {
   orders: [],
-  orderError: ""
+  orderError: "",
 };
 
 export interface State {
@@ -19,18 +19,20 @@ export function orderReducer(
     case OrdersActions.ADD_ORDER:
       return {
         ...state,
-        orders: [...state.orders, action.payload]
+        orders: [...state.orders, action.payload],
       };
     case OrdersActions.SET_ORDERS:
       return {
         ...state,
-        orders: [...action.payload]
+        orders: [...action.payload],
       };
     case OrdersActions.ORDER_FAIL:
       console.log(1);
       return {
         ...state,
-        orderError: action.payload
+        orderError: action.payload,
       };
+    default:
+      return state;
   }
 }

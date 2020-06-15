@@ -8,7 +8,7 @@ import {
   switchMap,
   map,
   tap,
-  catchError
+  catchError,
 } from "rxjs/operators";
 import { HttpClient } from "@angular/common/http";
 import { Order } from "../orders.model";
@@ -25,22 +25,16 @@ export class OrdersEffects {
     private http: HttpClient,
     private store: Store<fromApp.AppState>
   ) {}
-  @Effect() addOrder = this.actions$.pipe(
-    ofType(OrdersActions.ADD_ORDER),
+
+  @Effect({ dispatch: false })
+  storeOrders = this.actions$.pipe(
+    ofType(OrdersActions.STORE_ORDERS),
     withLatestFrom(this.store.select("orders")),
     switchMap(([actionData, ordersState]) => {
-      console.log(ordersState.orders);
-      return this.http
-        .post("https://mon-prem.firebaseio.com/orders.json", ordersState.orders)
-        .pipe(
-          tap(resData => {
-            console.log(resData);
-          }),
-          catchError(errorRes => {
-            console.log("error");
-            return handleError(errorRes);
-          })
-        );
+      return this.http.put(
+        "https://mon-prem.firebaseio.com/orders.json",
+        ordersState.orders
+      );
     })
   );
 
@@ -51,7 +45,7 @@ export class OrdersEffects {
         "https://mon-prem.firebaseio.com/orders.json"
       );
     }),
-    map(orders => {
+    map((orders) => {
       console.log(orders);
       return new OrdersActions.SetOrders(orders);
     })

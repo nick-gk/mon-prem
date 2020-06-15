@@ -1,299 +1,37 @@
 <div class="main__add">
    <h2 class="page-title-h2">Adaugă Comandă</h2>
-   <form [formGroup]="orderForm" (ngSubmit)="onSubmit()" class="form">
-      <div class="form__grid">
-         <div class="form__left" formGroupName="customerForm">
-            <h3>Detalii client</h3>
-            <hr>
-            <div class="form-container">
-               <div class="form-group form-group__col50">
-                  <label for="customer_fname">Nume</label>
-                  <input type="text" placeholder="Nume" name="customer_fname" id="customer_fname"
-                     formControlName="customer_fname" required>
-               </div>
-               <div class="form-group form-group__col50">
-                  <label for="customer_lname">Prenume</label>
-                  <input type="text" placeholder="Prenume" name="customer_lname" id="customer_lname"
-                     formControlName="customer_lname" required>
-               </div>
-            </div>
-            <div class="form-container">
-               <div class="form-group form-group__col50">
-                  <label for="country">Țara</label>
-                  <input type="text" name="country" id="country" value="Romania" formControlName="country" required>
-               </div>
-               <div class="form-group form-group__col50">
-                  <label for="city">Oraș</label>
-                  <input type="text" name="city" id="city" formControlName="city" required placeholder="Oras">
-               </div>
-            </div>
-            <div class="form-group">
-               <label for="address">Adresa</label>
-               <input type="text" placeholder="Adresa" name="address" id="address" formControlName="address" required>
-            </div>
-            <div class="form-container">
-               <div class="form-group form-group__col50">
-                  <label for="cnp">CNP</label>
-                  <input type="number" name="cnp" id="cnp" formControlName="cnp" required>
-               </div>
-               <div class="form-group form-group__col50">
-                  <label for="customer_tel">Telefon</label>
-                  <input type="tel" placeholder="" name="customer_tel" id="customer_tel" formControlName="customer_tel"
-                     required placeholder="+40741252525">
-               </div>
-            </div>
-         </div>
 
-         <div class="form__right" formGroupName="deadForm">
-            <h3>Date defunct</h3>
-            <hr>
-            <div class="form-container">
-               <div class="form-group form-group__col50">
-                  <label for="d_fname">Nume</label>
-                  <input type="text" placeholder="Nume" name="d_fname" id="d_fname" formControlName="d_fname" required>
-               </div>
-               <div class="form-group form-group__col50">
-                  <label for="d_sname">Prenume</label>
-                  <input type="text" placeholder="Prenume" name="d_sname" id="d_sname" formControlName="d_sname"
-                     required>
-               </div>
-            </div>
-            <div class="form-container">
-               <div class="form-group form-group__col50">
-                  <label for="bdate">Data Nașterii</label>
-                  <input type="date" name="bdate" id="bdate" formControlName="bdate" required>
-               </div>
-               <div class="form-group form-group__col50">
-                  <label for="ddate">Data Decesului</label>
-                  <input type="date" name="ddate" id="ddate" formControlName="ddate" required>
-               </div>
-            </div>
-            <div class="form-group">
-               <label for="cemetery">Cimitir</label>
-               <input type="text" placeholder="Numele Cimitirului" name="cemetery" id="cemetery"
-                  formControlName="cemetery" required>
-            </div>
-            <div class="form-container">
-               <div class="form-group form-group__col50">
-                  <label for="cemetery_city">Localitatea</label>
-                  <input type="text" placeholder="Localitatea Cimitirului" name="cemetery_city" id="cemetery_city"
-                     formControlName="cemetery_city" required>
-               </div>
-               <div class="form-group form-group__col50">
-                  <label for="cemetery_country">Tara Cimitirului</label>
-                  <input type="text" name="cemetery_country" id="cemetery_country" formControlName="cemetery_country"
-                     value="Romania" required>
-               </div>
-            </div>
-         </div>
+
+   <form [formGroup]="orderForm" (ngSubmit)="onSubmit()" class="form">
+
+      <div class="form__grid">
+
+
+         <app-client-details></app-client-details>
+
+         <app-deceased-details></app-deceased-details>
+
 
          <div class="form__below">
             <div class="form__bellow-box--1">
                <h3>Detalii comandă</h3>
                <hr>
-               <div formArrayName="elemsForm" *ngFor="let element of elements.controls; let i=index">
-                  <div class="form-group__components" [formGroupName]="i">
-                     <div class="form-group__component">
-                        <label for="article">Articol</label>
-                        <select name="article" id="article" formControlName="article" required>
-                           <option value="select" selected disabled>Alege Component</option>
-                           <option *ngFor="let comp of components" value="comp">{{ comp }}</option>
-                        </select>
-                     </div>
-
-                     <!-- <div class="form-group__component">
-                        <label for="quantity">Cantitate</label>
-                        <input type="number" name="quantity" id="quantity" value="1" formControlName="quantity"
-                           required>
-                     </div>
-                     <div class="form-group__component">
-                        <label for="colour">Culoare</label>
-                        <select name="colour" id="colour" formControlName="colour" required>
-                           <option value="Negru">Negru</option>
-                           <option value="Rosu">Rosu</option>
-                           <option value="Gri">Gri</option>
-                           <option value="Verde">Verde</option>
-                        </select>
-                     </div>
-                     <div class="form-group__component">
-                        <label for="length">Lungime</label>
-                        <input type="number" name="length" id="length" value="0" formControlName="length" required>
-                     </div>
-                     <div class="form-group__component">
-                        <label for="width">Lățime</label>
-                        <input type="number" name="width" id="width" value="0" formControlName="width" required>
-                     </div>
-                     <div class="form-group__component">
-                        <label for="thickness">Grosime</label>
-                        <input type="number" name="thickness" id="thickness" value="0" formControlName="thickness"
-                           required>
-                     </div>
-                     <div class="form-group__component">
-                        <label for="uni_price">Pret Unitar</label>
-                        <input type="number" name="uni_price" id="uni_price" value="0" formControlName="uni_price"
-                           required>
-                     </div>
-                     <div class="form-group__component">
-                        <label for="price">Pret</label>
-                        <input type="number" name="price" id="price" value="0" formControlName="price" required>
-                     </div> -->
-                  </div>
-               </div>
-               <input type="button" value="Adaugă Articol" (click)="onAddArticle()" class="btn btn-secondary">
-            </div>
-
-            <div formGroupName="summaryForm">
-               <br>
-               <h3>Imagini</h3>
-               <hr>
-               <div class="form-group">
-                  <label for="add_image">Adaugă Imagine</label>
-                  <input type="file" id="add_image" name="add_image" formControlName="add_image">
-               </div>
-               <br>
-               <h3>Sumar</h3>
-               <hr>
-               <div class="form-container">
-                  <div class="form-container__column">
-                     <div class="form-container">
-                        <div class="form-group">
-                           <label for="today_date">Data intocmirii</label>
-                           <input type="date" id="today_date" name="today_date" formControlName="today_date" required>
-                        </div>
-                        <div class="form-group">
-                           <label for="due_date">Data Limita</label>
-                           <input type="date" id="due_date" name="due_date" formControlName="due_date" required>
-                        </div>
-                     </div>
-                     <div class="form-container">
-                        <div class="form-container__column">
-                           <div class="form-group">
-                              <label for="avans">Avans</label>
-                              <input type="number" placeholder="0 RON" id="avans" name="avans" formControlName="avans"
-                                 required>
-                           </div>
-                        </div>
-                        <div class="form-container__column">
-                           <div class="form-group">
-                              <label for="due-date">Data avansului</label>
-                              <input type="date" placeholder="Data" id="due-date" name="due-date">
-                           </div>
-                        </div>
-                        <div class="form-group form-buttons">
-                           <input type="button" value="Adaugă Avans" class="btn btn-secondary">
-                        </div>
-                     </div>
-                  </div>
-
-                  <div class="form-container__column">
-                     <div class="form-group">
-                        <label for="obsc">Observații comandă</label>
-                        <textarea name="Observatii comanda" id="obsc" formControlName="obsc"
-                           style="display:block; height: 6.6rem;"></textarea>
-                     </div>
-                     <div class="form-group">
-                        <label for="total">Suma Rămasă</label>
-                        <input type="number" placeholder="0 RON" id="total" name="total" formControlName="total"
-                           required disabled>
-                     </div>
-                     <div class="form-group">
-                        <label for="total">Suma Totala</label>
-                        <input type="number" placeholder="0 RON" id="total" name="total" formControlName="total"
-                           required>
-                     </div>
-                  </div>
+               <div>
+                  <app-article [elements]="elements"></app-article>
                </div>
             </div>
+            <input type="button" value="Adaugă Articol" (click)="onAddArticle()" class="btn btn-secondary">
 
-            <br>
-            <h3>Progres Comanda:</h3>
-            <hr>
-            <div formGroupName="progressForm">
-               <div class="form-group__components">
-                  <label for="stage1" class="form-group__components_heading"><b>Stoc</b></label>
-                  <div class="form-group__component">
-                     <label for="stage1" class="form-group__component--checklabel">Este în stoc</label>
-                     <input type="checkbox" value="stage1" name="stage1" id='stage1'>
-                  </div>
-                  <div class="form-group__component">
-                     <label for="stage1_resp">Nume Responsabil</label>
-                     <input type="text" name="stage1_resp" id='stage1_resp'>
-                  </div>
-                  <div class="form-group__component">
-                     <label for="stage1_sum">Suma</label>
-                     <input type="number" name="stage1_sum" id='stage1_sum'>
-                  </div>
-                  <div class="form-group__component">
-                     <label for="stage1_obs">Observații</label>
-                     <textarea name="stage1_obs" id='stage1_obs' rows="2"></textarea>
-                  </div>
-               </div>
-               <!-- <hr class="form__hr"> -->
-               <div class="form-group__components">
-                  <label for="stage2" class="form-group__components_heading"><b>Prelucrare</b></label>
-                  <div class="form-group__component">
-                     <label for="stage2" class="form-group__component--checklabel">Prelucrat</label>
-                     <input type="checkbox" value="stage2" name="stage2" id='stage2'>
-                  </div>
-                  <div class="form-group__component">
-                     <label for="stage2_resp">Nume Responsabil</label>
-                     <input type="text" name="stage1_resp" id='stage1_resp'>
-                  </div>
-                  <div class="form-group__component">
-                     <label for="stage2_sum">Suma</label>
-                     <input type="number" name="stage1_sum" id='stage1_sum'>
-                  </div>
-                  <div class="form-group__component">
-                     <label for="stage2_obs">Observații</label>
-                     <textarea name="stage1_obs" id='stage1_obs' rows="2"></textarea>
-                  </div>
-               </div>
-               <!-- <hr class="form__hr"> -->
-               <div class="form-group__components">
-                  <label for="stage3" class="form-group__components_heading"><b>Fotogravare</b></label>
-                  <div class="form-group__component">
-                     <label for="stage3" class="form-group__component--checklabel">Fotogravat</label>
-                     <input type="checkbox" value="stage3" name="stage3" id='stage3'>
-                  </div>
-                  <div class="form-group__component">
-                     <label for="stage3_resp">Nume Responsabil</label>
-                     <input type="text" name="stage3_resp" id='stage3_resp'>
-                  </div>
-                  <div class="form-group__component">
-                     <label for="stage3_sum">Suma</label>
-                     <input type="number" name="stage3_sum" id='stage3_sum'>
-                  </div>
-                  <div class="form-group__component">
-                     <label for="stage3_obs">Observații</label>
-                     <textarea name="stage3_obs" id='stage3_obs' rows="2"></textarea>
-                  </div>
-               </div>
-               <!-- <hr class="form__hr"> -->
-               <div class="form-group__components">
-                  <label for="stage4" class="form-group__components_heading"><b>Montare</b></label>
-                  <div class="form-group__component">
-                     <label for="stage4" class="form-group__component--checklabel">Montat</label>
-                     <input type="checkbox" value="stage4" name="stage4" id='stage4'>
-                  </div>
-                  <div class="form-group__component">
-                     <label for="stage4_resp">Nume Responsabil</label>
-                     <input type="text" name="stage4_resp" id='stage4_resp'>
-                  </div>
-                  <div class="form-group__component">
-                     <label for="stage4_sum">Suma</label>
-                     <input type="number" name="stage4_sum" id='stage4_sum'>
-                  </div>
-                  <div class="form-group__component">
-                     <label for="stage4_obs">Observații</label>
-                     <textarea name="stage4_obs" id='stage4_obs' rows="2"></textarea>
-                  </div>
-               </div>
-            </div>
+
+            <app-summary [avansuri]="avansuri"></app-summary>
+
+            <app-progress></app-progress>
+
+
             <div class="form-group form-buttons">
                <input type="submit" class="btn btn-primary" value="Salvează">
                <input type="button" class="btn btn-secondary" value="Printează">
             </div>
-
 
          </div>
       </div>
