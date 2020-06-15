@@ -23,5 +23,5 @@
 </div>
 <div class="form-group form-buttons">
    <input type="button" class="btn btn-secondary " value="Fetch orders" (click)="fetchOrders()">
-   <input type="button" class="btn btn-secondary " value="Store Orders" (click)="storeOrders()">
+   <input type="button" class="btn btn-secondary " value="Store Orders" (click)="storeOrders()" [disabled]="disabled">
 </div>

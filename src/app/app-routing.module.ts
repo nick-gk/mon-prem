@@ -4,13 +4,13 @@ import { Routes, RouterModule, PreloadAllModules } from "@angular/router";
 const appRoutes: Routes = [
   {
     path: "",
-    redirectTo: "/dashboard",
-    pathMatch: "full"
-  }
+    redirectTo: "/orders/orders-list",
+    pathMatch: "full",
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(appRoutes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
 export class AppRoutingModule {}

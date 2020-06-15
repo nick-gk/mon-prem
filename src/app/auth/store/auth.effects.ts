@@ -17,7 +17,7 @@ export interface AuthResponseData {
   registered?: boolean;
 }
 
-const handleAuthentication = resData => {
+const handleAuthentication = (resData) => {
   const expirationDate = new Date(
     new Date().getTime() + +resData.expiresIn * 1000
   );
@@ -35,7 +35,7 @@ const handleAuthentication = resData => {
     id: resData.localId,
     token: resData.idToken,
     expirationDate: expirationDate,
-    redirect: true
+    redirect: true,
   });
 };
 
@@ -78,17 +78,17 @@ export class AuthEffects {
           {
             email: signupAction.payload.email,
             password: signupAction.payload.password,
-            returnSecureToken: true
+            returnSecureToken: true,
           }
         )
         .pipe(
-          tap(resData => {
+          tap((resData) => {
             this.authService.setLogoutTimer(+resData.expiresIn * 1000);
           }),
-          map(resData => {
+          map((resData) => {
             return handleAuthentication(resData);
           }),
-          catchError(errorRes => {
+          catchError((errorRes) => {
             return handleError(errorRes);
           })
         );
@@ -105,17 +105,17 @@ export class AuthEffects {
           {
             email: authData.payload.email,
             password: authData.payload.password,
-            returnSecureToken: true
+            returnSecureToken: true,
           }
         )
         .pipe(
-          tap(resData => {
+          tap((resData) => {
             this.authService.setLogoutTimer(+resData.expiresIn * 1000);
           }),
-          map(resData => {
+          map((resData) => {
             return handleAuthentication(resData);
           }),
-          catchError(errorRes => {
+          catchError((errorRes) => {
             return handleError(errorRes);
           })
         );
@@ -127,7 +127,7 @@ export class AuthEffects {
     ofType(AuthActions.AUTHENTICATE_SUCCESS),
     tap((authSuccessActions: AuthActions.AuthenticateSuccess) => {
       if (authSuccessActions.payload.redirect)
-        this.router.navigate(["/dashboard"]);
+        this.router.navigate(["/orders/orders-list"]);
     })
   );
 
@@ -173,7 +173,7 @@ export class AuthEffects {
           id: loadedUser.id,
           token: loadedUser.token,
           expirationDate: new Date(userData._tokenExpirationDate),
-          redirect: false
+          redirect: false,
         });
       }
       return { type: "!token" };
