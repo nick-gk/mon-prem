@@ -15,6 +15,8 @@ import * as OrdersActions from "../store/orders.actions";
 import { Store } from "@ngrx/store";
 import * as fromApp from "../../store/app.reducer";
 import { Subscription, Observable } from "rxjs";
+import { TimeInterval } from "rxjs/internal/operators/timeInterval";
+import { timeout } from "rxjs/operators";
 
 @Component({
   selector: "app-add-order",
@@ -33,6 +35,12 @@ export class AddOrderComponent implements OnInit {
   orders: {};
 
   orderForm: FormGroup;
+  customerForm: FormGroup;
+  deceasedForm: FormGroup;
+  avansArray: FormArray;
+  summaryForm: FormGroup;
+  progressForm: FormGroup;
+  elemsForm: FormArray;
 
   get elements() {
     return this.orderForm.get("elemsForm") as FormArray;
@@ -44,87 +52,96 @@ export class AddOrderComponent implements OnInit {
 
   private storeSub: Subscription;
 
-  customerForm: FormGroup = this.form.group({
-    customer_fname: [""],
-    customer_lname: [""],
-    country: ["Romania"],
-    city: [""],
-    address: [""],
-    cnp: [""],
-    customer_tel: [""],
-  });
-
-  deceasedForm: FormGroup = this.form.group({
-    d_fname: [""],
-    d_sname: [""],
-    bdate: [""],
-    ddate: [""],
-    cemetery: [""],
-    cemetery_city: [""],
-    cemetery_country: ["Romania"],
-  });
-
-  avansArray: FormArray = this.form.array([
-    this.form.group({
-      avans: [],
-      avans_date: [],
-    }),
-  ]);
-
-  summaryForm: FormGroup = this.form.group({
-    today_date: [],
-    due_date: [],
-    avansArray: this.avansArray,
-    total: [],
-    left_amount: [],
-    obsc: [""],
-  });
-
-  progressForm: FormGroup = this.form.group({
-    stock: this.form.group({
-      checkStock: [],
-      responsibleName: [],
-      amount: [],
-      obsv: [],
-    }),
-    prelucrare: this.form.group({
-      checkPrelucrare: [],
-      responsibleName: [],
-      amount: [],
-      obsv: [],
-    }),
-    engraving: this.form.group({
-      checkEngraving: [],
-      responsibleName: [],
-      amount: [],
-      obsv: [],
-    }),
-    mounting: this.form.group({
-      checkMounting: [],
-      responsibleName: [],
-      amount: [],
-      obsv: [],
-    }),
-  });
-
-  elemsForm: FormArray = this.form.array([
-    this.form.group({
-      article: ["Alege Component"],
-      quantity: [0],
-      colour: ["Negru"],
-      length: [0],
-      width: [0],
-      thickness: [0],
-      uni_price: [0],
-      price: [0],
-    }),
-  ]);
-
   ngOnInit() {
     this.storeSub = this.store.select("orders").subscribe((ordersState) => {
+      this.orders = ordersState.orders;
       this.error = ordersState.orderError;
       if (this.error) console.log(this.error);
     });
+
+    this.createForm(null);
+  }
+
+  load() {
+    if (this.orders) this.createForm(this.orders[0]);
+  }
+
+  createForm(data: any) {
+    this.customerForm = this.form.group({
+      customer_fname: [],
+      customer_lname: [""],
+      country: ["Romania"],
+      city: [""],
+      address: [""],
+      cnp: [""],
+      customer_tel: [""],
+    });
+
+    this.deceasedForm = this.form.group({
+      d_fname: [""],
+      d_sname: [""],
+      bdate: [""],
+      ddate: [""],
+      cemetery: [""],
+      cemetery_city: [""],
+      cemetery_country: ["Romania"],
+    });
+
+    this.avansArray = this.form.array([
+      this.form.group({
+        avans: [],
+        avans_date: [],
+      }),
+    ]);
+
+    this.summaryForm = this.form.group({
+      today_date: [],
+      due_date: [],
+      avansArray: this.avansArray,
+      total: [],
+      left_amount: [],
+      obsc: [""],
+    });
+
+    this.progressForm = this.form.group({
+      stock: this.form.group({
+        checkStock: [],
+        responsibleName: [],
+        amount: [],
+        obsv: [],
+      }),
+      prelucrare: this.form.group({
+        checkPrelucrare: [],
+        responsibleName: [],
+        amount: [],
+        obsv: [],
+      }),
+      engraving: this.form.group({
+        checkEngraving: [],
+        responsibleName: [],
+        amount: [],
+        obsv: [],
+      }),
+      mounting: this.form.group({
+        checkMounting: [],
+        responsibleName: [],
+        amount: [],
+        obsv: [],
+      }),
+    });
+
+    this.elemsForm = this.form.array([
+      this.form.group({
+        article: ["Alege Component"],
+        quantity: [0],
+        colour: ["Negru"],
+        length: [0],
+        width: [0],
+        thickness: [0],
+        uni_price: [0],
+        price: [0],
+      }),
+    ]);
 
     this.orderForm = this.form.group({
       customerForm: this.customerForm,
@@ -133,6 +150,10 @@ export class AddOrderComponent implements OnInit {
       summaryForm: this.summaryForm,
       progressForm: this.progressForm,
     });
+
+    if (data) this.orderForm.patchValue(data);
+
+    return this.orderForm;
   }
 
   onSubmit() {

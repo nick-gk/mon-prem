@@ -34,6 +34,9 @@ body {
   clear: both;
   display: table;
 }
+.activeLink {
+  background-color: #d2dee0;
+}
 .btn {
   display: block;
   -webkit-box-sizing: border-box;
@@ -546,16 +549,17 @@ body {
   color: #191919;
   font-weight: 500;
 }
-.sidebar__nav {
-  padding: 0.5rem;
-}
 .sidebar__nav-item {
   list-style: none;
 }
 .sidebar__nav-item--link {
+  padding: 0.5rem;
+  display: block;
+  width: 100%;
   text-decoration: none;
   color: #191919;
   font-size: 0.9rem;
+  cursor: pointer;
 }
 .sidebar__nav-item--link--text {
   font-size: 1.1rem;
