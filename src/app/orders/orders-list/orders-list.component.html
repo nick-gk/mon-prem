@@ -10,18 +10,20 @@
          <span>Suma Ramasa</span>
          <span>Localitatea Cimitirului</span>
       </li>
-      <li class="list__item" *ngFor="let order of orders">
-         <span>{{ order.customerForm.customer_fname }}</span>
-         <span>{{ order.customerForm.customer_tel }}</span>
-         <span>{{ order.summaryForm.today_date }}</span>
-         <span>{{ order.summaryForm.due_date }}</span>
-         <span>{{ order.summaryForm.total }}</span>
-         <span>{{ order.summaryForm.left_amount }}</span>
-         <span>{{ order.deceasedForm.cemetery_city }}</span>
-      </li>
+      <a *ngFor="let order of orders; let i = index" routerLink="/orders/{{i}}">
+         <li class="list__item">
+            <span>{{ order.customerForm.customer_fname }}</span>
+            <span>{{ order.customerForm.customer_tel }}</span>
+            <span>{{ order.summaryForm.today_date }}</span>
+            <span>{{ order.summaryForm.due_date }}</span>
+            <span>{{ order.summaryForm.total }}</span>
+            <span>{{ order.summaryForm.left_amount }}</span>
+            <span>{{ order.deceasedForm.cemetery_city }}</span>
+         </li>
+      </a>
    </ul>
 </div>
-<div class="form-group form-buttons">
+<div class=" form-group form-buttons">
    <input type="button" class="btn btn-secondary " value="Fetch orders" (click)="fetchOrders()">
    <input type="button" class="btn btn-secondary " value="Store Orders" (click)="storeOrders()" [disabled]="disabled">
 </div>

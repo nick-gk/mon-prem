@@ -4,6 +4,7 @@ import { Store } from "@ngrx/store";
 import { Subscription } from "rxjs";
 import * as OrdersActions from "../store/orders.actions";
 import { Order } from "../orders.model";
+import { Router } from "@angular/router";
 
 @Component({
   selector: "app-orders-list",
@@ -11,7 +12,7 @@ import { Order } from "../orders.model";
   styleUrls: ["./orders-list.component.css"],
 })
 export class OrdersListComponent implements OnInit {
-  constructor(private store: Store<fromApp.AppState>) {}
+  constructor(private store: Store<fromApp.AppState>, private router: Router) {}
 
   orders: Order[];
   orderSub: Subscription;

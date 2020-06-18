@@ -6,6 +6,9 @@ export const FETCH_ORDERS = "[Orders] Fetch Orders";
 export const SET_ORDERS = "[Orders] Set Orders";
 export const ORDER_FAIL = "[Orders] Fail";
 export const STORE_ORDERS = "[Orders] Store Orders";
+export const START_EDIT = "[Orders] Start Edit";
+export const STOP_EDIT = "[Orders] Stop Edit";
+export const UPDATE_ORDER = "[Orders] Update Order";
 
 export class AddOrder implements Action {
   readonly type = ADD_ORDER;
@@ -33,9 +36,28 @@ export class OrderFail implements Action {
   constructor(public payload: string) {}
 }
 
+export class StartEdit implements Action {
+  readonly type = START_EDIT;
+
+  constructor(public payload: number) {}
+}
+
+export class StopEdit implements Action {
+  readonly type = STOP_EDIT;
+}
+
+export class UpdateOrder implements Action {
+  readonly type = UPDATE_ORDER;
+
+  constructor(public payload: Order) {}
+}
+
 export type OrdersActions =
   | AddOrder
   | FetchOrders
   | SetOrders
   | OrderFail
-  | StoreOrders;
+  | StoreOrders
+  | StartEdit
+  | StopEdit
+  | UpdateOrder;

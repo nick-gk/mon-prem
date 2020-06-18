@@ -13,18 +13,22 @@ const routes: Routes = [
     children: [
       {
         path: "add-order",
-        component: AddOrderComponent
+        component: AddOrderComponent,
       },
       {
         path: "orders-list",
-        component: OrdersListComponent
-      }
-    ]
-  }
+        component: OrdersListComponent,
+      },
+      {
+        path: ":id",
+        component: AddOrderComponent,
+      },
+    ],
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
 export class OrdersRoutingModule {}

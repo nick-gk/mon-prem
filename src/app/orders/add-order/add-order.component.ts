@@ -3,6 +3,7 @@ import {
   OnInit,
   Output,
   ChangeDetectionStrategy,
+  OnDestroy,
 } from "@angular/core";
 import {
   FormControl,
@@ -17,6 +18,8 @@ import * as fromApp from "../../store/app.reducer";
 import { Subscription, Observable } from "rxjs";
 import { TimeInterval } from "rxjs/internal/operators/timeInterval";
 import { timeout } from "rxjs/operators";
+import { ActivatedRoute, Params } from "@angular/router";
+import { Order } from "../orders.model";
 
 @Component({
   selector: "app-add-order",
@@ -24,13 +27,14 @@ import { timeout } from "rxjs/operators";
   styleUrls: ["./add-order.component.css"],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AddOrderComponent implements OnInit {
-  error: string = "";
-
+export class AddOrderComponent implements OnInit, OnDestroy {
   constructor(
     private form: FormBuilder,
-    private store: Store<fromApp.AppState>
+    private store: Store<fromApp.AppState>,
+    private router: ActivatedRoute
   ) {}
+
+  private storeSub: Subscription;
 
   orders: {};
 
@@ -41,6 +45,10 @@ export class AddOrderComponent implements OnInit {
   summaryForm: FormGroup;
   progressForm: FormGroup;
   elemsForm: FormArray;
+  error: string = "";
+  editIndex: number = null;
+  editOrder: Order = null;
+  editMode: boolean = false;
 
   get elements() {
     return this.orderForm.get("elemsForm") as FormArray;
@@ -50,8 +58,6 @@ export class AddOrderComponent implements OnInit {
     return this.orderForm.get("summaryForm.avansArray") as FormArray;
   }
 
-  private storeSub: Subscription;
-
   ngOnInit() {
     this.storeSub = this.store.select("orders").subscribe((ordersState) => {
       this.orders = ordersState.orders;
@@ -59,7 +65,19 @@ export class AddOrderComponent implements OnInit {
       if (this.error) console.log(this.error);
     });
 
-    this.createForm(null);
+    this.router.params.subscribe((params: Params) => {
+      if (params["id"]) {
+        this.editIndex = +params["id"];
+        console.log(this.editIndex);
+        this.editMode = true;
+        this.editOrder = this.orders[this.editIndex];
+        this.store.dispatch(new OrdersActions.StartEdit(this.editIndex));
+        console.log(this.editOrder);
+      }
+    });
+
+    if (!this.editMode) this.createForm(null);
+    else this.createForm(this.editOrder);
   }
 
   load() {
@@ -151,17 +169,26 @@ export class AddOrderComponent implements OnInit {
       progressForm: this.progressForm,
     });
 
-    if (data) this.orderForm.patchValue(data);
+    console.log(data);
+    if (data) {
+      this.orderForm.patchValue(data);
+      console.log(data);
+    }
 
     return this.orderForm;
   }
 
-  onSubmit() {
-    this.store.dispatch(new OrdersActions.AddOrder(this.orderForm.value));
-    this.orderForm.reset();
+  ngOnDestroy() {
+    if (this.storeSub) this.storeSub.unsubscribe();
+  }
 
-    console.log(this.orderForm);
-    this.storeSub.unsubscribe();
+  onSubmit() {
+    if (!this.editMode) {
+      this.store.dispatch(new OrdersActions.AddOrder(this.orderForm.value));
+      this.orderForm.reset();
+    } else {
+      this.store.dispatch(new OrdersActions.UpdateOrder(this.orderForm.value));
+    }
   }
 
   onAddArticle() {
