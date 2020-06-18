@@ -57,6 +57,7 @@ export class AddOrderComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.store.dispatch(new OrdersActions.FetchOrders());
     this.storeSub = this.store.select("orders").subscribe((ordersState) => {
       this.orders = ordersState.orders;
       this.error = ordersState.orderError;
@@ -66,20 +67,42 @@ export class AddOrderComponent implements OnInit, OnDestroy {
     this.router.params.subscribe((params: Params) => {
       if (params["id"]) {
         this.editIndex = +params["id"];
-        console.log(this.editIndex);
         this.editMode = true;
         this.editOrder = this.orders[this.editIndex];
         this.store.dispatch(new OrdersActions.StartEdit(this.editIndex));
-        console.log(this.editOrder);
       }
     });
 
     if (!this.editMode) this.createForm(null);
     else this.createForm(this.editOrder);
+
+    this.checkSums();
+
+    console.log(this.elements);
   }
 
-  load() {
-    if (this.orders) this.createForm(this.orders[0]);
+  checkSums() {
+    this.orderForm.valueChanges.subscribe(() => {
+      let elems = 0;
+      for (let el in this.elements.controls) {
+        elems += this.elements.controls[el].value.price;
+      }
+
+      let left = 0;
+      for (let el in this.avansArray.controls) {
+        left += this.avansArray.controls[el].value.avans;
+      }
+
+      this.orderForm.patchValue(
+        {
+          summaryForm: {
+            total: elems,
+            left_amount: elems - left,
+          },
+        },
+        { emitEvent: false }
+      );
+    });
   }
 
   createForm(data: any) {
@@ -105,7 +128,7 @@ export class AddOrderComponent implements OnInit, OnDestroy {
 
     this.avansArray = this.form.array([
       this.form.group({
-        avans: [],
+        avans: [0],
         avans_date: [],
       }),
     ]);
@@ -114,8 +137,8 @@ export class AddOrderComponent implements OnInit, OnDestroy {
       today_date: [],
       due_date: [],
       avansArray: this.avansArray,
-      total: [],
-      left_amount: [],
+      total: [0],
+      left_amount: [0],
       obsc: [""],
     });
 
@@ -155,6 +178,7 @@ export class AddOrderComponent implements OnInit, OnDestroy {
         width: [0],
         thickness: [0],
         uni_price: [0],
+        expense: [0],
         price: [0],
       }),
     ]);
@@ -170,7 +194,6 @@ export class AddOrderComponent implements OnInit, OnDestroy {
     console.log(data);
     if (data) {
       this.orderForm.patchValue(data);
-      console.log(data);
     }
 
     return this.orderForm;
@@ -185,15 +208,14 @@ export class AddOrderComponent implements OnInit, OnDestroy {
       this.store.dispatch(new OrdersActions.AddOrder(this.orderForm.value));
       this.orderForm.reset();
     } else {
-      console.log(this.orderForm.value);
       this.store.dispatch(
         new OrdersActions.UpdateOrder({
           index: this.editIndex,
           newOrder: this.orderForm.value,
         })
       );
-      console.log(this.orders);
     }
+    this.store.dispatch(new OrdersActions.StoreOrders());
   }
 
   onAddArticle() {
@@ -206,6 +228,7 @@ export class AddOrderComponent implements OnInit, OnDestroy {
         width: [0],
         thickness: [0],
         uni_price: [0],
+        expense: [0],
         price: [0],
       })
     );
