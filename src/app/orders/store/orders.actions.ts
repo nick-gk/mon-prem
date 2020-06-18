@@ -49,7 +49,7 @@ export class StopEdit implements Action {
 export class UpdateOrder implements Action {
   readonly type = UPDATE_ORDER;
 
-  constructor(public payload: Order) {}
+  constructor(public payload: { index: number; newOrder: Order }) {}
 }
 
 export type OrdersActions =

@@ -10,7 +10,8 @@
          <span>Suma Ramasa</span>
          <span>Localitatea Cimitirului</span>
       </li>
-      <a *ngFor="let order of orders; let i = index" routerLink="/orders/{{i}}">
+      <a *ngFor="let order of orders; let i = index" routerLink="/orders/{{i}}"
+         style="text-decoration: none; color: inherit">
          <li class="list__item">
             <span>{{ order.customerForm.customer_fname }}</span>
             <span>{{ order.customerForm.customer_tel }}</span>

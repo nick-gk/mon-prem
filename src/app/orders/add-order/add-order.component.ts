@@ -16,8 +16,6 @@ import * as OrdersActions from "../store/orders.actions";
 import { Store } from "@ngrx/store";
 import * as fromApp from "../../store/app.reducer";
 import { Subscription, Observable } from "rxjs";
-import { TimeInterval } from "rxjs/internal/operators/timeInterval";
-import { timeout } from "rxjs/operators";
 import { ActivatedRoute, Params } from "@angular/router";
 import { Order } from "../orders.model";
 
@@ -86,7 +84,7 @@ export class AddOrderComponent implements OnInit, OnDestroy {
 
   createForm(data: any) {
     this.customerForm = this.form.group({
-      customer_fname: [],
+      customer_fname: [""],
       customer_lname: [""],
       country: ["Romania"],
       city: [""],
@@ -124,27 +122,27 @@ export class AddOrderComponent implements OnInit, OnDestroy {
     this.progressForm = this.form.group({
       stock: this.form.group({
         checkStock: [],
-        responsibleName: [],
+        responsibleName: [""],
         amount: [],
-        obsv: [],
+        obsv: [""],
       }),
       prelucrare: this.form.group({
         checkPrelucrare: [],
-        responsibleName: [],
+        responsibleName: [""],
         amount: [],
-        obsv: [],
+        obsv: [""],
       }),
       engraving: this.form.group({
         checkEngraving: [],
-        responsibleName: [],
+        responsibleName: [""],
         amount: [],
-        obsv: [],
+        obsv: [""],
       }),
       mounting: this.form.group({
         checkMounting: [],
-        responsibleName: [],
+        responsibleName: [""],
         amount: [],
-        obsv: [],
+        obsv: [""],
       }),
     });
 
@@ -187,14 +185,21 @@ export class AddOrderComponent implements OnInit, OnDestroy {
       this.store.dispatch(new OrdersActions.AddOrder(this.orderForm.value));
       this.orderForm.reset();
     } else {
-      this.store.dispatch(new OrdersActions.UpdateOrder(this.orderForm.value));
+      console.log(this.orderForm.value);
+      this.store.dispatch(
+        new OrdersActions.UpdateOrder({
+          index: this.editIndex,
+          newOrder: this.orderForm.value,
+        })
+      );
+      console.log(this.orders);
     }
   }
 
   onAddArticle() {
     this.elements.push(
       this.form.group({
-        article: [],
+        article: [""],
         quantity: [0],
         colour: ["Negru"],
         length: [0],

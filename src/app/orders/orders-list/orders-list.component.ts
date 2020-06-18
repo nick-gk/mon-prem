@@ -20,12 +20,15 @@ export class OrdersListComponent implements OnInit {
   ngOnInit() {
     this.orderSub = this.store.select("orders").subscribe((orderState) => {
       this.orders = orderState.orders;
+      console.log(this.orders);
       if (this.orders.length == 0) {
         this.disabled = true;
       } else {
         this.disabled = false;
       }
     });
+
+    this.fetchOrders();
   }
 
   printOrders() {

@@ -4,15 +4,11 @@ import * as OrdersActions from "./orders.actions";
 const initialState: State = {
   orders: [],
   orderError: "",
-  orderEdit: null,
-  orderEditIndex: -1,
 };
 
 export interface State {
   orders: Order[];
   orderError: any;
-  orderEdit: Order;
-  orderEditIndex: number;
 }
 
 export function orderReducer(
@@ -37,15 +33,17 @@ export function orderReducer(
         orderError: action.payload,
       };
     case OrdersActions.UPDATE_ORDER:
-      const order: Order = state.orders[state.orderEditIndex];
-      const updatedOrder = { ...order, ...action.payload };
-      const updatedOrders = { ...state.orders };
-      updatedOrders[state.orderEditIndex] = updatedOrder;
+      const updatedOrder = {
+        ...state.orders[action.payload.index],
+        ...action.payload.newOrder,
+      };
+
+      const updatedOrders = [...state.orders];
+
+      updatedOrders[action.payload.index] = updatedOrder;
       return {
         ...state,
         orders: updatedOrders,
-        orderEditIndex: -1,
-        orderEdit: null,
       };
     case OrdersActions.START_EDIT:
       return {
