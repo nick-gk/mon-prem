@@ -27,6 +27,7 @@ export class Order {
         width: number;
         thickness: number;
         uni_price: number;
+        expense: number;
         price: number;
       }
     ],

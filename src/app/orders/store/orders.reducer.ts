@@ -4,11 +4,13 @@ import * as OrdersActions from "./orders.actions";
 const initialState: State = {
   orders: [],
   orderError: "",
+  orderEditIndex: -1,
 };
 
 export interface State {
   orders: Order[];
   orderError: any;
+  orderEditIndex: number;
 }
 
 export function orderReducer(

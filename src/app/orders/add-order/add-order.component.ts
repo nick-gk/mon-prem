@@ -77,8 +77,6 @@ export class AddOrderComponent implements OnInit, OnDestroy {
     else this.createForm(this.editOrder);
 
     this.checkSums();
-
-    console.log(this.elements);
   }
 
   checkSums() {
@@ -89,8 +87,8 @@ export class AddOrderComponent implements OnInit, OnDestroy {
       }
 
       let left = 0;
-      for (let el in this.avansArray.controls) {
-        left += this.avansArray.controls[el].value.avans;
+      for (let el in this.avansuri.controls) {
+        left += this.avansuri.controls[el].value.avans;
       }
 
       this.orderForm.patchValue(
@@ -126,17 +124,17 @@ export class AddOrderComponent implements OnInit, OnDestroy {
       cemetery_country: ["Romania"],
     });
 
-    this.avansArray = this.form.array([
-      this.form.group({
-        avans: [0],
-        avans_date: [],
-      }),
-    ]);
+    // this.avansArray = this.form.array([
+    //   this.form.group({
+    //     avans: [0],
+    //     avans_date: [],
+    //   }),
+    // ]);
 
     this.summaryForm = this.form.group({
       today_date: [],
       due_date: [],
-      avansArray: this.avansArray,
+      avansArray: this.form.array([]),
       total: [0],
       left_amount: [0],
       obsc: [""],
@@ -169,24 +167,24 @@ export class AddOrderComponent implements OnInit, OnDestroy {
       }),
     });
 
-    this.elemsForm = this.form.array([
-      this.form.group({
-        article: ["Alege Component"],
-        quantity: [0],
-        colour: ["Negru"],
-        length: [0],
-        width: [0],
-        thickness: [0],
-        uni_price: [0],
-        expense: [0],
-        price: [0],
-      }),
-    ]);
+    // this.elemsForm = this.form.array([
+    //   this.form.group({
+    //     article: ["Alege Component"],
+    //     quantity: [0],
+    //     colour: ["Negru"],
+    //     length: [0],
+    //     width: [0],
+    //     thickness: [0],
+    //     uni_price: [0],
+    //     expense: [0],
+    //     price: [0],
+    //   }),
+    // ]);
 
     this.orderForm = this.form.group({
       customerForm: this.customerForm,
       deceasedForm: this.deceasedForm,
-      elemsForm: this.elemsForm,
+      elemsForm: this.form.array([]),
       summaryForm: this.summaryForm,
       progressForm: this.progressForm,
     });
@@ -194,6 +192,13 @@ export class AddOrderComponent implements OnInit, OnDestroy {
     console.log(data);
     if (data) {
       this.orderForm.patchValue(data);
+
+      data.elemsForm.forEach((el, i) => {
+        this.onAddArticle(data.elemsForm[i]);
+      });
+
+      console.log(data.elemsForm);
+      console.log(this.elements.value);
     }
 
     return this.orderForm;
@@ -218,18 +223,20 @@ export class AddOrderComponent implements OnInit, OnDestroy {
     this.store.dispatch(new OrdersActions.StoreOrders());
   }
 
-  onAddArticle() {
+  onAddArticle(data: any) {
+    //if(!data)
+    console.log(data);
     this.elements.push(
       this.form.group({
-        article: [""],
-        quantity: [0],
-        colour: ["Negru"],
-        length: [0],
-        width: [0],
-        thickness: [0],
-        uni_price: [0],
-        expense: [0],
-        price: [0],
+        article: [data !== null ? data.article : ""],
+        quantity: [data ? data.quantity : ""],
+        colour: [data ? data.colour : ""],
+        length: [data ? data.length : ""],
+        width: [data ? data.width : ""],
+        thickness: [data ? data.thickness : ""],
+        uni_price: [data ? data.uni_price : ""],
+        expense: [data ? data.expense : ""],
+        price: [data ? data.price : ""],
       })
     );
   }

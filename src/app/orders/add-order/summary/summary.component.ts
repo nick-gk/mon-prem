@@ -6,6 +6,7 @@ import {
   FormControl,
   FormArray,
 } from "@angular/forms";
+import { Order } from "../../orders.model";
 
 @Component({
   selector: "app-summary",
@@ -19,16 +20,22 @@ export class SummaryComponent implements OnInit {
   ) {}
 
   @Input() avansuri: FormArray;
+  @Input() editOrder: Order;
 
   ngOnInit() {
-    //console.log(this.avansuri);
+    if (this.editOrder) {
+      this.editOrder.summaryForm.avansArray.forEach((el, i) => {
+        this.onAddAvans(this.editOrder.summaryForm.avansArray[i]);
+      });
+    }
   }
 
-  onAddAvans() {
+  onAddAvans(data: any) {
+    console.log(data);
     this.avansuri.push(
       this.form.group({
-        avans: [],
-        avans_date: [],
+        avans: [data != null ? data.avans : ""],
+        avans_date: [data != null ? data.avans_date : null],
       })
     );
     //console.log(this.avansuri);

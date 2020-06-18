@@ -20,10 +20,10 @@
                   <app-article [elements]="elements"></app-article>
                </div>
             </div>
-            <input type="button" value="Adaugă Articol" (click)="onAddArticle()" class="btn btn-secondary">
+            <input type="button" value="Adaugă Articol" (click)="onAddArticle(null)" class="btn btn-secondary">
 
 
-            <app-summary [avansuri]="avansuri"></app-summary>
+            <app-summary [avansuri]="avansuri" [editOrder]="editOrder"></app-summary>
 
             <app-progress></app-progress>
 
