@@ -2,7 +2,7 @@
    <h2 class="page-title-h2">Adaugă Comandă</h2>
 
 
-   <form [formGroup]="orderForm" (ngSubmit)="onSubmit()" class="form">
+   <form *ngIf="this.loaded" [formGroup]="orderForm" (ngSubmit)="onSubmit()" class="form">
 
       <div class="form__grid">
 

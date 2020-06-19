@@ -31,14 +31,12 @@ export class SummaryComponent implements OnInit {
   }
 
   onAddAvans(data: any) {
-    console.log(data);
     this.avansuri.push(
       this.form.group({
         avans: [data != null ? data.avans : ""],
         avans_date: [data != null ? data.avans_date : null],
       })
     );
-    //console.log(this.avansuri);
   }
 
   onDeleteAvans(id: number) {

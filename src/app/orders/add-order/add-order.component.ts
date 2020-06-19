@@ -1,17 +1,11 @@
 import {
   Component,
   OnInit,
-  Output,
   ChangeDetectionStrategy,
   OnDestroy,
+  OnChanges,
 } from "@angular/core";
-import {
-  FormControl,
-  FormGroup,
-  Validators,
-  FormArray,
-  FormBuilder,
-} from "@angular/forms";
+import { FormGroup, FormArray, FormBuilder, FormsModule } from "@angular/forms";
 import * as OrdersActions from "../store/orders.actions";
 import { Store } from "@ngrx/store";
 import * as fromApp from "../../store/app.reducer";
@@ -34,9 +28,9 @@ export class AddOrderComponent implements OnInit, OnDestroy {
 
   private storeSub: Subscription;
 
-  orders: {};
+  orders: {} = null;
 
-  orderForm: FormGroup;
+  orderForm: FormGroup = null;
   customerForm: FormGroup;
   deceasedForm: FormGroup;
   avansArray: FormArray;
@@ -47,6 +41,7 @@ export class AddOrderComponent implements OnInit, OnDestroy {
   editIndex: number = null;
   editOrder: Order = null;
   editMode: boolean = false;
+  loaded: boolean = false;
 
   get elements() {
     return this.orderForm.get("elemsForm") as FormArray;
@@ -56,51 +51,52 @@ export class AddOrderComponent implements OnInit, OnDestroy {
     return this.orderForm.get("summaryForm.avansArray") as FormArray;
   }
 
+  ngOnChanges() {}
+
   ngOnInit() {
     this.store.dispatch(new OrdersActions.FetchOrders());
-    this.storeSub = this.store.select("orders").subscribe((ordersState) => {
-      this.orders = ordersState.orders;
-      this.error = ordersState.orderError;
-      if (this.error) console.log(this.error);
-    });
-
     this.router.params.subscribe((params: Params) => {
-      if (params["id"]) {
-        this.editIndex = +params["id"];
-        this.editMode = true;
-        this.editOrder = this.orders[this.editIndex];
-        this.store.dispatch(new OrdersActions.StartEdit(this.editIndex));
-      }
+      this.storeSub = this.store.select("orders").subscribe((ordersState) => {
+        this.orders = ordersState.orders;
+        this.error = ordersState.orderError;
+        if (this.error) console.log(this.error);
+
+        if (params["id"]) {
+          this.editIndex = +params["id"];
+          this.editMode = true;
+          if (this.orders) this.editOrder = this.orders[this.editIndex];
+          if (this.editOrder) this.createForm(this.editOrder);
+        } else {
+          this.createForm(null);
+        }
+        this.loaded = true;
+      });
     });
-
-    if (!this.editMode) this.createForm(null);
-    else this.createForm(this.editOrder);
-
-    this.checkSums();
   }
 
   checkSums() {
-    this.orderForm.valueChanges.subscribe(() => {
-      let elems = 0;
-      for (let el in this.elements.controls) {
-        elems += this.elements.controls[el].value.price;
-      }
+    if (this.orderForm)
+      this.orderForm.valueChanges.subscribe(() => {
+        let elems = 0;
+        for (let el in this.elements.controls) {
+          elems += this.elements.controls[el].value.price;
+        }
 
-      let left = 0;
-      for (let el in this.avansuri.controls) {
-        left += this.avansuri.controls[el].value.avans;
-      }
+        let left = 0;
+        for (let el in this.avansuri.controls) {
+          left += this.avansuri.controls[el].value.avans;
+        }
 
-      this.orderForm.patchValue(
-        {
-          summaryForm: {
-            total: elems,
-            left_amount: elems - left,
+        this.orderForm.patchValue(
+          {
+            summaryForm: {
+              total: elems,
+              left_amount: elems - left,
+            },
           },
-        },
-        { emitEvent: false }
-      );
-    });
+          { emitEvent: false }
+        );
+      });
   }
 
   createForm(data: any) {
@@ -189,19 +185,14 @@ export class AddOrderComponent implements OnInit, OnDestroy {
       progressForm: this.progressForm,
     });
 
-    console.log(data);
     if (data) {
       this.orderForm.patchValue(data);
 
       data.elemsForm.forEach((el, i) => {
         this.onAddArticle(data.elemsForm[i]);
       });
-
-      console.log(data.elemsForm);
-      console.log(this.elements.value);
     }
-
-    return this.orderForm;
+    this.checkSums();
   }
 
   ngOnDestroy() {
@@ -224,8 +215,6 @@ export class AddOrderComponent implements OnInit, OnDestroy {
   }
 
   onAddArticle(data: any) {
-    //if(!data)
-    console.log(data);
     this.elements.push(
       this.form.group({
         article: [data !== null ? data.article : ""],
