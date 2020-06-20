@@ -2,30 +2,25 @@
    <h2 class="page-title-h2">Adaugă Comandă</h2>
 
 
-   <form *ngIf="this.loaded" [formGroup]="orderForm" (ngSubmit)="onSubmit()" class="form">
+   <form [formGroup]="orderForm" (ngSubmit)="onSubmit()" class="form">
 
       <div class="form__grid">
 
 
-         <app-client-details></app-client-details>
+         <app-client-details (customerFormEvent)="onAddCustomerForm($event)"></app-client-details>
 
-         <app-deceased-details></app-deceased-details>
+         <app-deceased-details (deceasedFormEvent)="onAddDeceasedForm($event)"></app-deceased-details>
 
 
          <div class="form__below">
-            <div class="form__bellow-box--1">
-               <h3>Detalii comandă</h3>
-               <hr>
-               <div>
-                  <app-article [elements]="elements"></app-article>
-               </div>
-            </div>
-            <input type="button" value="Adaugă Articol" (click)="onAddArticle(null)" class="btn btn-secondary">
+
+            <app-article [editOrder]="editOrder" (elemsFormEvent)="onAddElemsForm($event)"></app-article>
 
 
-            <app-summary [avansuri]="avansuri" [editOrder]="editOrder"></app-summary>
 
-            <app-progress></app-progress>
+            <app-summary (summaryFormEvent)="onAddSummaryForm($event)" [editOrder]="editOrder"></app-summary>
+
+            <app-progress (progressFormEvent)="onAddProgressForm($event)"></app-progress>
 
 
             <div class="form-group form-buttons">

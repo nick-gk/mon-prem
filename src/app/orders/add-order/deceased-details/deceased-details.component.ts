@@ -1,5 +1,5 @@
-import { Component, OnInit } from "@angular/core";
-import { ControlContainer } from "@angular/forms";
+import { Component, OnInit, Output, EventEmitter } from "@angular/core";
+import { ControlContainer, FormBuilder, FormGroup } from "@angular/forms";
 
 @Component({
   selector: "app-deceased-details",
@@ -7,7 +7,25 @@ import { ControlContainer } from "@angular/forms";
   styleUrls: ["./deceased-details.component.css"],
 })
 export class DeceasedDetailsComponent implements OnInit {
-  constructor(private controlContainer: ControlContainer) {}
+  constructor(
+    private controlContainer: ControlContainer,
+    private form: FormBuilder
+  ) {}
 
-  ngOnInit() {}
+  @Output() deceasedFormEvent: EventEmitter<FormGroup> = new EventEmitter();
+
+  deceasedForm: FormGroup;
+
+  ngOnInit() {
+    this.deceasedForm = this.form.group({
+      d_fname: [""],
+      d_sname: [""],
+      bdate: [""],
+      ddate: [""],
+      cemetery: [""],
+      cemetery_city: [""],
+      cemetery_country: ["Romania"],
+    });
+    this.deceasedFormEvent.emit(this.deceasedForm);
+  }
 }

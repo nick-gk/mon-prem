@@ -97,7 +97,7 @@ body {
   -webkit-box-pack: justify;
   -ms-flex-pack: justify;
   justify-content: space-between;
-  border-radius: 15px;
+  border-radius: 3px;
   border: 1px solid #e7e7e7;
 }
 .list__item span {
@@ -114,7 +114,7 @@ body {
   -webkit-box-align: stretch;
   -ms-flex-align: stretch;
   align-items: stretch;
-  margin-right: 1rem;
+  margin-right: 0.75rem;
 }
 .list__item--headers {
   cursor: default;
@@ -434,6 +434,18 @@ body {
 }
 .auth__heading a i {
   color: #ca992b;
+}
+.main__dashboard {
+  padding: 0.5rem;
+}
+.dashboard {
+  padding: 0.5rem;
+}
+.dashboard__list {
+  list-style: none;
+}
+.dashboard__list-item--label {
+  font-weight: 600;
 }
 .header {
   padding: 0.5rem 3rem;

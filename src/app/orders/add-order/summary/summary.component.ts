@@ -1,11 +1,5 @@
-import { Component, OnInit, Input } from "@angular/core";
-import {
-  ControlContainer,
-  FormGroup,
-  FormBuilder,
-  FormControl,
-  FormArray,
-} from "@angular/forms";
+import { Component, OnInit, Input, Output, EventEmitter } from "@angular/core";
+import { FormGroup, FormBuilder, FormControl, FormArray } from "@angular/forms";
 import { Order } from "../../orders.model";
 
 @Component({
@@ -14,20 +8,35 @@ import { Order } from "../../orders.model";
   styleUrls: ["./summary.component.css"],
 })
 export class SummaryComponent implements OnInit {
-  constructor(
-    private controlContainer: ControlContainer,
-    private form: FormBuilder
-  ) {}
+  constructor(private form: FormBuilder) {}
 
-  @Input() avansuri: FormArray;
+  @Output() summaryFormEvent: EventEmitter<FormGroup> = new EventEmitter();
+
+  get avansuri() {
+    return this.summaryForm.get("avansArray") as FormArray;
+  }
+
+  summaryForm: FormGroup;
+
   @Input() editOrder: Order;
 
   ngOnInit() {
+    this.summaryForm = this.form.group({
+      today_date: [],
+      due_date: [],
+      avansArray: this.form.array([]),
+      total: [0],
+      left_amount: [0],
+      obsc: [""],
+    });
+
     if (this.editOrder) {
       this.editOrder.summaryForm.avansArray.forEach((el, i) => {
         this.onAddAvans(this.editOrder.summaryForm.avansArray[i]);
       });
     }
+
+    this.summaryFormEvent.emit(this.summaryForm);
   }
 
   onAddAvans(data: any) {

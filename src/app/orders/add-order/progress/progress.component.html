@@ -1,86 +1,86 @@
-<div [formGroup]="this.controlContainer.control">
-   <div formGroupName="progressForm">
-      <br>
-      <h3>Progres Comanda:</h3>
-      <hr>
-      <div class="form-group__components" formGroupName="stock">
-         <label for="stage1" class="form-group__components_heading"><b>Stoc</b></label>
-         <div class="form-group__component">
-            <label for="stage1" class="form-group__component--checklabel">Este în stoc</label>
-            <input type="checkbox" value="false" name="checkStock" id='stage1' formControlName="checkStock">
-         </div>
-         <div class="form-group__component">
-            <label for="stage1_resp">Nume Responsabil</label>
-            <input type="text" name="stage1_resp" id='stage1_resp' formControlName="responsibleName">
-         </div>
-         <div class="form-group__component">
-            <label for="stage1_sum">Suma</label>
-            <input type="number" name="stage1_sum" id='stage1_sum' formControlName="amount">
-         </div>
-         <div class="form-group__component">
-            <label for="stage1_obs">Observații</label>
-            <textarea name="stage1_obs" id='stage1_obs' rows="2" formControlName="obsv"></textarea>
-         </div>
+<div [formGroup]="progressForm">
+   <!-- <div formGroupName="progressForm"> -->
+   <br>
+   <h3>Progres Comanda:</h3>
+   <hr>
+   <div class="form-group__components" formGroupName="stock">
+      <label for="stage1" class="form-group__components_heading"><b>Stoc</b></label>
+      <div class="form-group__component">
+         <label for="stage1" class="form-group__component--checklabel">Este în stoc</label>
+         <input type="checkbox" value="false" name="checkStock" id='stage1' formControlName="checkStock">
       </div>
-      <!-- <hr class="form__hr"> -->
-      <div class="form-group__components" formGroupName="prelucrare">
-         <label for="stage2" class="form-group__components_heading"><b>Prelucrare</b></label>
-         <div class="form-group__component">
-            <label for="stage2" class="form-group__component--checklabel">Prelucrat</label>
-            <input type="checkbox" value="stage2" name="stage2" id='stage2' formControlName="checkPrelucrare">
-         </div>
-         <div class="form-group__component">
-            <label for="stage2_resp">Nume Responsabil</label>
-            <input type="text" name="stage1_resp" id='stage1_resp' formControlName="responsibleName">
-         </div>
-         <div class="form-group__component">
-            <label for="stage2_sum">Suma</label>
-            <input type="number" name="stage1_sum" id='stage1_sum' formControlName="amount">
-         </div>
-         <div class="form-group__component">
-            <label for="stage2_obs">Observații</label>
-            <textarea name="stage1_obs" id='stage1_obs' rows="2" formControlName="obsv"></textarea>
-         </div>
+      <div class="form-group__component">
+         <label for="stage1_resp">Nume Responsabil</label>
+         <input type="text" name="stage1_resp" id='stage1_resp' formControlName="responsibleName">
       </div>
-      <!-- <hr class="form__hr"> -->
-      <div class="form-group__components" formGroupName="engraving">
-         <label for="stage3" class="form-group__components_heading"><b>Fotogravare</b></label>
-         <div class="form-group__component">
-            <label for="stage3" class="form-group__component--checklabel">Fotogravat</label>
-            <input type="checkbox" value="stage3" name="stage3" id='stage3' formControlName="checkEngraving">
-         </div>
-         <div class="form-group__component">
-            <label for="stage3_resp">Nume Responsabil</label>
-            <input type="text" name="stage3_resp" id='stage3_resp' formControlName="responsibleName">
-         </div>
-         <div class="form-group__component">
-            <label for="stage3_sum">Suma</label>
-            <input type="number" name="stage3_sum" id='stage3_sum' formControlName="amount">
-         </div>
-         <div class="form-group__component">
-            <label for="stage3_obs">Observații</label>
-            <textarea name="stage3_obs" id='stage3_obs' rows="2" formControlName="obsv"></textarea>
-         </div>
+      <div class="form-group__component">
+         <label for="stage1_sum">Suma</label>
+         <input type="number" name="stage1_sum" id='stage1_sum' formControlName="amount">
       </div>
-      <!-- <hr class="form__hr"> -->
-      <div class="form-group__components" formGroupName="mounting">
-         <label for="stage4" class="form-group__components_heading"><b>Montare</b></label>
-         <div class="form-group__component">
-            <label for="stage4" class="form-group__component--checklabel">Montat</label>
-            <input type="checkbox" value="stage4" name="stage4" id='stage4' formControlName="checkMounting">
-         </div>
-         <div class="form-group__component">
-            <label for="stage4_resp">Nume Responsabil</label>
-            <input type="text" name="stage4_resp" id='stage4_resp' formControlName="responsibleName">
-         </div>
-         <div class="form-group__component">
-            <label for="stage4_sum">Suma</label>
-            <input type="number" name="stage4_sum" id='stage4_sum' formControlName="amount">
-         </div>
-         <div class="form-group__component">
-            <label for="stage4_obs">Observații</label>
-            <textarea name="stage4_obs" id='stage4_obs' rows="2" formControlName="obsv"></textarea>
-         </div>
+      <div class="form-group__component">
+         <label for="stage1_obs">Observații</label>
+         <textarea name="stage1_obs" id='stage1_obs' rows="2" formControlName="obsv"></textarea>
       </div>
    </div>
+   <!-- <hr class="form__hr"> -->
+   <div class="form-group__components" formGroupName="prelucrare">
+      <label for="stage2" class="form-group__components_heading"><b>Prelucrare</b></label>
+      <div class="form-group__component">
+         <label for="stage2" class="form-group__component--checklabel">Prelucrat</label>
+         <input type="checkbox" value="stage2" name="stage2" id='stage2' formControlName="checkPrelucrare">
+      </div>
+      <div class="form-group__component">
+         <label for="stage2_resp">Nume Responsabil</label>
+         <input type="text" name="stage1_resp" id='stage1_resp' formControlName="responsibleName">
+      </div>
+      <div class="form-group__component">
+         <label for="stage2_sum">Suma</label>
+         <input type="number" name="stage1_sum" id='stage1_sum' formControlName="amount">
+      </div>
+      <div class="form-group__component">
+         <label for="stage2_obs">Observații</label>
+         <textarea name="stage1_obs" id='stage1_obs' rows="2" formControlName="obsv"></textarea>
+      </div>
+   </div>
+   <!-- <hr class="form__hr"> -->
+   <div class="form-group__components" formGroupName="engraving">
+      <label for="stage3" class="form-group__components_heading"><b>Fotogravare</b></label>
+      <div class="form-group__component">
+         <label for="stage3" class="form-group__component--checklabel">Fotogravat</label>
+         <input type="checkbox" value="stage3" name="stage3" id='stage3' formControlName="checkEngraving">
+      </div>
+      <div class="form-group__component">
+         <label for="stage3_resp">Nume Responsabil</label>
+         <input type="text" name="stage3_resp" id='stage3_resp' formControlName="responsibleName">
+      </div>
+      <div class="form-group__component">
+         <label for="stage3_sum">Suma</label>
+         <input type="number" name="stage3_sum" id='stage3_sum' formControlName="amount">
+      </div>
+      <div class="form-group__component">
+         <label for="stage3_obs">Observații</label>
+         <textarea name="stage3_obs" id='stage3_obs' rows="2" formControlName="obsv"></textarea>
+      </div>
+   </div>
+   <!-- <hr class="form__hr"> -->
+   <div class="form-group__components" formGroupName="mounting">
+      <label for="stage4" class="form-group__components_heading"><b>Montare</b></label>
+      <div class="form-group__component">
+         <label for="stage4" class="form-group__component--checklabel">Montat</label>
+         <input type="checkbox" value="stage4" name="stage4" id='stage4' formControlName="checkMounting">
+      </div>
+      <div class="form-group__component">
+         <label for="stage4_resp">Nume Responsabil</label>
+         <input type="text" name="stage4_resp" id='stage4_resp' formControlName="responsibleName">
+      </div>
+      <div class="form-group__component">
+         <label for="stage4_sum">Suma</label>
+         <input type="number" name="stage4_sum" id='stage4_sum' formControlName="amount">
+      </div>
+      <div class="form-group__component">
+         <label for="stage4_obs">Observații</label>
+         <textarea name="stage4_obs" id='stage4_obs' rows="2" formControlName="obsv"></textarea>
+      </div>
+   </div>
+   <!-- </div> -->
 </div>

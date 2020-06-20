@@ -1,5 +1,5 @@
-import { Component, OnInit } from "@angular/core";
-import { ControlContainer } from "@angular/forms";
+import { Component, OnInit, Output, EventEmitter } from "@angular/core";
+import { ControlContainer, FormBuilder, FormGroup } from "@angular/forms";
 
 @Component({
   selector: "app-progress",
@@ -7,7 +7,40 @@ import { ControlContainer } from "@angular/forms";
   styleUrls: ["./progress.component.css"],
 })
 export class ProgressComponent implements OnInit {
-  constructor(private controlContainer: ControlContainer) {}
+  constructor(private form: FormBuilder) {}
 
-  ngOnInit() {}
+  @Output() progressFormEvent: EventEmitter<FormGroup> = new EventEmitter();
+
+  progressForm: FormGroup;
+
+  ngOnInit() {
+    this.progressForm = this.form.group({
+      stock: this.form.group({
+        checkStock: [],
+        responsibleName: [""],
+        amount: [],
+        obsv: [""],
+      }),
+      prelucrare: this.form.group({
+        checkPrelucrare: [],
+        responsibleName: [""],
+        amount: [],
+        obsv: [""],
+      }),
+      engraving: this.form.group({
+        checkEngraving: [],
+        responsibleName: [""],
+        amount: [],
+        obsv: [""],
+      }),
+      mounting: this.form.group({
+        checkMounting: [],
+        responsibleName: [""],
+        amount: [],
+        obsv: [""],
+      }),
+    });
+
+    this.progressFormEvent.emit(this.progressForm);
+  }
 }
