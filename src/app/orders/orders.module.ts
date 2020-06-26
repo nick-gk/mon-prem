@@ -12,6 +12,7 @@ import { DeceasedDetailsComponent } from "./add-order/deceased-details/deceased-
 import { ImagesComponent } from "./add-order/images/images.component";
 import { ProgressComponent } from "./add-order/progress/progress.component";
 import { SummaryComponent } from "./add-order/summary/summary.component";
+import { OrdersResolver } from "./orders-resolver.service";
 
 @NgModule({
   declarations: [
@@ -23,13 +24,14 @@ import { SummaryComponent } from "./add-order/summary/summary.component";
     DeceasedDetailsComponent,
     ImagesComponent,
     ProgressComponent,
-    SummaryComponent
+    SummaryComponent,
   ],
   imports: [
     OrdersRoutingModule,
     CommonModule,
     RouterModule,
-    ReactiveFormsModule
-  ]
+    ReactiveFormsModule,
+  ],
+  providers: [OrdersResolver],
 })
 export class OrdersModule {}

@@ -3,17 +3,19 @@ import {
   OnInit,
   ChangeDetectionStrategy,
   OnDestroy,
-  OnChanges,
-  Output,
-  Input,
+  AfterContentChecked,
+  AfterViewInit,
+  AfterViewChecked,
+  AfterContentInit,
 } from "@angular/core";
 import { FormGroup, FormArray, FormBuilder, FormsModule } from "@angular/forms";
 import * as OrdersActions from "../store/orders.actions";
 import { Store } from "@ngrx/store";
 import * as fromApp from "../../store/app.reducer";
 import { Subscription, Observable } from "rxjs";
-import { ActivatedRoute, Params } from "@angular/router";
+import { ActivatedRoute, Params, Router, Data } from "@angular/router";
 import { Order } from "../orders.model";
+import { map } from "rxjs/operators";
 
 @Component({
   selector: "app-add-order",
@@ -21,16 +23,23 @@ import { Order } from "../orders.model";
   styleUrls: ["./add-order.component.css"],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AddOrderComponent implements OnInit, OnDestroy {
+export class AddOrderComponent
+  implements
+    OnInit,
+    OnDestroy,
+    AfterContentInit,
+    AfterViewChecked,
+    AfterViewInit {
   constructor(
     private form: FormBuilder,
     private store: Store<fromApp.AppState>,
-    private router: ActivatedRoute
+    private router: ActivatedRoute,
+    private route: Router
   ) {}
 
   private storeSub: Subscription;
 
-  orders: {} = null;
+  orders: Order[] = null;
   orderForm: FormGroup;
   customerForm: FormGroup;
   deceasedForm: FormGroup;
@@ -41,51 +50,37 @@ export class AddOrderComponent implements OnInit, OnDestroy {
   editIndex: number = null;
   editOrder: Order = null;
   editMode: boolean = false;
-
-  ngOnChanges() {}
+  loaded: boolean = false;
 
   ngOnInit() {
-    this.store.dispatch(new OrdersActions.FetchOrders());
-
+    this.orderForm = this.form.group({});
     this.router.params.subscribe((params: Params) => {
-      this.storeSub = this.store.select("orders").subscribe((ordersState) => {
-        this.orders = ordersState.orders;
-        this.error = ordersState.orderError;
-        if (this.error) console.log(this.error);
+      if (params["id"]) {
+        this.editIndex = +params["id"];
+        this.editMode = true;
 
-        if (params["id"]) {
-          this.editIndex = +params["id"];
-          this.editMode = true;
-          if (this.orders && this.orders[this.editIndex]) {
-            this.editOrder = this.orders[this.editIndex];
-            this.createForm(this.editOrder);
-          }
-        } else {
-          this.createForm(null);
-        }
-      });
+        this.store.dispatch(new OrdersActions.StartEdit(this.editIndex));
+      }
     });
   }
 
-  onAddCustomerForm(e) {
-    this.customerForm = e;
+  ngAfterContentInit() {}
+
+  ngAfterViewInit() {
+    this.createForm(this.editIndex != null ? this.editIndex : null);
   }
 
-  onAddDeceasedForm(e) {
-    this.deceasedForm = e;
-  }
-  onAddSummaryForm(e) {
-    this.summaryForm = e;
-  }
-  onAddProgressForm(e) {
-    this.progressForm = e;
+  ngAfterViewChecked() {}
+
+  onAddForm(e) {
+    eval("this." + e.name + " = e.group;");
   }
 
   onAddElemsForm(e) {
     this.elemsForm = e.controls.elemsArray;
   }
 
-  createForm(data: any) {
+  createForm(id?: number) {
     this.orderForm = this.form.group({
       customerForm: this.customerForm,
       deceasedForm: this.deceasedForm,
@@ -94,10 +89,26 @@ export class AddOrderComponent implements OnInit, OnDestroy {
       progressForm: this.progressForm,
     });
 
-    if (data) {
-      this.orderForm.patchValue(data);
+    if (id) {
+      this.storeSub = this.store
+        .select("orders")
+        .pipe(
+          map((orderState) => {
+            return orderState.orders.find((order, index) => {
+              return index === id;
+            });
+          })
+        )
+        .subscribe((order) => {
+          this.orderForm.patchValue(order);
+        });
     }
+
     this.checkSums();
+  }
+
+  cancel() {
+    this.route.navigate(["orders/orders-list"]);
   }
 
   ngOnDestroy() {
@@ -105,11 +116,10 @@ export class AddOrderComponent implements OnInit, OnDestroy {
   }
 
   onSubmit() {
-    console.log(this.orderForm.value);
+    console.log(this.orderForm);
 
     if (!this.editMode) {
       this.store.dispatch(new OrdersActions.AddOrder(this.orderForm.value));
-      this.orderForm.reset();
     } else {
       this.store.dispatch(
         new OrdersActions.UpdateOrder({
@@ -117,37 +127,31 @@ export class AddOrderComponent implements OnInit, OnDestroy {
           newOrder: this.orderForm.value,
         })
       );
+      this.store.dispatch(new OrdersActions.StopEdit());
     }
     this.store.dispatch(new OrdersActions.StoreOrders());
+    this.route.navigate(["orders/orders-list"]);
   }
 
   checkSums() {
-    if (this.orderForm)
-      this.orderForm.valueChanges.subscribe(() => {
-        let elems = 0;
-        for (let el in (this.orderForm.get("elemsForm") as FormGroup)
-          .controls) {
-          elems += (this.orderForm.get("elemsForm") as FormGroup).controls[el]
-            .value.price;
-        }
+    this.orderForm.valueChanges.subscribe(() => {
+      let elems = 0;
+      let left = 0;
+      var avansuri = (this.orderForm.get("summaryForm.avansArray") as FormGroup)
+        .controls;
+      var elements = (this.orderForm.get("elemsForm") as FormGroup).controls;
 
-        let left = 0;
-        for (let el in (this.orderForm.get(
-          "summaryForm.avansArray"
-        ) as FormGroup).controls) {
-          left += (this.orderForm.get("summaryForm.avansArray") as FormGroup)
-            .controls[el].value.avans;
-        }
+      for (let el in elements) elems += elements[el].value.price;
 
-        this.orderForm.patchValue(
-          {
-            summaryForm: {
-              total: elems,
-              left_amount: elems - left,
-            },
-          },
-          { emitEvent: false }
-        );
-      });
+      for (let el in avansuri) left += avansuri[el].value.avans;
+
+      this.orderForm.get("summaryForm").patchValue(
+        {
+          total: elems,
+          left_amount: elems - left,
+        },
+        { emitEvent: false }
+      );
+    });
   }
 }

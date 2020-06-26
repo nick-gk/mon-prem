@@ -18,26 +18,8 @@ export class OrdersListComponent implements OnInit {
   orderSub: Subscription;
   disabled: boolean;
   ngOnInit() {
-    this.fetchOrders();
     this.orderSub = this.store.select("orders").subscribe((orderState) => {
       this.orders = orderState.orders;
-      if (this.orders.length == 0) {
-        this.disabled = true;
-      } else {
-        this.disabled = false;
-      }
     });
-  }
-
-  printOrders() {
-    console.log(this.orders);
-  }
-
-  fetchOrders() {
-    this.store.dispatch(new OrdersActions.FetchOrders());
-  }
-
-  storeOrders() {
-    this.store.dispatch(new OrdersActions.StoreOrders());
   }
 }

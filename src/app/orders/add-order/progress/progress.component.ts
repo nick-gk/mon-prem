@@ -9,7 +9,10 @@ import { ControlContainer, FormBuilder, FormGroup } from "@angular/forms";
 export class ProgressComponent implements OnInit {
   constructor(private form: FormBuilder) {}
 
-  @Output() progressFormEvent: EventEmitter<FormGroup> = new EventEmitter();
+  @Output() progressFormEvent: EventEmitter<{
+    group: FormGroup;
+    name: string;
+  }> = new EventEmitter();
 
   progressForm: FormGroup;
 
@@ -41,6 +44,9 @@ export class ProgressComponent implements OnInit {
       }),
     });
 
-    this.progressFormEvent.emit(this.progressForm);
+    this.progressFormEvent.emit({
+      group: this.progressForm,
+      name: "progressForm",
+    });
   }
 }

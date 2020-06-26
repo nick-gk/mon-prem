@@ -4,6 +4,9 @@ import { AuthGuard } from "../auth/auth.guard";
 import { NgModule } from "@angular/core";
 import { AddOrderComponent } from "./add-order/add-order.component";
 import { OrdersListComponent } from "./orders-list/orders-list.component";
+import { OrdersResolver } from "./orders-resolver.service";
+import { ArticleComponent } from "./add-order/article/article.component";
+import { ClientDetailsComponent } from "./add-order/client-details/client-details.component";
 
 const routes: Routes = [
   {
@@ -18,10 +21,12 @@ const routes: Routes = [
       {
         path: "orders-list",
         component: OrdersListComponent,
+        resolve: { orders: OrdersResolver },
       },
       {
         path: ":id",
         component: AddOrderComponent,
+        resolve: { orders: OrdersResolver },
       },
     ],
   },

@@ -6,6 +6,9 @@ import {
   FormBuilder,
 } from "@angular/forms";
 import { Order } from "../../orders.model";
+import { ActivatedRoute, Data } from "@angular/router";
+import * as fromApp from "../../../store/app.reducer";
+import { Store } from "@ngrx/store";
 
 @Component({
   selector: "app-article",
@@ -15,10 +18,12 @@ import { Order } from "../../orders.model";
 export class ArticleComponent implements OnInit {
   constructor(
     private controlContainer: ControlContainer,
-    private form: FormBuilder
+    private form: FormBuilder,
+    private router: ActivatedRoute,
+    private store: Store<fromApp.AppState>
   ) {}
 
-  @Input() editOrder: Order;
+  orderForm: Order;
 
   @Output() elemsFormEvent: EventEmitter<FormGroup> = new EventEmitter();
 
@@ -38,9 +43,13 @@ export class ArticleComponent implements OnInit {
       elemsArray: this.form.array([]),
     });
 
-    if (this.editOrder) {
-      this.editOrder.elemsForm.forEach((el, i) => {
-        this.onAddArticle(this.editOrder.elemsForm[i]);
+    this.store.select("orders").subscribe((orderState) => {
+      this.orderForm = orderState.orders[orderState.orderEditIndex];
+    });
+
+    if (this.orderForm) {
+      this.orderForm.elemsForm.forEach((el, i) => {
+        this.onAddArticle(this.orderForm.elemsForm[i]);
       });
     }
     this.elemsFormEvent.emit(this.elemsForm);

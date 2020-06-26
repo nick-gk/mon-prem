@@ -1,6 +1,8 @@
 import { Component, OnInit, Input, Output, EventEmitter } from "@angular/core";
 import { FormGroup, FormBuilder, FormControl, FormArray } from "@angular/forms";
 import { Order } from "../../orders.model";
+import * as fromApp from "../../../store/app.reducer";
+import { Store } from "@ngrx/store";
 
 @Component({
   selector: "app-summary",
@@ -8,9 +10,15 @@ import { Order } from "../../orders.model";
   styleUrls: ["./summary.component.css"],
 })
 export class SummaryComponent implements OnInit {
-  constructor(private form: FormBuilder) {}
+  constructor(
+    private form: FormBuilder,
+    private store: Store<fromApp.AppState>
+  ) {}
 
-  @Output() summaryFormEvent: EventEmitter<FormGroup> = new EventEmitter();
+  @Output() summaryFormEvent: EventEmitter<{
+    group: FormGroup;
+    name: string;
+  }> = new EventEmitter();
 
   get avansuri() {
     return this.summaryForm.get("avansArray") as FormArray;
@@ -18,7 +26,7 @@ export class SummaryComponent implements OnInit {
 
   summaryForm: FormGroup;
 
-  @Input() editOrder: Order;
+  editOrder: Order;
 
   ngOnInit() {
     this.summaryForm = this.form.group({
@@ -30,13 +38,20 @@ export class SummaryComponent implements OnInit {
       obsc: [""],
     });
 
+    this.store.select("orders").subscribe((orderState) => {
+      this.editOrder = orderState.orders[orderState.orderEditIndex];
+    });
+
     if (this.editOrder) {
       this.editOrder.summaryForm.avansArray.forEach((el, i) => {
         this.onAddAvans(this.editOrder.summaryForm.avansArray[i]);
       });
     }
 
-    this.summaryFormEvent.emit(this.summaryForm);
+    this.summaryFormEvent.emit({
+      group: this.summaryForm,
+      name: "summaryForm",
+    });
   }
 
   onAddAvans(data: any) {

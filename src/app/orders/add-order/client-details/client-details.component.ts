@@ -1,5 +1,6 @@
-import { Component, OnInit, Output, EventEmitter } from "@angular/core";
-import { ControlContainer, FormGroup, FormBuilder } from "@angular/forms";
+import { Component, OnInit, Output, EventEmitter, Input } from "@angular/core";
+import { FormGroup, FormBuilder } from "@angular/forms";
+import { Order } from "../../orders.model";
 
 @Component({
   selector: "app-client-details",
@@ -9,7 +10,10 @@ import { ControlContainer, FormGroup, FormBuilder } from "@angular/forms";
 export class ClientDetailsComponent implements OnInit {
   constructor(private form: FormBuilder) {}
 
-  @Output() customerFormEvent: EventEmitter<FormGroup> = new EventEmitter();
+  @Output() customerFormEvent = new EventEmitter<{
+    group: FormGroup;
+    name: string;
+  }>();
 
   customerForm: FormGroup;
 
@@ -23,6 +27,9 @@ export class ClientDetailsComponent implements OnInit {
       cnp: [""],
       customer_tel: [""],
     });
-    this.customerFormEvent.emit(this.customerForm);
+    this.customerFormEvent.emit({
+      group: this.customerForm,
+      name: "customerForm",
+    });
   }
 }

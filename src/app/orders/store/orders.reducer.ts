@@ -51,13 +51,11 @@ export function orderReducer(
       return {
         ...state,
         orderEditIndex: action.payload,
-        orderEdit: { ...state.orders[action.payload] },
       };
     case OrdersActions.STOP_EDIT:
       return {
         ...state,
         orderEditIndex: -1,
-        orderEdit: null,
       };
 
     default:

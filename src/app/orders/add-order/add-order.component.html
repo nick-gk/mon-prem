@@ -7,25 +7,26 @@
       <div class="form__grid">
 
 
-         <app-client-details (customerFormEvent)="onAddCustomerForm($event)"></app-client-details>
+         <app-client-details (customerFormEvent)="onAddForm($event)"></app-client-details>
 
-         <app-deceased-details (deceasedFormEvent)="onAddDeceasedForm($event)"></app-deceased-details>
+         <app-deceased-details (deceasedFormEvent)="onAddForm($event)"></app-deceased-details>
 
 
          <div class="form__below">
 
-            <app-article [editOrder]="editOrder" (elemsFormEvent)="onAddElemsForm($event)"></app-article>
+            <app-article (elemsFormEvent)="onAddElemsForm($event)"></app-article>
 
 
 
-            <app-summary (summaryFormEvent)="onAddSummaryForm($event)" [editOrder]="editOrder"></app-summary>
+            <app-summary (summaryFormEvent)="onAddForm($event)"></app-summary>
 
-            <app-progress (progressFormEvent)="onAddProgressForm($event)"></app-progress>
+            <app-progress (progressFormEvent)="onAddForm($event)"></app-progress>
 
 
             <div class="form-group form-buttons">
                <input type="submit" class="btn btn-primary" value="{{editMode ? 'Actualizează' : 'Adaugă'}}">
                <input type="button" class="btn btn-secondary" value="Printează">
+               <input type="button" class="btn btn-secondary" value="Anulează" (click)="cancel()">
             </div>
 
          </div>

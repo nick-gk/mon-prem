@@ -12,7 +12,10 @@ export class DeceasedDetailsComponent implements OnInit {
     private form: FormBuilder
   ) {}
 
-  @Output() deceasedFormEvent: EventEmitter<FormGroup> = new EventEmitter();
+  @Output() deceasedFormEvent: EventEmitter<{
+    group: FormGroup;
+    name: string;
+  }> = new EventEmitter();
 
   deceasedForm: FormGroup;
 
@@ -26,6 +29,9 @@ export class DeceasedDetailsComponent implements OnInit {
       cemetery_city: [""],
       cemetery_country: ["Romania"],
     });
-    this.deceasedFormEvent.emit(this.deceasedForm);
+    this.deceasedFormEvent.emit({
+      group: this.deceasedForm,
+      name: "deceasedForm",
+    });
   }
 }
