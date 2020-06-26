@@ -58,7 +58,7 @@ export class SummaryComponent implements OnInit {
     this.avansuri.push(
       this.form.group({
         avans: [data != null ? data.avans : ""],
-        avans_date: [data != null ? data.avans_date : null],
+        avans_date: [data != null ? data.avans_date : 0],
       })
     );
   }

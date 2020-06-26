@@ -135,8 +135,8 @@ export class AddOrderComponent
 
   checkSums() {
     this.orderForm.valueChanges.subscribe(() => {
-      let elems = 0;
-      let left = 0;
+      let elems: number = 0;
+      let left: number = 0;
       var avansuri = (this.orderForm.get("summaryForm.avansArray") as FormGroup)
         .controls;
       var elements = (this.orderForm.get("elemsForm") as FormGroup).controls;

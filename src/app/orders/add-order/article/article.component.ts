@@ -83,15 +83,15 @@ export class ArticleComponent implements OnInit {
   onAddArticle(data: any) {
     this.elements.push(
       this.form.group({
-        article: [data !== null ? data.article : ""],
-        quantity: [data ? data.quantity : ""],
-        colour: [data ? data.colour : ""],
-        length: [data ? data.length : ""],
-        width: [data ? data.width : ""],
-        thickness: [data ? data.thickness : ""],
-        uni_price: [data ? data.uni_price : ""],
-        expense: [data ? data.expense : ""],
-        price: [data ? data.price : ""],
+        article: [data !== null ? data.article : "Monument"],
+        quantity: [data ? data.quantity : 0],
+        colour: [data ? data.colour : "Negru"],
+        length: [data ? data.length : 0],
+        width: [data ? data.width : 0],
+        thickness: [data ? data.thickness : 0],
+        uni_price: [data ? data.uni_price : 0],
+        expense: [data ? data.expense : 0],
+        price: [data ? data.price : 0],
       })
     );
   }
