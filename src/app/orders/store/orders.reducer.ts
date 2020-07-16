@@ -29,7 +29,6 @@ export function orderReducer(
         orders: [...action.payload],
       };
     case OrdersActions.ORDER_FAIL:
-      console.log(1);
       return {
         ...state,
         orderError: action.payload,

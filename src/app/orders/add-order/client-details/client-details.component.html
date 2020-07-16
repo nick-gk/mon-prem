@@ -1,43 +1,36 @@
-<div class="form__left" [formGroup]="customerForm">
-   <!-- <div formGroupName="customerForm"> -->
+<div [formGroup]="customerForm">
    <h3>Detalii client</h3>
    <hr>
    <div class="form-container">
-      <div class="form-group form-group__col50">
-         <label for="customer_fname">Nume</label>
-         <input type="text" placeholder="Nume" name="customer_fname" id="customer_fname"
-            formControlName="customer_fname" required>
-      </div>
-      <div class="form-group form-group__col50">
-         <label for="customer_lname">Prenume</label>
-         <input type="text" placeholder="Prenume" name="customer_lname" id="customer_lname"
-            formControlName="customer_lname" required>
+      <div class="form-group">
+         <label for="customer_fname">Nume și prenume</label>
+         <input type="text" placeholder="Nume Prenume" name="customer_fname" id="customer_fname"
+            formControlName="customer_fname">
       </div>
    </div>
    <div class="form-container">
       <div class="form-group form-group__col50">
          <label for="country">Țara</label>
-         <input type="text" name="country" id="country" value="Romania" formControlName="country" required>
+         <input type="text" name="country" id="country" value="Romania" formControlName="country">
       </div>
       <div class="form-group form-group__col50">
          <label for="city">Oraș</label>
-         <input type="text" name="city" id="city" formControlName="city" required placeholder="Oras" required>
+         <input type="text" name="city" id="city" formControlName="city" placeholder="Oras">
       </div>
    </div>
    <div class="form-group">
-      <label for="address">Adresa</label>
-      <input type="text" placeholder="Adresa" name="address" id="address" formControlName="address" required>
+      <label for="addss">Adresa</label>
+      <input type="text" placeholder="Adresa" name="address" id="address" formControlName="address">
    </div>
    <div class="form-container">
       <div class="form-group form-group__col50">
          <label for="cnp">CNP</label>
-         <input type="number" name="cnp" id="cnp" formControlName="cnp" required>
+         <input type="number" name="cnp" id="cnp" formControlName="cnp">
       </div>
       <div class="form-group form-group__col50">
          <label for="customer_tel">Telefon</label>
-         <input type="tel" placeholder="" name="customer_tel" id="customer_tel" formControlName="customer_tel" required
+         <input type="tel" placeholder="" name="customer_tel" id="customer_tel" formControlName="customer_tel"
             placeholder="+40741252525">
       </div>
    </div>
-   <!-- </div> -->
 </div>

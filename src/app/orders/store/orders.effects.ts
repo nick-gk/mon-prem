@@ -13,6 +13,8 @@ import {
 import { HttpClient } from "@angular/common/http";
 import { Order } from "../orders.model";
 import { of } from "rxjs";
+import { AngularFireDatabase } from "@angular/fire/database";
+import { Observable } from "rxjs";
 
 const handleError = (errorRes: any) => {
   return of(new OrdersActions.OrderFail(errorRes.error.error.message));
@@ -20,10 +22,12 @@ const handleError = (errorRes: any) => {
 
 @Injectable()
 export class OrdersEffects {
+  items: Observable<Order[]>;
   constructor(
     private actions$: Actions,
     private http: HttpClient,
-    private store: Store<fromApp.AppState>
+    private store: Store<fromApp.AppState>,
+    private db: AngularFireDatabase
   ) {}
 
   @Effect({ dispatch: false })
@@ -31,23 +35,18 @@ export class OrdersEffects {
     ofType(OrdersActions.STORE_ORDERS),
     withLatestFrom(this.store.select("orders")),
     switchMap(([actionData, ordersState]) => {
-      return this.http.put(
-        "https://mon-prem.firebaseio.com/orders.json",
-        ordersState.orders
-      );
+      return this.db.list("/").set("orders", ordersState.orders);
     })
   );
 
   @Effect() fetchOrders = this.actions$.pipe(
     ofType(OrdersActions.FETCH_ORDERS),
     switchMap(() => {
-      return this.http.get<Order[]>(
-        "https://mon-prem.firebaseio.com/orders.json"
-      );
+      return this.db.list("orders").valueChanges();
     }),
     map((orders) => {
       console.log(orders);
-      return new OrdersActions.SetOrders(orders);
+      return new OrdersActions.SetOrders(orders as Order[]);
     })
   );
 }

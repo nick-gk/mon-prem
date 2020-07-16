@@ -1,30 +1,23 @@
-<div [formGroup]="summaryForm">
+<div [formGroup]="summaryForm" class="form__bellow-block">
    <!-- <div formGroupName="summaryForm"> -->
-   <br>
-   <h3>Sumar</h3>
+   <h3>Total</h3>
    <hr>
    <div class="form-container">
-      <div class="form-container__column">
-         <div class="form-container">
-            <div class="form-group">
-               <label for="today_date">Data intocmirii</label>
-               <input type="date" id="today_date" name="today_date" formControlName="today_date" required>
-            </div>
-            <div class="form-group">
-               <label for="due_date">Data Limita</label>
-               <input type="date" id="due_date" name="due_date" formControlName="due_date" required>
-            </div>
-         </div>
+      <div class="form-container__column-40">
          <div class="form-container" formArrayName="avansArray" *ngFor="let avans of avansuri.controls; let i=index">
             <ng-container [formGroupName]="i">
                <div class="form-group">
-                  <label for="avans">Avans</label>
-                  <input type="number" placeholder="0 RON" id="avans" name="avans" formControlName="avans" required>
+                  <label for="avans_amount">Avans</label>
+                  <input type="number" placeholder="0 RON" id="avans_amount" name="avans_amount"
+                     formControlName="avans_amount">
                </div>
                <div class="form-group">
-                  <label for="due-date">Data avansului</label>
-                  <input type="date" placeholder="Data" id="due-date" name="due-date" formControlName="avans_date"
-                     required>
+                  <label for="cec">Cec</label>
+                  <input type="checkbox" id="cec" name="cec" formControlName="cec">
+               </div>
+               <div class="form-group">
+                  <label for="avans_date">Data avansului</label>
+                  <input type="date" placeholder="Data" id="avans_date" name="avans_date" formControlName="avans_date">
                </div>
                <div style="margin-right: 5px;">
                   <label for="remove">&nbsp;</label>
@@ -32,29 +25,81 @@
                      (click)="onDeleteAvans(i)">
                </div>
             </ng-container>
-
          </div>
          <div class="form-group form-buttons">
-            <input type="button" value="Adaugă Avans" class="btn btn-secondary" (click)="onAddAvans(null)">
+            <input type="button" value="Adaugă Avans" class="btn btn-secondary" (click)="onAddAvans()">
          </div>
       </div>
-
-      <div class="form-container__column">
-         <div class="form-group">
-            <label for="obsc">Observații comandă</label>
-            <textarea name="Observatii comanda" id="obsc" formControlName="obsc"
-               style="display:block; height: 6.6rem;"></textarea>
+      <div class="form-container__column-60">
+         <div class="form-container" formArrayName="discountArray"
+            *ngFor="let discount of reduceri.controls; let i=index">
+            <ng-container [formGroupName]="i">
+               <div class="form-group">
+                  <label for="type">Tip</label>
+                  <select name="type" id="type" formControlName="type">
+                     <option value="%">%</option>
+                     <option value="Lei">Lei</option>
+                  </select>
+               </div>
+               <div class="form-group">
+                  <label for="reducere_amount">Reducere ({{discount.value.type}})</label>
+                  <input *ngIf="discount.value.type == '%'" type="number" placeholder="3 %" id="reducere_amount"
+                     name="discount_amount" formControlName="discount_amount">
+                  <input *ngIf="discount.value.type=='Lei'" type="number" placeholder="0 RON" id="reducere_amount"
+                     name="discount_amount" formControlName="discount_amount">
+               </div>
+               <div class="form-group">
+                  <label for="motiv">Motiv</label>
+                  <select name="motiv" id="motiv" formControlName="reason">
+                     <option value="" disabled>Alege un motiv</option>
+                     <option value="Avans">Avans</option>
+                     <option value="Recomandare">Recomandare</option>
+                     <option value="Cunoscut">Cunoscut</option>
+                     <option value="Revenire">Revenire</option>
+                     <option value="Greseala">Greseala</option>
+                     <option value="Cantitate">Cantitate</option>
+                     <option value="Alta">Alta</option>
+                  </select>
+               </div>
+               <div class="form-group">
+                  <label for="discount_date">Data reducerii</label>
+                  <input type="date" placeholder="Data" id="discount_date" name="discount_date"
+                     formControlName="discount_date">
+               </div>
+               <div style="margin-right: 5px;">
+                  <label for="removeDiscount">&nbsp;</label>
+                  <input type="button" class="btn btn-remove" name="removeDiscount" id="removeDiscount" value="x"
+                     (click)="onDeleteDiscount(i)">
+               </div>
+            </ng-container>
          </div>
-         <div class="form-group">
-            <label for="left_amount">Suma Rămasă</label>
-            <input type="number" placeholder="0 RON" id="left_amount" name="left_amount" formControlName="left_amount"
-               required disabled>
-         </div>
-         <div class="form-group">
-            <label for="total">Suma Totala</label>
-            <input type="number" placeholder="0 RON" id="total" name="total" formControlName="total" required>
+         <div class="form-group form-buttons">
+            <input type="button" value="Adaugă Reducere" class="btn btn-secondary" (click)="onAddDiscount()">
          </div>
       </div>
    </div>
-   <!-- </div> -->
+   <hr>
+   <div class="form-container">
+      <div class="form-group">
+         <label for="avans">Avans (Lei)</label>
+         <input type="number" placeholder="0 RON" id="avans" name="avans" formControlName="avans" disabled>
+      </div>
+      <div class="form-group">
+         <label for="tva">TVA (Lei)</label>
+         <input type="number" placeholder="0 RON" id="tva" name="tva" formControlName="tva" disabled>
+      </div>
+      <div class="form-group">
+         <label for="discount">Reducere (Lei)</label>
+         <input type="number" placeholder="0 RON" id="discount" name="discount" formControlName="discount" disabled>
+      </div>
+      <div class="form-group">
+         <label for="left_amount">Spre Achitare (Lei)</label>
+         <input type="number" step="0.01" placeholder="0 RON" id="left_amount" name="left_amount"
+            formControlName="left_amount" disabled>
+      </div>
+      <div class="form-group">
+         <label for="total">Suma Totala (Lei)</label>
+         <input type="number" placeholder="0 RON" id="total" name="total" formControlName="total" disabled>
+      </div>
+   </div>
 </div>

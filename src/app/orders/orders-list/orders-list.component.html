@@ -2,24 +2,24 @@
    <h2 class="h2 page-title-h2">Lista Comenzilor</h2>
    <ul class="list">
       <li class="list__item list__item--headers">
+         <span>ID</span>
          <span>Client</span>
          <span>Telefon</span>
          <span>Data intocmirii</span>
          <span>Data Limita</span>
          <span>Suma Totala</span>
          <span>Suma Ramasa</span>
-         <span>Localitatea Cimitirului</span>
       </li>
-      <a *ngFor="let order of orders; let i = index" routerLink="/orders/{{i}}"
+      <a *ngFor="let order of orders.reverse(); let i = index" routerLink="/orders/{{orders.length-1-i}}"
          style="text-decoration: none; color: inherit">
          <li class="list__item">
+            <span>{{ order.id }}</span>
             <span>{{ order.customerForm.customer_fname }}</span>
             <span>{{ order.customerForm.customer_tel }}</span>
-            <span>{{ order.summaryForm.today_date }}</span>
-            <span>{{ order.summaryForm.due_date }}</span>
+            <span>{{ order.termeniForm.today_date | date: 'dd MMM yyyy' }}</span>
+            <span>{{ order.termeniForm.due_date | date: 'dd MMM yyyy' }}</span>
             <span>{{ order.summaryForm.total }}</span>
             <span>{{ order.summaryForm.left_amount }}</span>
-            <span>{{ order.deceasedForm.cemetery_city }}</span>
          </li>
       </a>
    </ul>

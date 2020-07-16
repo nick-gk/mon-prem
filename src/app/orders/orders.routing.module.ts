@@ -7,6 +7,7 @@ import { OrdersListComponent } from "./orders-list/orders-list.component";
 import { OrdersResolver } from "./orders-resolver.service";
 import { ArticleComponent } from "./add-order/article/article.component";
 import { ClientDetailsComponent } from "./add-order/client-details/client-details.component";
+import { OrderComponent } from "./order/order.component";
 
 const routes: Routes = [
   {
@@ -25,6 +26,11 @@ const routes: Routes = [
       },
       {
         path: ":id",
+        component: OrderComponent,
+        resolve: { orders: OrdersResolver },
+      },
+      {
+        path: ":id/edit",
         component: AddOrderComponent,
         resolve: { orders: OrdersResolver },
       },

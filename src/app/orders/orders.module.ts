@@ -13,6 +13,12 @@ import { ImagesComponent } from "./add-order/images/images.component";
 import { ProgressComponent } from "./add-order/progress/progress.component";
 import { SummaryComponent } from "./add-order/summary/summary.component";
 import { OrdersResolver } from "./orders-resolver.service";
+import { TermeniComponent } from "./add-order/termeni/termeni.component";
+import { AngularFireModule } from "@angular/fire";
+import { environment } from "src/environments/environment";
+import { AngularFireDatabaseModule } from "@angular/fire/database";
+import { AngularFireStorageModule } from "@angular/fire/storage";
+import { OrderComponent } from "./order/order.component";
 
 @NgModule({
   declarations: [
@@ -25,12 +31,17 @@ import { OrdersResolver } from "./orders-resolver.service";
     ImagesComponent,
     ProgressComponent,
     SummaryComponent,
+    TermeniComponent,
+    OrderComponent,
   ],
   imports: [
     OrdersRoutingModule,
     CommonModule,
     RouterModule,
     ReactiveFormsModule,
+    AngularFireModule.initializeApp(environment.firebaseConfig),
+    AngularFireDatabaseModule,
+    AngularFireStorageModule,
   ],
   providers: [OrdersResolver],
 })

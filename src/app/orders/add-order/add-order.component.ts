@@ -7,6 +7,7 @@ import {
   AfterViewInit,
   AfterViewChecked,
   AfterContentInit,
+  ChangeDetectorRef,
 } from "@angular/core";
 import { FormGroup, FormArray, FormBuilder, FormsModule } from "@angular/forms";
 import * as OrdersActions from "../store/orders.actions";
@@ -34,16 +35,19 @@ export class AddOrderComponent
     private form: FormBuilder,
     private store: Store<fromApp.AppState>,
     private router: ActivatedRoute,
-    private route: Router
+    private route: Router,
+    private ref: ChangeDetectorRef
   ) {}
 
   private storeSub: Subscription;
 
   orders: Order[] = null;
   orderForm: FormGroup;
+  id: number = null;
   customerForm: FormGroup;
-  deceasedForm: FormGroup;
+  deceasedForm: FormArray;
   summaryForm: FormGroup;
+  termeniForm: FormGroup;
   progressForm: FormGroup;
   elemsForm: FormArray;
   error: string = "";
@@ -54,13 +58,19 @@ export class AddOrderComponent
 
   ngOnInit() {
     this.orderForm = this.form.group({});
+
     this.router.params.subscribe((params: Params) => {
       if (params["id"]) {
         this.editIndex = +params["id"];
+        this.id = this.editIndex;
         this.editMode = true;
-
         this.store.dispatch(new OrdersActions.StartEdit(this.editIndex));
       }
+    });
+
+    this.storeSub = this.store.select("orders").subscribe((orderState) => {
+      this.orders = orderState.orders;
+      if (!this.editMode) this.id = this.orders.length;
     });
   }
 
@@ -73,7 +83,11 @@ export class AddOrderComponent
   ngAfterViewChecked() {}
 
   onAddForm(e) {
-    eval("this." + e.name + " = e.group;");
+    this[e.name] = e.group;
+  }
+
+  onAddDecsForm(e) {
+    this.deceasedForm = e.group.controls.decsArray;
   }
 
   onAddElemsForm(e) {
@@ -82,26 +96,18 @@ export class AddOrderComponent
 
   createForm(id?: number) {
     this.orderForm = this.form.group({
+      id: [this.id],
       customerForm: this.customerForm,
       deceasedForm: this.deceasedForm,
       elemsForm: this.elemsForm,
+      termeniForm: this.termeniForm,
       summaryForm: this.summaryForm,
+      //progressForm: [],
       progressForm: this.progressForm,
     });
 
-    if (id) {
-      this.storeSub = this.store
-        .select("orders")
-        .pipe(
-          map((orderState) => {
-            return orderState.orders.find((order, index) => {
-              return index === id;
-            });
-          })
-        )
-        .subscribe((order) => {
-          this.orderForm.patchValue(order);
-        });
+    if (id !== null) {
+      this.orderForm.patchValue(this.orders[id]);
     }
 
     this.checkSums();
@@ -112,11 +118,12 @@ export class AddOrderComponent
   }
 
   ngOnDestroy() {
+    this.store.dispatch(new OrdersActions.StopEdit());
     if (this.storeSub) this.storeSub.unsubscribe();
   }
 
   onSubmit() {
-    console.log(this.orderForm);
+    console.log(this.orderForm.value);
 
     if (!this.editMode) {
       this.store.dispatch(new OrdersActions.AddOrder(this.orderForm.value));
@@ -130,25 +137,24 @@ export class AddOrderComponent
       this.store.dispatch(new OrdersActions.StopEdit());
     }
     this.store.dispatch(new OrdersActions.StoreOrders());
-    this.route.navigate(["orders/orders-list"]);
+    if (!this.editMode) this.route.navigate(["orders/" + (this.id - 1)]);
+    else {
+      this.route.navigate(["orders/" + this.id]);
+    }
   }
 
   checkSums() {
-    this.orderForm.valueChanges.subscribe(() => {
+    this.orderForm.get("elemsForm").valueChanges.subscribe((els) => {
       let elems: number = 0;
-      let left: number = 0;
-      var avansuri = (this.orderForm.get("summaryForm.avansArray") as FormGroup)
-        .controls;
-      var elements = (this.orderForm.get("elemsForm") as FormGroup).controls;
-
-      for (let el in elements) elems += elements[el].value.price;
-
-      for (let el in avansuri) left += avansuri[el].value.avans;
-
+      for (let el in els) elems += els[el].price;
       this.orderForm.get("summaryForm").patchValue(
         {
-          total: elems,
-          left_amount: elems - left,
+          total: elems.toFixed(2),
+          left_amount: (
+            elems -
+            this.orderForm.get("summaryForm.discount").value -
+            this.orderForm.get("summaryForm.avans").value
+          ).toFixed(2),
         },
         { emitEvent: false }
       );

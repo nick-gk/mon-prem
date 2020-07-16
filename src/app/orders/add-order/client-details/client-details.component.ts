@@ -20,7 +20,6 @@ export class ClientDetailsComponent implements OnInit {
   ngOnInit() {
     this.customerForm = this.form.group({
       customer_fname: [""],
-      customer_lname: [""],
       country: ["Romania"],
       city: [""],
       address: [""],

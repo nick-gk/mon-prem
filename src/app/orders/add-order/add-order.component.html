@@ -1,34 +1,20 @@
 <div class="main__add">
    <h2 class="page-title-h2">Adaugă Comandă</h2>
-
-
    <form [formGroup]="orderForm" (ngSubmit)="onSubmit()" class="form">
-
       <div class="form__grid">
-
-
-         <app-client-details (customerFormEvent)="onAddForm($event)"></app-client-details>
-
-         <app-deceased-details (deceasedFormEvent)="onAddForm($event)"></app-deceased-details>
-
-
-         <div class="form__below">
-
-            <app-article (elemsFormEvent)="onAddElemsForm($event)"></app-article>
-
-
-
+         <app-client-details class="form__bellow" (customerFormEvent)="onAddForm($event)"></app-client-details>
+         <app-deceased-details class="form__bellow" (deceasedFormEvent)="onAddDecsForm($event)">
+         </app-deceased-details>
+         <div class="form__bellow">
+            <app-article class="" (elemsFormEvent)="onAddElemsForm($event)"></app-article>
+            <app-progress (progressFormEvent)="onAddForm($event)" [id]="id" [orderForm]="orderForm"></app-progress>
+            <app-termeni (termeniFormEvent)="onAddForm($event)"></app-termeni>
             <app-summary (summaryFormEvent)="onAddForm($event)"></app-summary>
-
-            <app-progress (progressFormEvent)="onAddForm($event)"></app-progress>
-
-
             <div class="form-group form-buttons">
                <input type="submit" class="btn btn-primary" value="{{editMode ? 'Actualizează' : 'Adaugă'}}">
                <input type="button" class="btn btn-secondary" value="Printează">
                <input type="button" class="btn btn-secondary" value="Anulează" (click)="cancel()">
             </div>
-
          </div>
       </div>
    </form>

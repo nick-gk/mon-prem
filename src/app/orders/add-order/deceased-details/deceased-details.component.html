@@ -1,43 +1,54 @@
 <div [formGroup]="deceasedForm">
-   <!-- <div class="form__right" formGroupName="deceasedForm"> -->
-   <h3>Date defunct</h3>
-   <hr>
-   <div class="form-container">
-      <div class="form-group form-group__col50">
-         <label for="d_fname">Nume</label>
-         <input type="text" placeholder="Nume" name="d_fname" id="d_fname" formControlName="d_fname" required>
-      </div>
-      <div class="form-group form-group__col50">
-         <label for="d_sname">Prenume</label>
-         <input type="text" placeholder="Prenume" name="d_sname" id="d_sname" formControlName="d_sname" required>
+   <div class="form__grid">
+      <div formArrayName="decsArray" *ngFor="let dec of decs.controls; let i=index" class="form__right"
+         style="margin: 1rem;">
+         <div [formGroupName]="i">
+            <h3>Date defunct</h3>
+            <hr>
+            <div class="form-container">
+               <div class="form-group form-group__col50">
+                  <label for="d_fname">Nume</label>
+                  <input type="text" placeholder="Nume" name="d_fname" id="d_fname" formControlName="d_fname">
+               </div>
+               <div class="form-group form-group__col50">
+                  <label for="d_sname">Prenume</label>
+                  <input type="text" placeholder="Prenume" name="d_sname" id="d_sname" formControlName="d_sname">
+               </div>
+            </div>
+            <div class="form-container">
+               <div class="form-group form-group__col50">
+                  <label for="bdate">Data Nașterii</label>
+                  <input type="date" name="bdate" id="bdate" formControlName="bdate">
+               </div>
+               <div class="form-group form-group__col50">
+                  <label for="ddate">Data Decesului</label>
+                  <input type="date" name="ddate" id="ddate" formControlName="ddate">
+               </div>
+            </div>
+            <div class="form-group">
+               <label for="cemetery">Cimitir</label>
+               <input type="text" placeholder="Numele Cimitirului" name="cemetery" id="cemetery"
+                  formControlName="cemetery">
+            </div>
+            <div class="form-container">
+               <div class="form-group form-group__col50">
+                  <label for="cemetery_city">Localitatea</label>
+                  <input type="text" placeholder="Localitatea Cimitirului" name="cemetery_city" id="cemetery_city"
+                     formControlName="cemetery_city">
+               </div>
+               <div class="form-group form-group__col50">
+                  <label for="cemetery_country">Tara Cimitirului</label>
+                  <input type="text" name="cemetery_country" id="cemetery_country" formControlName="cemetery_country"
+                     value="Romania">
+               </div>
+               <div class="form-group">
+                  <label for="">&nbsp;</label>
+                  <input type="button" class="btn btn-remove" name="remove" id="remove" value="x" (click)="onDelete(i)">
+               </div>
+            </div>
+         </div>
       </div>
    </div>
-   <div class="form-container">
-      <div class="form-group form-group__col50">
-         <label for="bdate">Data Nașterii</label>
-         <input type="date" name="bdate" id="bdate" formControlName="bdate" required>
-      </div>
-      <div class="form-group form-group__col50">
-         <label for="ddate">Data Decesului</label>
-         <input type="date" name="ddate" id="ddate" formControlName="ddate" required>
-      </div>
-   </div>
-   <div class="form-group">
-      <label for="cemetery">Cimitir</label>
-      <input type="text" placeholder="Numele Cimitirului" name="cemetery" id="cemetery" formControlName="cemetery"
-         required>
-   </div>
-   <div class="form-container">
-      <div class="form-group form-group__col50">
-         <label for="cemetery_city">Localitatea</label>
-         <input type="text" placeholder="Localitatea Cimitirului" name="cemetery_city" id="cemetery_city"
-            formControlName="cemetery_city" required>
-      </div>
-      <div class="form-group form-group__col50">
-         <label for="cemetery_country">Tara Cimitirului</label>
-         <input type="text" name="cemetery_country" id="cemetery_country" formControlName="cemetery_country"
-            value="Romania" required>
-      </div>
-   </div>
-   <!-- </div> -->
+
+   <input type="button" value="Adaugă Defunct" class="btn btn-secondary" (click)="onAddDeceased()">
 </div>

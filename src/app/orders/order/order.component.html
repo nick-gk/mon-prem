@@ -1,0 +1,242 @@
+<div class="main__list">
+   <h2 class="h2 page-title-h2">Comanda nr. 0</h2>
+   <div class="order">
+
+      <h3>Detalii Client</h3>
+      <hr>
+
+      <div class="order__box">
+         <div class="order__box-column">
+            <b>Nume Prenume: </b><span>{{order.customerForm.customer_fname}}</span><br>
+            <b>CNP: </b><span>{{order.customerForm.cnp}}</span><br>
+            <b>Telefon: </b><span>{{order.customerForm.customer_tel}}</span>
+            <p>
+               <b>Data Întocmirii: </b><span>{{order.termeniForm.today_date | date: 'dd.MM.yyyy'}}</span><br>
+            </p>
+         </div>
+         <div class="order__box-column">
+            <b>Adresa: </b><span>{{order.customerForm.address}}</span><br>
+            <b>Oraș: </b><span>{{order.customerForm.city}}</span><br>
+            <b>Țara: </b><span>{{order.customerForm.country}}</span><br>
+            <b>Data Limita: </b><span>{{order.termeniForm.due_date | date: 'dd.MM.yyyy'}}</span>
+         </div>
+         <p style="padding-top: 1rem;">
+            <b>Observații Comandă: </b><span>{{order.termeniForm.obsv}}</span>
+         </p>
+      </div>
+      <h3>Date Defuncți</h3>
+      <hr>
+      <div class="order__box">
+         <div class="order__box-row">
+            <b style="flex-basis: 5%;">Nume Prenume</b>
+            <b>Data Nașterii</b>
+            <b>Data Decesului</b>
+            <b>Locul inhumării</b>
+            <b>Loc. Cimitirului</b>
+            <b>Țara</b>
+         </div>
+         <div class="order__box-row" *ngFor="let dec of order.deceasedForm">
+            <span style="flex-basis: 5%;">{{dec.d_fname}}</span><br>
+            <span>{{dec.bdate | date: 'dd.MM.yyyy'}}</span><br>
+            <span>{{dec.ddate | date: 'dd.MM.yyyy'}}</span><br>
+            <span>{{dec.cemetery}}</span><br>
+            <span>{{dec.cemetery_city}}</span><br>
+            <span>{{dec.cemetery_country}}</span>
+         </div>
+      </div>
+      <h3>Detalii Comanda</h3>
+      <hr>
+      <div class="order__box">
+         <div class="order__box-row">
+            <b>Articol</b>
+            <b class="order__box-row--desc">Descriere</b>
+            <b>Cantitate</b>
+            <b>Preț Unitar (Lei)</b>
+            <b>Preț Total (Lei)</b>
+         </div>
+         <div class="order__box-row" *ngFor="let el of order.elemsForm">
+            <p>
+               <span>{{el.article}}</span>
+            </p>
+            <p class="order__box-row--desc">
+               <span>{{el.desc}}</span>
+            </p>
+            <p>
+               <span>{{el.quantity}}</span>
+            </p>
+            <p>
+               <span>{{el.uni_price}}</span>
+            </p>
+            <p>
+               <span>{{el.price}}</span>
+            </p>
+         </div>
+      </div>
+      <h3>Componente Comanda</h3>
+      <hr>
+      <div class="order__box">
+         <ng-container *ngIf="order.progressForm.piatra.obsv || order.progressForm.piatra.poze">
+            <div class="order__box-column" style="display: flex; flex-direction: row; padding-bottom: 1rem;">
+               <p style="display: flex; flex-direction: column; justify-content: space-around; width: 20%">
+                  <b>Piatra</b>
+               </p>
+               <div style="width: 80%"><b>Observații</b>
+                  <p>{{order.progressForm.piatra.obsv}}</p>
+               </div>
+
+            </div>
+            <div class="order__box-column" style="padding-bottom: 2rem;">
+               <p>
+                  <b>Poze</b>
+               </p>
+               <a [href]="img.downloadUrl" *ngFor="let img of order.progressForm.piatra.poze" data-lightbox="piatra"
+                  style="padding-right: 0.5rem;">
+                  <img [src]="img.downloadUrl" height="145px;">
+               </a>
+
+            </div>
+         </ng-container>
+         <ng-container *ngIf="order.progressForm.prelucrare.obsv || order.progressForm.prelucrare.poze">
+            <div class="order__box-column" style="display: flex; flex-direction: row; padding-bottom: 1rem;">
+               <p style="display: flex; flex-direction: column; justify-content: space-around; width: 20%">
+                  <b>Prelucrare</b>
+               </p>
+               <div style="width: 80%"><b>Observații</b>
+                  <p>{{order.progressForm.prelucrare.obsv}}</p>
+               </div>
+
+            </div>
+            <div class="order__box-column" style="padding-bottom: 2rem;">
+               <p>
+                  <b>Poze</b>
+               </p>
+               <img [src]="img.downloadUrl" height="145px;" alt=""
+                  *ngFor="let img of order.progressForm.prelucrare.poze">
+            </div>
+         </ng-container>
+
+         <ng-container *ngIf="order.progressForm.photoengraving.obsv || order.progressForm.photoengraving.poze">
+            <div class="order__box-column" style="display: flex; flex-direction: row; padding-bottom: 1rem;">
+               <p style="display: flex; flex-direction: column; justify-content: space-around; width: 20%">
+                  <b>Fotogravare</b>
+               </p>
+               <div style="width: 80%"><b>Observații</b>
+                  <p>{{order.progressForm.photoengraving.obsv}}</p>
+               </div>
+
+            </div>
+            <div class="order__box-column" style="padding-bottom: 2rem;">
+               <p>
+                  <b>Poze</b>
+               </p>
+               <img [src]="img.downloadUrl" height="145px;" alt=""
+                  *ngFor="let img of order.progressForm.photoengraving.poze">
+            </div>
+         </ng-container>
+         <ng-container *ngIf="order.progressForm.engraving.obsv || order.progressForm.engraving.poze">
+            <div class="order__box-column" style="display: flex; flex-direction: row; padding-bottom: 1rem;">
+               <p style="display: flex; flex-direction: column; justify-content: space-around; width: 20%">
+                  <b>Gravare</b>
+               </p>
+               <div style="width: 80%">
+                  <p>
+                     <b>Text</b>
+                  </p>
+
+                  <textarea name="" value="{{order.progressForm.engraving.obsv}}" id="" cols="50" rows="5"
+                     disabled></textarea>
+               </div>
+
+            </div>
+            <div class="order__box-column" style="padding-bottom: 2rem;">
+               <p>
+                  <b>Poze</b>
+               </p>
+               <img [src]="img.downloadUrl" height="145px;" alt=""
+                  *ngFor="let img of order.progressForm.engraving.poze">
+            </div>
+         </ng-container>
+
+         <ng-container *ngIf="order.progressForm.mounting.obsv || order.progressForm.mounting.poze">
+            <div class="order__box-column" style="display: flex; flex-direction: row; padding-bottom: 1rem;">
+               <p style="display: flex; flex-direction: column; justify-content: space-around; width: 20%">
+                  <b>Montare</b>
+               </p>
+               <div style="width: 80%"><b>Observații</b>
+                  <p>{{order.progressForm.mounting.obsv}}</p>
+               </div>
+
+            </div>
+            <div class="order__box-column" style="padding-bottom: 2rem;">
+               <p>
+                  <b>Poze</b>
+               </p>
+               <img [src]="img.downloadUrl" height="145px;" alt="" *ngFor="let img of order.progressForm.mounting.poze">
+            </div>
+
+         </ng-container>
+      </div>
+      <h3>Totaluri</h3>
+      <hr>
+      <div class="order__box">
+         <div class="order__box-column">
+            <div class="order__box-row">
+               <b style="text-align: center; font-size: 1.1rem;">Avansuri</b>
+            </div>
+            <div class="order__box-row">
+               <b>Avans (Lei)</b>
+               <b>Data</b>
+               <b>Cec</b>
+            </div>
+            <div class="order__box-row" *ngFor="let av of order.summaryForm.avansArray">
+               <span>{{av.avans_amount}} Lei</span>&emsp;
+               <span>{{av.avans_date | date: "dd.MM.yyyy"}}</span>&emsp;
+               <span>{{av.cec ? "Da" : "Nu"}}</span>
+
+            </div>
+         </div>
+         <div class="order__box-column">
+            <div class="order__box-row">
+               <b style="text-align: center; font-size: 1.1rem;">Reduceri</b>
+            </div>
+            <div class="order__box-row">
+               <b>Reducere </b>
+               <b>Data </b>
+               <b>Motivul </b>
+            </div>
+            <div class="order__box-row" *ngFor="let dc of order.summaryForm.discountArray">
+               <span>{{dc.discount_amount + " " + dc.type}}</span>
+               <span>{{dc.discount_date | date: "dd.MM.yyyy"}}</span>
+               <span>{{dc.reason}}</span>
+            </div>
+
+         </div>
+      </div>
+      <hr>
+      <div class="order__box">
+         <div class="order__box-row">
+            <p><b>Avans: </b><span>{{order.summaryForm.avans}} Lei</span></p>
+            <p><b>TVA: </b><span>{{order.summaryForm.tva}} Lei</span></p>
+            <p><b>Reducere: </b><span>{{order.summaryForm.discount}} Lei</span></p>
+            <p><b>Spre Achitare: </b><span>{{order.summaryForm.left_amount}} Lei</span></p>
+            <p><b>Total: </b><span>{{order.summaryForm.total}} Lei</span></p>
+         </div>
+      </div>
+      <div class="order__box">
+         <div class="order__box-row" style="justify-content: space-between;">
+            <button class="btn" (click)="onEdit()">Editează</button>
+            <button class="btn btn-secondary">Print Tot</button>
+            <button class="btn btn-secondary">Print Admin.</button>
+            <button class="btn btn-secondary">Print Client</button>
+            <button class="btn btn-secondary">Print Prelucrare</button>
+            <button class="btn btn-secondary">Print Instalare</button>
+            <button class="btn btn-secondary">Print Gravare</button>
+            <button class="btn btn-secondary">Print Fotogravura</button>
+
+         </div>
+      </div>
+
+
+   </div>
+
+</div>

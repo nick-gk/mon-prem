@@ -4,6 +4,8 @@ import {
   FormArray,
   FormGroup,
   FormBuilder,
+  Validators,
+  FormControl,
 } from "@angular/forms";
 import { Order } from "../../orders.model";
 import { ActivatedRoute, Data } from "@angular/router";
@@ -28,7 +30,6 @@ export class ArticleComponent implements OnInit {
   @Output() elemsFormEvent: EventEmitter<FormGroup> = new EventEmitter();
 
   elemsForm: FormGroup;
-  // elemsArray: FormArray;
 
   get elements() {
     return this.elemsForm.get("elemsArray") as FormArray;
@@ -48,51 +49,62 @@ export class ArticleComponent implements OnInit {
     });
 
     if (this.orderForm) {
-      this.orderForm.elemsForm.forEach((el, i) => {
-        this.onAddArticle(this.orderForm.elemsForm[i]);
-      });
+      if (this.orderForm.elemsForm)
+        this.orderForm.elemsForm.forEach((el, i) => {
+          this.onAddArticle(this.orderForm.elemsForm[i]);
+        });
     }
+
+    this.checkSums();
+
     this.elemsFormEvent.emit(this.elemsForm);
   }
   components: Array<string> = [
     "Monument",
-    "Placaj superior stanga",
-    "Placaj superior dreapta",
-    "Placaj superior cap",
-    "Placaj superior picioare",
-    "Placaj lateral stanga",
-    "Placaj lateral dreapta",
-    "Placaj lateral cap",
-    "Placaj lateral picioare",
-    "Stalp",
-    "Capac",
+    "Postament",
+    "Florar",
+    "Plita",
+    "Fețuire",
+    "Cant",
     "Vaza",
     "Felinar",
     "Fotogravura",
-    "Cruce",
     "Elemente Fotogravura",
-    "Forme",
+    "Fotoceramica",
+    "Inscripție",
+    "Cruce gravură",
+    "Cruce metal",
     "Montare",
     "Placare Trotuar",
-    "Fotoceramica",
     "Transport",
+    "Demontare",
+    "Gard Fier",
     "Taiere placaj",
-    "Cant",
   ];
 
-  onAddArticle(data: any) {
+  onAddArticle(data?: any) {
+    if (!data) data = null;
     this.elements.push(
       this.form.group({
-        article: [data !== null ? data.article : "Monument"],
-        quantity: [data ? data.quantity : 0],
-        colour: [data ? data.colour : "Negru"],
-        length: [data ? data.length : 0],
-        width: [data ? data.width : 0],
-        thickness: [data ? data.thickness : 0],
-        uni_price: [data ? data.uni_price : 0],
-        expense: [data ? data.expense : 0],
-        price: [data ? data.price : 0],
+        price: [data !== null ? data.price : 0],
+        article: [data !== null ? data.article : ""],
+        quantity: [data !== null ? data.quantity : 1],
+        desc: [data !== null ? data.desc : ""],
+        uni_price: [data !== null ? data.uni_price : 0],
       })
     );
+  }
+
+  checkSums() {
+    this.elements.valueChanges.subscribe((els) => {
+      els.forEach((el, i) => {
+        (this.elemsForm.get("elemsArray") as FormArray).controls[i].patchValue(
+          {
+            price: (el.uni_price * el.quantity).toFixed(2),
+          },
+          { emitEvent: false }
+        );
+      });
+    });
   }
 }
