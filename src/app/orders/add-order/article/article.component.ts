@@ -100,7 +100,7 @@ export class ArticleComponent implements OnInit {
       els.forEach((el, i) => {
         (this.elemsForm.get("elemsArray") as FormArray).controls[i].patchValue(
           {
-            price: (el.uni_price * el.quantity).toFixed(2),
+            price: el.uni_price * el.quantity,
           },
           { emitEvent: false }
         );

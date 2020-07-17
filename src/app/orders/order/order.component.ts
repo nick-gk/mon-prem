@@ -29,6 +29,10 @@ export class OrderComponent implements OnInit {
     });
   }
 
+  printAll() {
+    window.print();
+  }
+
   onEdit() {
     this.router.navigate(["edit"], { relativeTo: this.route });
   }
