@@ -6,7 +6,7 @@
          <app-deceased-details class="form__bellow" (deceasedFormEvent)="onAddDecsForm($event)">
          </app-deceased-details>
          <div class="form__bellow">
-            <app-article class="" (elemsFormEvent)="onAddElemsForm($event)"></app-article>
+            <app-article (elemsFormEvent)="onAddElemsForm($event)"></app-article>
             <app-progress (progressFormEvent)="onAddForm($event)" [id]="id" [orderForm]="orderForm"></app-progress>
             <app-termeni (termeniFormEvent)="onAddForm($event)"></app-termeni>
             <app-summary (summaryFormEvent)="onAddForm($event)"></app-summary>

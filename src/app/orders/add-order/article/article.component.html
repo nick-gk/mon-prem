@@ -2,22 +2,21 @@
    <h3>Detalii comandă</h3>
    <hr>
    <div [formGroup]="elemsForm">
-      <div class="form-group__article" formArrayName="elemsArray"
-         *ngFor="let element of elements.controls; let i=index">
-         <div class="form-group__components" [formGroupName]="i">
-            <div class="form-group__components-row">
-               <div class="form-group__component">
+      <div formArrayName="elemsArray" *ngFor="let element of elements.controls; let i=index">
+         <div class="form-container" [formGroupName]="i">
+            <div class="form-container__row">
+               <div class="form-group" style="flex-basis: 25%;">
                   <label for="article">Articol</label>
                   <select name="article" id="article" formControlName="article">
                      <option value="" disabled>Alege Component</option>
                      <option *ngFor="let comp of components" [ngValue]="comp">{{ comp }}</option>
                   </select>
                </div>
-               <div class="form-group__component form-group__component-desc">
+               <div class="form-group form-group__desc">
                   <label for="desc">Descriere</label>
                   <input type="text" name="desc" id="desc" placeholder="Comentariu..." formControlName="desc">
                </div>
-               <div class="form-group__component">
+               <div class="form-group">
                   <label for="quantity">Cantitate</label>
                   <input type="number" name="quantity" id="quantity" placeholder="0.00" formControlName="quantity">
                </div>
@@ -46,20 +45,21 @@
                   <label for="expense">Cheltuiala</label>
                   <input type="number" name="expense" id="expense" value="0" formControlName="expense">
                </div> -->
-               <div class="form-group__component">
+               <div class="form-group">
                   <label for="uni_price">Pret Unitar (Lei)</label>
                   <input type="number" name="uni_price" id="uni_price" formControlName="uni_price">
                </div>
-               <div class="form-group__component">
+               <div class="form-group">
                   <label for="price">Pret (Lei)</label>
                   <input type="number" name="price" id="price" formControlName="price" disabled>
                </div>
+               <div class="form-group__btn">
+                  <label for="remove">&nbsp;</label>
+                  <input type="button" class="btn btn-remove" name="remove" id="remove" value="x" (click)="onDelete(i)">
+               </div>
             </div>
          </div>
-         <div class="form-group__article-btn">
-            <label for="remove">&nbsp;</label>
-            <input type="button" class="btn btn-remove" name="remove" id="remove" value="x" (click)="onDelete(i)">
-         </div>
+
       </div>
    </div>
 </div>

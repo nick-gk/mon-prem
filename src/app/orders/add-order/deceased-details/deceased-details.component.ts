@@ -64,6 +64,7 @@ export class DeceasedDetailsComponent implements OnInit {
         cemetery: [data ? data.cemetery : ""],
         cemetery_city: [data ? data.cemetery_city : ""],
         cemetery_country: [data ? data.cemetery_country : ""],
+        epitaf: [data ? data.epitaf : ""],
       })
     );
   }

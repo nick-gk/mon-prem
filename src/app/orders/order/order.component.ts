@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ChangeDetectorRef } from "@angular/core";
 import { Router, ActivatedRoute, Params } from "@angular/router";
 import { Store } from "@ngrx/store";
 import * as fromApp from "../../store/app.reducer";
@@ -12,7 +12,8 @@ export class OrderComponent implements OnInit {
   constructor(
     private router: Router,
     private route: ActivatedRoute,
-    private store: Store<fromApp.AppState>
+    private store: Store<fromApp.AppState>,
+    private ref: ChangeDetectorRef
   ) {}
 
   order: Order;
@@ -29,8 +30,23 @@ export class OrderComponent implements OnInit {
     });
   }
 
-  printAll() {
-    window.print();
+  print: string = null;
+  prelucrare: string = "prelucrare";
+  client: string = "client";
+  admin: string = "admin";
+  photoengraving: string = "photoengraving";
+  engraving: string = "engraving";
+  mounting: string = "mounting";
+  all: string = "all";
+
+  printPage(type: string = null) {
+    this.print = type;
+    this.ref.detectChanges();
+    setTimeout(() => {
+      window.print();
+      this.print = null;
+      this.ref.detectChanges();
+    }, 500);
   }
 
   onEdit() {

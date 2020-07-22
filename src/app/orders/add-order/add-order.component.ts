@@ -146,14 +146,24 @@ export class AddOrderComponent
   checkSums() {
     this.orderForm.get("elemsForm").valueChanges.subscribe((els) => {
       let elems: number = 0;
-      for (let el in els) elems += els[el].price;
+      els.forEach((el, i) => {
+        let price: number = el.uni_price * el.quantity;
+        elems += price;
+        (this.orderForm.get("elemsForm") as FormArray).controls[i].patchValue(
+          {
+            price: price.toFixed(2),
+          },
+          { emitEvent: false }
+        );
+      });
+
       this.orderForm.get("summaryForm").patchValue(
         {
           total: elems.toFixed(2),
           left_amount: (
             elems -
-            this.orderForm.get("summaryForm.discount").value -
-            this.orderForm.get("summaryForm.avans").value
+            parseFloat(this.orderForm.get("summaryForm.discount").value) -
+            parseFloat(this.orderForm.get("summaryForm.avans").value)
           ).toFixed(2),
         },
         { emitEvent: false }

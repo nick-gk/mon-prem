@@ -1,4 +1,13 @@
-import { Component, OnInit, Input, Output, EventEmitter } from "@angular/core";
+import {
+  Component,
+  OnInit,
+  Input,
+  Output,
+  EventEmitter,
+  ChangeDetectorRef,
+  AfterViewChecked,
+  AfterContentChecked,
+} from "@angular/core";
 import {
   ControlContainer,
   FormArray,
@@ -11,18 +20,20 @@ import { Order } from "../../orders.model";
 import { ActivatedRoute, Data } from "@angular/router";
 import * as fromApp from "../../../store/app.reducer";
 import { Store } from "@ngrx/store";
+import { take } from "rxjs/operators";
 
 @Component({
   selector: "app-article",
   templateUrl: "./article.component.html",
   styleUrls: ["./article.component.css"],
 })
-export class ArticleComponent implements OnInit {
+export class ArticleComponent implements OnInit, AfterContentChecked {
   constructor(
     private controlContainer: ControlContainer,
     private form: FormBuilder,
     private router: ActivatedRoute,
-    private store: Store<fromApp.AppState>
+    private store: Store<fromApp.AppState>,
+    private ref: ChangeDetectorRef
   ) {}
 
   orderForm: Order;
@@ -55,9 +66,13 @@ export class ArticleComponent implements OnInit {
         });
     }
 
-    this.checkSums();
+    // this.checkSums();
 
     this.elemsFormEvent.emit(this.elemsForm);
+  }
+
+  ngAfterContentChecked() {
+    this.checkSums();
   }
   components: Array<string> = [
     "Monument",
@@ -86,25 +101,41 @@ export class ArticleComponent implements OnInit {
     if (!data) data = null;
     this.elements.push(
       this.form.group({
-        price: [data !== null ? data.price : 0],
         article: [data !== null ? data.article : ""],
         quantity: [data !== null ? data.quantity : 1],
         desc: [data !== null ? data.desc : ""],
         uni_price: [data !== null ? data.uni_price : 0],
+        //price: { value: data !== null ? data.price : 0, disabled: true },
+        price: [data !== null ? data.price : 0],
       })
     );
   }
 
   checkSums() {
-    this.elements.valueChanges.subscribe((els) => {
-      els.forEach((el, i) => {
-        (this.elemsForm.get("elemsArray") as FormArray).controls[i].patchValue(
-          {
-            price: el.uni_price * el.quantity,
-          },
-          { emitEvent: false }
-        );
-      });
-    });
+    // this.elements.valueChanges.subscribe((els) => {
+    // let elems: number = 0;
+    // els.forEach((el, i) => {
+    //   let price: number = el.uni_price * el.quantity;
+    //   (this.elemsForm.get("elemsArray") as FormArray).controls[i].patchValue(
+    //     {
+    //       price: price.toFixed(2),
+    //     },
+    //     { emitEvent: false }
+    //   );
+    //   this.ref.detectChanges();
+    //   this.ref.markForCheck();
+    // });
+    //   this.order.patchValue(
+    //     {
+    //       total: elems.toFixed(2),
+    //       left_amount: (
+    //         elems -
+    //         parseInt(this.order.get("discount").value) -
+    //         parseInt(this.order.get("avans").value)
+    //       ).toFixed(2),
+    //     },
+    //     { emitEvent: false }
+    //   );
+    //  });
   }
 }

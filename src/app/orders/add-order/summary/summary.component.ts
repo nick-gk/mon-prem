@@ -5,6 +5,7 @@ import {
   Output,
   EventEmitter,
   Inject,
+  ChangeDetectorRef,
 } from "@angular/core";
 import {
   FormGroup,
@@ -25,7 +26,8 @@ import { Store } from "@ngrx/store";
 export class SummaryComponent implements OnInit {
   constructor(
     private form: FormBuilder,
-    private store: Store<fromApp.AppState>
+    private store: Store<fromApp.AppState>,
+    private ref: ChangeDetectorRef
   ) {}
 
   @Output() summaryFormEvent: EventEmitter<{
@@ -93,44 +95,59 @@ export class SummaryComponent implements OnInit {
       })
     );
   }
-
+  ok: boolean = false;
   checkSums() {
     this.summaryForm.get("avansArray").valueChanges.subscribe((avs) => {
       let avansuri: number = 0;
       let tva: number = 0;
       for (let el in avs) {
-        avansuri += avs[el].avans_amount;
-        if (avs[el].cec === true) tva += avs[el].avans_amount * 0.2;
+        avansuri += parseFloat(avs[el].avans_amount);
+        if (avs[el].cec === true) tva += parseFloat(avs[el].avans_amount) * 0.2;
       }
-      let total = this.summaryForm.get("total").value;
+      let total = parseFloat(this.summaryForm.get("total").value);
       this.summaryForm.patchValue(
         {
           avans: avansuri.toFixed(2),
           tva: tva.toFixed(2),
           left_amount: (
-            this.summaryForm.get("total").value -
-            this.summaryForm.get("discount").value -
+            total -
+            parseFloat(this.summaryForm.get("discount").value) -
             avansuri
           ).toFixed(2),
         },
         { emitEvent: false }
       );
+      console.log("patched");
     });
     this.summaryForm.get("discountArray").valueChanges.subscribe((dcs) => {
       let reduceri: number = 0;
 
       for (let dc in dcs) {
-        if (dcs[dc].type === "Lei") reduceri += dcs[dc].discount_amount;
-        if (dcs[dc].type === "%")
-          reduceri +=
-            (this.summaryForm.get("total").value * dcs[dc].discount_amount) /
-            100;
+        if (dcs[dc].type === "Lei") {
+          reduceri += parseFloat(dcs[dc].discount_amount);
+          console.log(parseFloat(dcs[dc].discount_amount));
+        }
+
+        if (dcs[dc].type === "%") {
+          if (this.editOrder && !this.ok) {
+            reduceri +=
+              (this.editOrder.summaryForm.total *
+                parseFloat(dcs[dc].discount_amount)) /
+              100;
+            this.ok = true;
+          } else {
+            reduceri +=
+              (parseFloat(this.summaryForm.get("total").value) *
+                parseFloat(dcs[dc].discount_amount)) /
+              100;
+          }
+        }
       }
       this.summaryForm.patchValue({
         discount: reduceri.toFixed(2),
         left_amount: (
-          this.summaryForm.get("total").value -
-          this.summaryForm.get("avans").value -
+          parseFloat(this.summaryForm.get("total").value) -
+          parseFloat(this.summaryForm.get("avans").value) -
           reduceri
         ).toFixed(2),
       });

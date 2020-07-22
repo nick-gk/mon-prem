@@ -1,24 +1,64 @@
-<app-order-print-client [order]="order" [print]="admin" *ngIf="print==='admin' || print ==='all'">
-</app-order-print-client>
-
-<app-order-print-client [order]="order" [print]="client" *ngIf="print==='client' || print ==='all'">
-</app-order-print-client>
-
-<app-order-print-client [order]="order" [print]="prelucrare" *ngIf="print==='prelucrare' || print ==='all'">
-</app-order-print-client>
-
-<app-order-print-client [order]="order" [print]="photoengraving" *ngIf="print==='photoengraving' || print ==='all'">
-</app-order-print-client>
-
-<app-order-print-client [order]="order" [print]="engraving" *ngIf="print==='engraving' || print ==='all'">
-</app-order-print-client>
-
-<app-order-print-client [order]="order" [print]="mounting" *ngIf="print==='mounting' || print ==='all'">
-</app-order-print-client>
-
-<div class="main__list" *ngIf="print===null">
-   <h2 class="h2 page-title-h2">Comanda nr. {{order.id}}</h2>
+<div class="main__list">
+   <h2 class="h2 page-title-h2" *ngIf="print !=='client'">Comanda nr. {{order.id}} </h2>
    <div class="order">
+      <div class="order__box" *ngIf="print==='client'">
+         <div class="order__box-column-33">
+
+            <div class="order__box-row">&nbsp;</div>
+            <div class="order__box-row">
+               <p>
+                  <b>Adresa 1: </b>Str. Doina 156
+               </p>
+            </div>
+            <div class="order__box-row">
+               <p>
+                  <b>Telefon 1: </b>069 222 027
+               </p>
+            </div>
+            <div class="order__box-row">
+               <p>
+                  <b>Adresa 2: </b>Str. Doina 193
+               </p>
+            </div>
+            <div class="order__box-row">
+               <p>
+                  <b>Telefon 2: </b>068 693 300
+               </p>
+            </div>
+
+         </div>
+         <div class="order__box-column-33" style="text-align: center;">
+            <img src="https://monumentepremium.ro/wp-content/uploads/2019/03/black2.png" alt="">
+
+         </div>
+         <div class="order__box-column-33">
+            <ng-container>
+               <div class="order__box-row">
+                  &nbsp;
+               </div>
+               <div class="order__box-row">
+                  <p>
+                     <b>Atelier: </b>str. Cucorilor 43/1
+                  </p>
+               </div>
+               <div class="order__box-row">
+                  <p>
+                     <b>Telefon: </b>069 141 200
+                  </p>
+               </div>
+               <div class="order__box-row">
+                  <p>
+                     <b>E-mail: </b>oficiu@monumentepremium.md
+                  </p>
+               </div>
+               <div class="order__box-row">
+                  <p>
+                     <b>Website: </b>www.monumentepremium.md
+                  </p>
+               </div>
+            </ng-container>
+         </div>
+      </div>
 
       <h3>Detalii Client</h3>
       <hr>
@@ -28,13 +68,14 @@
             <div class="order__box-row">
                <div style="padding-right: 2rem;">
                   <p><b>Nume Prenume: </b></p>
-                  <p><b>CNP: </b></p>
+                  <p *ngIf="print==='client' || print==='admin'"><b>CNP: </b></p>
                   <p><b>Telefon: </b></p>
                   <p><b>Data Întocmirii: </b></p>
                </div>
                <div style="padding-right: 2rem;">
                   <span>{{order.customerForm.customer_fname}} <br> </span>
-                  <span>{{order.customerForm.cnp}} <br></span>
+                  <span *ngIf="print==='client' || print==='admin' || print===null">{{order.customerForm.cnp}}
+                     <br></span>
                   <span>{{order.customerForm.customer_tel}} <br></span>
                   <span>{{order.termeniForm.today_date | date: 'dd.MM.yyyy'}}</span>
                </div>
@@ -45,18 +86,18 @@
                <div style="padding-right: 2rem;">
                   <p><b>Adresa: </b></p>
                   <p><b>Oraș: </b></p>
-                  <p><b>Țara: </b></p>
+                  <p *ngIf="print==='client' || print==='admin' || !print"><b>Țara: </b></p>
                   <p><b>Data Limită: </b></p>
                </div>
                <div style="padding-right: 2rem;">
                   <span>{{order.customerForm.address}} <br> </span>
                   <span>{{order.customerForm.city}} <br></span>
-                  <span>{{order.customerForm.country}} <br></span>
+                  <span *ngIf="print==='client' || print==='admin' || !print">{{order.customerForm.country}} <br></span>
                   <span>{{order.termeniForm.due_date | date: 'dd.MM.yyyy'}}</span>
                </div>
             </div>
          </div>
-         <div class="form-group">
+         <div class="form-group" *ngIf="print==='client' || print==='admin' || !print">
             <label for="obsv-comanda">Observații Comandă (Administrator)</label>
             <textarea name="obsv-comanda" id="obsv-comanda" cols="30" rows="3"
                disabled>{{order.termeniForm.obsv}}</textarea>
@@ -86,7 +127,8 @@
          </div>
       </div>
 
-      <div class="order__box" style="justify-content: flex-start;">
+      <div class="order__box" style="justify-content: flex-start;"
+         *ngIf="print==='client' || print===null || print==='engraving' || print==='photoengraving' || print==='admin'">
          <b>Epitafuri</b>
          <div class="order__box-row">
             <div class="order__box-column-25" *ngFor="let dec of order.deceasedForm; let i = index">
@@ -105,25 +147,25 @@
             <b style="flex-basis: 10%;">Articol</b>
             <b style="flex-basis: 35%; text-align: left;">Descriere</b>
             <b>Cantitate</b>
-            <b>Preț Unitar</b>
-            <b>Preț</b>
+            <b *ngIf="print === 'admin' || print === 'client'">Preț Unitar</b>
+            <b *ngIf="print==='admin' || print==='client'">Preț</b>
          </div>
-         <div class="table" *ngFor="let el of order.elemsForm; let i=index">
+         <div class=" table" *ngFor="let el of order.elemsForm; let i=index">
             <span>{{i}}</span>
             <span style="flex-basis: 10%;">{{el.article}}</span>
 
             <span style="flex-basis: 35%; text-align: left;">{{el.desc}}</span>
             <span>{{el.quantity | number: "1.2-2"}}</span>
 
-            <span>{{el.uni_price | number: "1.2-2"}}</span>
+            <span *ngIf="print==='admin' || print==='client'">{{el.uni_price | number: "1.2-2"}}</span>
 
-            <span>{{el.price | number: "1.2-2"}}</span>
+            <span *ngIf=" print==='admin' || print==='client'">{{el.price | number: "1.2-2"}}</span>
 
          </div>
       </div>
 
 
-      <div class="order__box">
+      <div class=" order__box" [ngClass]="{'page-breaker': print === 'admin' || print === 'client'}">
          <div style="flex-flow: column nowrap; flex-basis: 100%; padding-bottom: 1rem;">
 
             <h3>Proces Comanda</h3>
@@ -131,41 +173,50 @@
          </div>
 
 
-         <div class="order__box-row">
-
+         <div class="order__box-row"
+            *ngIf="print==='prelucrare' || print==='admin' || print==='client' || print==='mounting'">
             <ng-container *ngIf="order.progressForm.prelucrare.obsv || order.progressForm.prelucrare.poze">
 
                <div class="order__box-column-25">
                   <div class="order__box-row">
+
                      <b>Prelucrare</b>
+
                   </div>
                   <div class="order__box-row" *ngIf="order.progressForm.prelucrare.obsv">
                      <p class="form-group__text">{{order.progressForm.prelucrare.obsv}}</p>
                   </div>
 
+
+
                </div>
-               <div class="order__box-column-75">
+               <div class="order__box-column">
                   <div>
                      <b>Poze</b>
                   </div>
                   <a [href]="img.downloadUrl" *ngFor="let img of order.progressForm.prelucrare.poze"
                      data-lightbox="prelucrare">
-                     <img [src]="img.downloadUrl">
+                     <img [src]="img.downloadUrl"
+                        [ngStyle]="{'height': (print==='prelucrare' || print==='mounting') ? '250px' : ';'}">
                   </a>
 
                </div>
             </ng-container>
          </div>
-         <div class="order__box-row">
+
+         <div class="order__box-row"
+            *ngIf="print==='photoengraving' || print==='admin' || print==='client' || print==='engraving'">
 
             <ng-container *ngIf="order.progressForm.photoengraving.obsv || order.progressForm.photoengraving.poze">
                <div class="order__box-column-25">
                   <div class="order__box-row">
                      <b>Fotogravare</b>
+
                   </div>
                   <div class="order__box-row" *ngIf="order.progressForm.photoengraving.obsv">
                      <p class="form-group__text">{{order.progressForm.photoengraving.obsv}}</p>
                   </div>
+
                </div>
                <div class="order__box-column-75">
                   <div>
@@ -180,7 +231,8 @@
             </ng-container>
 
          </div>
-         <div class="order__box-row">
+         <div class="order__box-row"
+            *ngIf="print==='engraving' || print==='admin' || print==='client' || print==='photoengraving'">
 
             <ng-container *ngIf="order.progressForm.engraving.obsv || order.progressForm.engraving.poze">
                <div class="order__box-column-25">
@@ -190,7 +242,6 @@
                   <div class="order__box-row" *ngIf="order.progressForm.engraving.obsv">
                      <p class="form-group__text">{{order.progressForm.engraving.obsv}}</p>
                   </div>
-
                </div>
                <div class="order__box-column-75">
                   <div>
@@ -205,7 +256,8 @@
             </ng-container>
 
          </div>
-         <div class="order__box-row">
+         <div class="order__box-row"
+            *ngIf="print==='mounting' || print==='admin' || print==='client' || print==='prelucrare'">
 
             <ng-container *ngIf="order.progressForm.mounting.obsv || order.progressForm.mounting.poze">
                <div class="order__box-column-25">
@@ -222,7 +274,8 @@
                   </div>
                   <a [href]="img.downloadUrl" *ngFor="let img of order.progressForm.mounting.poze"
                      data-lightbox="mounting">
-                     <img [src]="img.downloadUrl">
+                     <img [src]="img.downloadUrl"
+                        [ngStyle]="{'height': (print==='prelucrare' || print==='mounting') ? '250px' : ';'}">
                   </a>
                </div>
 
@@ -232,7 +285,7 @@
 
 
       </div>
-      <ng-container>
+      <ng-container *ngIf="print===null || print==='client' || print==='admin'">
          <h3>Totaluri</h3>
          <hr>
          <div class="order__box">
@@ -242,13 +295,13 @@
                   <b style="flex-basis: 7%">ID</b>
                   <b>Avans</b>
                   <b>Data</b>
-                  <b>Cec</b>
+                  <b *ngIf="print !== 'client'">Cec</b>
                </div>
                <div class="table" *ngFor="let av of order.summaryForm.avansArray; let i= index">
                   <span style="flex-basis: 7%;">{{i}}</span>
                   <span>{{av.avans_amount | number: "1.2-2"}} Lei</span>&emsp;
                   <span>{{av.avans_date | date: "dd.MM.yyyy"}}</span>&emsp;
-                  <span>{{av.cec ? "Da" : "Nu"}}</span>
+                  <span *ngIf="print !== 'client'">{{av.cec ? "Da" : "Nu"}}</span>
 
                </div>
             </div>
@@ -258,20 +311,20 @@
                   <b style="flex-basis: 7%;">ID</b>
                   <b>Reducere </b>
                   <b>Data </b>
-                  <b>Motivul </b>
+                  <b *ngIf="print !== 'client'">Motivul </b>
                </div>
                <div class="table" *ngFor="let dc of order.summaryForm.discountArray; let i=index">
                   <span style="flex-basis: 7%;">{{i}}</span>
                   <span>{{dc.discount_amount + " " + dc.type}}</span>
                   <span>{{dc.discount_date | date: "dd.MM.yyyy"}}</span>
-                  <span>{{dc.reason}}</span>
+                  <span *ngIf="print !== 'client'">{{dc.reason}}</span>
                </div>
 
             </div>
          </div>
       </ng-container>
 
-      <div class="order__box order__box-table">
+      <div class="order__box order__box-table" *ngIf="print===null || print==='client' || print==='admin'">
          <div class="table">
             <b style="flex-grow: 1;">Avans: </b>
             <b style="flex-basis: 0%;" *ngIf="order.summaryForm.tva !== '0.00'">TVA: </b>
@@ -290,19 +343,13 @@
          </div>
       </div>
 
-
-      <div class="order__box">
-         <div class="order__box-row" style="justify-content: space-between;">
-            <button class="btn" (click)="onEdit()">Editează</button>
-            <button class="btn btn-secondary" (click)="printPage('all')">Print Tot</button>
-            <button class="btn btn-secondary" (click)="printPage('admin')">Print Admin.</button>
-            <button class="btn btn-secondary" (click)="printPage('client')">Print Client</button>
-            <button class="btn btn-secondary" (click)="printPage('prelucrare')">Print Prelucrare</button>
-            <button class="btn btn-secondary" (click)="printPage('photoengraving')">Print Fotogravura</button>
-            <button class="btn btn-secondary" (click)="printPage('engraving')">Print Gravare</button>
-            <button class="btn btn-secondary" (click)="printPage('mounting')">Print Instalare</button>
-
+      <div class="order__box print-only" *ngIf="print===null || print==='client' || print==='admin'">
+         <div class="order__box-row" style="justify-content: space-around;">
+            <p>Semnatura Consultant <br> ___________________</p>
+            <p>Semnatura {{order.customerForm.customer_fname}} <br> ___________________</p>
          </div>
+
       </div>
    </div>
 </div>
+<div style="page-break-after: always;"></div>

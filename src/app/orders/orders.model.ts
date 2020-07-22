@@ -18,6 +18,7 @@ export class Order {
         cemetery: string;
         cemetery_city: string;
         cemetery_country: string;
+        epitaf: string;
       }
     ],
     public elemsForm: [

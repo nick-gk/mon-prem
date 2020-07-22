@@ -4,22 +4,22 @@
       <li class="list__item list__item--headers">
          <span>ID</span>
          <span>Client</span>
-         <span>Telefon</span>
-         <span>Data intocmirii</span>
-         <span>Data Limita</span>
-         <span>Suma Totala</span>
-         <span>Suma Ramasa</span>
+         <span style="text-align: right;">Telefon</span>
+         <span style="text-align: right;">Data intocmirii</span>
+         <span style="text-align: right;">Data Limita</span>
+         <span style="text-align: right;">Suma Totala</span>
+         <span style="text-align: right;">Suma Ramasa</span>
       </li>
       <a *ngFor="let order of orders.reverse(); let i = index" routerLink="/orders/{{orders.length-1-i}}"
          style="text-decoration: none; color: inherit">
          <li class="list__item">
             <span>{{ order.id }}</span>
             <span>{{ order.customerForm.customer_fname }}</span>
-            <span>{{ order.customerForm.customer_tel }}</span>
-            <span>{{ order.termeniForm.today_date | date: 'dd MMM yyyy' }}</span>
-            <span>{{ order.termeniForm.due_date | date: 'dd MMM yyyy' }}</span>
-            <span>{{ order.summaryForm.total }}</span>
-            <span>{{ order.summaryForm.left_amount }}</span>
+            <span style="text-align: right;">{{ order.customerForm.customer_tel }}</span>
+            <span style="text-align: right;">{{ order.termeniForm.today_date | date: 'dd MMM yyyy' }}</span>
+            <span style="text-align: right;">{{ order.termeniForm.due_date | date: 'dd MMM yyyy' }}</span>
+            <span style="text-align: right;">{{ order.summaryForm.total | number: "1.2-2" }} Lei</span>
+            <span style="text-align: right;">{{ order.summaryForm.left_amount | number: "1.2-2" }} Lei</span>
          </li>
       </a>
    </ul>
