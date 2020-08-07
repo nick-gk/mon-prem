@@ -5,6 +5,8 @@
 /tmp
 /out-tsc
 /.firebase
+/.firebaserc
+/src/environments/
 # Only exists if Bazel was run
 /bazel-out
 
