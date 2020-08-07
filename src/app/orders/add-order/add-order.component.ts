@@ -102,7 +102,6 @@ export class AddOrderComponent
       elemsForm: this.elemsForm,
       termeniForm: this.termeniForm,
       summaryForm: this.summaryForm,
-      //progressForm: [],
       progressForm: this.progressForm,
     });
 

@@ -1,5 +1,7 @@
 <div class="main__list">
-   <h2 class="h2 page-title-h2" *ngIf="print !=='client'">Comanda nr. {{order.id}} </h2>
+   <h2 class="h2 page-title-h2" *ngIf="print !=='client'">Comanda nr. {{order.id}}
+      {{ (print==='prelucrare' ? '- prelucrare' : print==='mounting' ? '- montare' : print==='photoengraving' ? '- fotogravare' : print==='engraving' ? '- gravare' : "") }}
+   </h2>
    <div class="order">
       <div class="order__box" *ngIf="print==='client'">
          <div class="order__box-column-33">
@@ -197,7 +199,7 @@
                   <a [href]="img.downloadUrl" *ngFor="let img of order.progressForm.prelucrare.poze"
                      data-lightbox="prelucrare">
                      <img [src]="img.downloadUrl"
-                        [ngStyle]="{'height': (print==='prelucrare' || print==='mounting') ? '250px' : ';'}">
+                        [ngStyle]="{'height': (print==='prelucrare' || print==='mounting') ? '225px' : ';'}">
                   </a>
 
                </div>
@@ -275,7 +277,7 @@
                   <a [href]="img.downloadUrl" *ngFor="let img of order.progressForm.mounting.poze"
                      data-lightbox="mounting">
                      <img [src]="img.downloadUrl"
-                        [ngStyle]="{'height': (print==='prelucrare' || print==='mounting') ? '250px' : ';'}">
+                        [ngStyle]="{'height': (print==='prelucrare' || print==='mounting') ? '225px' : ';'}">
                   </a>
                </div>
 

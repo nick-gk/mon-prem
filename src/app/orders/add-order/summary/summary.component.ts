@@ -117,7 +117,6 @@ export class SummaryComponent implements OnInit {
         },
         { emitEvent: false }
       );
-      console.log("patched");
     });
     this.summaryForm.get("discountArray").valueChanges.subscribe((dcs) => {
       let reduceri: number = 0;
@@ -125,7 +124,6 @@ export class SummaryComponent implements OnInit {
       for (let dc in dcs) {
         if (dcs[dc].type === "Lei") {
           reduceri += parseFloat(dcs[dc].discount_amount);
-          console.log(parseFloat(dcs[dc].discount_amount));
         }
 
         if (dcs[dc].type === "%") {

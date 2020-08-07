@@ -1,6 +1,5 @@
 import { BrowserModule } from "@angular/platform-browser";
 import { NgModule } from "@angular/core";
-import { AppRoutingModule } from "./app-routing.module";
 import { FormsModule } from "@angular/forms";
 import { AppComponent } from "./app.component";
 import { StoreModule } from "@ngrx/store";
@@ -9,33 +8,38 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 import { EffectsModule } from "@ngrx/effects";
 import { AuthEffects } from "./auth/store/auth.effects";
 import { AuthInterceptorService } from "./auth/auth-interceptor.service";
-import { HeaderComponent } from "./header/header.component";
 import { OrdersModule } from "./orders/orders.module";
 import { AuthModule } from "./auth/auth.module";
 import { DashboardModule } from "./dashboard/dashboard.module";
 import { DashboardComponent } from "./dashboard/dashboard.component";
 import { OrdersEffects } from "./orders/store/orders.effects";
+import { AngularFireAuthModule } from "@angular/fire/auth";
+import { HeaderModule } from "./header/header.module.module";
+import { RouterModule } from "@angular/router";
+
 @NgModule({
-  declarations: [AppComponent, HeaderComponent],
+  declarations: [AppComponent],
   imports: [
     HttpClientModule,
     BrowserModule,
     FormsModule,
-    AppRoutingModule,
     AuthModule,
     DashboardModule,
     OrdersModule,
+    HeaderModule,
+    AngularFireAuthModule,
+    RouterModule,
     StoreModule.forRoot(fromApp.appReducer),
     HttpClientModule,
-    EffectsModule.forRoot([AuthEffects, OrdersEffects])
+    EffectsModule.forRoot([AuthEffects, OrdersEffects]),
   ],
   providers: [
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptorService,
-      multi: true
-    }
+      multi: true,
+    },
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
 export class AppModule {}

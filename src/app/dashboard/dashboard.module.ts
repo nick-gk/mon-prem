@@ -2,7 +2,8 @@ import { NgModule } from "@angular/core";
 import { DashboardComponent } from "./dashboard.component";
 import { CommonModule } from "@angular/common";
 import { RouterModule } from "@angular/router";
-import { AuthGuard } from "../auth/auth.guard";
+import { AuthRoleGuard } from "../auth/guards/auth.role.guard";
+import { AngularFireAuthGuard } from "@angular/fire/auth-guard";
 
 @NgModule({
   declarations: [DashboardComponent],
@@ -12,9 +13,10 @@ import { AuthGuard } from "../auth/auth.guard";
       {
         path: "dashboard",
         component: DashboardComponent,
-        canActivate: [AuthGuard]
-      }
-    ])
-  ]
+        canActivate: [AngularFireAuthGuard, AuthRoleGuard],
+        data: { roles: ["admin"] },
+      },
+    ]),
+  ],
 })
 export class DashboardModule {}

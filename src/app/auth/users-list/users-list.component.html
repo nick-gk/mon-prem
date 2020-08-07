@@ -1,0 +1,27 @@
+<div class="main__list">
+   <h2 class="h2 page-title-h2">Lista Userilor</h2>
+   <!-- <button class="btn btn-secondary" (click)="setRole()">Edit test</button> -->
+   <ul class="list">
+      <li class="list__item list__item--headers">
+         <span style="width: 14.28571%">ID</span>
+         <span>Email</span>
+         <span>Role</span>
+         <!-- <span style="text-align: right;">Data intocmirii</span>
+         <span style="text-align: right;">Data Limita</span>
+         <span style="text-align: right;">Suma Totala</span>
+         <span style="text-align: right;">Suma Ramasa</span> -->
+      </li>
+      <a *ngFor="let user of users; let i = index" routerLink="/users/{{users.length-1-i}}"
+         style="text-decoration: none; color: inherit">
+         <li class="list__item">
+            <span style="width:14.28571%">{{ user.uid | slice:1:20}}...</span>
+            <span>{{ user.email }}</span>
+            <span>{{ user.role }}</span>
+            <!-- <span style="text-align: right;">{{ order.termeniForm.today_date | date: 'dd MMM yyyy' }}</span>
+            <span style="text-align: right;">{{ order.termeniForm.due_date | date: 'dd MMM yyyy' }}</span>
+            <span style="text-align: right;">{{ order.summaryForm.total | number: "1.2-2" }} Lei</span>
+            <span style="text-align: right;">{{ order.summaryForm.left_amount | number: "1.2-2" }} Lei</span> -->
+         </li>
+      </a>
+   </ul>
+</div>

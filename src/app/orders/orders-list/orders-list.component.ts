@@ -5,7 +5,6 @@ import { Subscription } from "rxjs";
 import * as OrdersActions from "../store/orders.actions";
 import { Order } from "../orders.model";
 import { Router } from "@angular/router";
-
 @Component({
   selector: "app-orders-list",
   templateUrl: "./orders-list.component.html",
