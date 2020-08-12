@@ -11,6 +11,7 @@ import { AngularFireAuth } from "@angular/fire/auth";
 import * as fromApp from "../../store/app.reducer";
 import { Store } from "@ngrx/store";
 import { take, map } from "rxjs/operators";
+import * as headerActions from "../../header/store/header.actions";
 
 @Injectable({
   providedIn: "root",
@@ -32,6 +33,7 @@ export class AuthGuard implements CanActivate {
     return this.auth.authState.pipe(
       take(1),
       map((user) => {
+        this.store.dispatch(new headerActions.ChangeMenu({ name: "Setări" }));
         const isAuth = !!user;
         if (router.url === "/auth/login" && !isAuth) {
           return true;

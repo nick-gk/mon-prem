@@ -6,12 +6,14 @@ import { AuthRoleGuard } from "./guards/auth.role.guard";
 import { AuthGuard } from "./guards/auth.guard";
 import { AuthComponent } from "./auth.component";
 import { AngularFireAuthGuard } from "@angular/fire/auth-guard";
+import { leaveRouteGuard } from "./guards/auth.leaveRoute.guard";
 
 const routes: Routes = [
   {
     path: "auth",
     component: AuthComponent,
     canActivate: [AuthGuard],
+    canDeactivate: [leaveRouteGuard],
     children: [
       {
         path: "",
