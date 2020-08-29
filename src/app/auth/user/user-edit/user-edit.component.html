@@ -1,0 +1,187 @@
+<div class="main__add">
+   <h2 class="page-title-h2">{{(editMode!=='create') ? 'Editează cont' : 'Adauga Cont'}}</h2>
+   <form [formGroup]="userForm" (ngSubmit)="onSubmit()" class="form">
+      <div class="form__bellow">
+         <div class="form__bellow-block" style="margin-top:0" formGroupName="accountDetails"
+            *ngIf="editMode==='account' || editMode==='create'">
+
+            <h3>Date Cont</h3>
+            <hr>
+            <div class="form-container form-container__row">
+               <div class="form-container__column">
+                  <div class="form-container__row" *ngIf="editMode==='create'">
+                     <div class="form-group">
+                        <label for="e-mail">E-mail</label>
+                        <input type="email" placeholder="example@website.com" name="email" id="email"
+                           formControlName="email">
+                     </div>
+                  </div>
+                  <div class="form-container__row">
+                     <div class="form-group">
+                        <label for="department">Departament</label>
+                        <select name="Departament" id="Departament" formControlName="department">
+                           <option value="" disabled>Alege Departament</option>
+                           <option *ngFor="let department of departments" value="{{department.value}}">
+                              {{department.text}}</option>
+                        </select>
+                        <!-- <input type="text" placeholder="Departament" name="department" id="department"
+                           formControlName="department"> -->
+                     </div>
+                  </div>
+                  <div class="form-container__row">
+                     <div class="form-group">
+                        <label for="privileges">Privilegii</label>
+                        <select name="privileges" id="privileges" formControlName="privileges">
+                           <option value="" disabled>Alege Privilegii</option>
+                           <option value="1">1</option>
+                           <option value="2">2</option>
+                           <option value="3">3</option>
+                           <option value="4">4</option>
+                        </select>
+                        <!-- <input type="number" name="privileges" placeholder="1 | 2 | 3 | 4" id="privileges"
+                           formControlName="privileges"> -->
+                     </div>
+                  </div>
+               </div>
+
+               <div class="form-container__column">
+                  <div class="form-container__row" *ngIf="editMode==='create'">
+                     <div class="form-group">
+                        <label for="password">Parola</label>
+                        <input type="text" placeholder="parola" name="password" id="password"
+                           formControlName="password">
+                     </div>
+                  </div>
+
+                  <div class="form-container__row">
+                     <div class="form-group">
+                        <label for="role">Post deținut</label>
+                        <select name="role" id="role" formControlName="role" [disabled]="selectedDepartment">
+                           <option value="" disabled>Selectează poziție</option>
+                           <ng-container *ngIf="selectedDepartment">
+                              <option *ngFor="let position of selectedDepartment.positions" value="{{position.value}}">
+                                 {{position.text}}</option>
+                           </ng-container>
+
+                        </select>
+                     </div>
+                  </div>
+                  <div class="form-container__row">
+                     <div class="form-group">
+                        <label for="active">Activ</label>
+                        <input type="text" placeholder="active | inactive" name="active" id="active"
+                           formControlName="active">
+                     </div>
+                  </div>
+               </div>
+
+
+            </div>
+
+         </div>
+
+         <div class="form__bellow-block" *ngIf="editMode==='profile' || editMode==='create'">
+            <h3>Date Angajat</h3>
+            <hr>
+            <div class="form-container form-container__row" formGroupName="profileDetails">
+               <div class="form-container__column">
+                  <div class="form-container__row">
+                     <div class="form-group">
+                        <label for="fullName">Nume Prenume</label>
+                        <input type="text" placeholder="Nume" name="fullName" id="fullName" formControlName="fullName">
+                     </div>
+                  </div>
+                  <div class="form-container__row">
+                     <div class="form-group">
+                        <label for="city">Localitate</label>
+                        <input type="string" placeholder="Localitate" name="city" id="city" formControlName="city">
+                     </div>
+                  </div>
+
+                  <div class="form-container__row">
+                     <div class="form-group">
+                        <label for="phoneNumber">Nr. Telefon</label>
+                        <input type="tel" placeholder="+40741252525" name="phoneNumber" id="phoneNumber"
+                           formControlName="phoneNumber">
+                     </div>
+                  </div>
+
+                  <div class="form-container__row">
+                     <div class="form-group">
+                        <label for="salaryBrut">Salariu brut</label>
+                        <input type="number" name="salaryBrut" id="salaryBrut" placeholder="2000.00 lei"
+                           formControlName="salaryBrut">
+                     </div>
+                  </div>
+                  <div class="form-container__row">
+                     <div class="form-group">
+                        <label for="personalEmail">E-mail personal</label>
+                        <input type="email" name="personalEmail" id="personalEmail" formControlName="personalEmail">
+                     </div>
+                  </div>
+                  <div class="form-container__row">
+                     <div class="form-group">
+                        <label for="picture">Poza</label>
+                        <input type="hidden" name="picture" id='picture' formControlName="picture">
+                        <input type="file" style="margin: -4px;" onclick="value = null" (change)="onAddImage($event)">
+                     </div>
+                  </div>
+
+               </div>
+
+               <div class="form-container__column">
+                  <div class="form-container__row">
+                     <div class="form-group">
+                        <label for="genre">Gen</label>
+                        <select name="genre" id="genre" formControlName="genre">
+                           <option default value="M">Masculin</option>
+                           <option value="F">Feminin</option>
+                        </select>
+                     </div>
+                  </div>
+
+
+                  <div class="form-container__row">
+                     <div class="form-group">
+                        <label for="birthDate">Data Nașterii</label>
+                        <input type="date" placeholder="Data Nașterii" name="birthDate" id="birthDate"
+                           formControlName="birthDate">
+                     </div>
+                  </div>
+                  <div class="form-container__row">
+                     <div class="form-group">
+                        <label for="cnp">CNP</label>
+                        <input type="text" name="cnp" id="cnp" formControlName="cnp">
+                     </div>
+                  </div>
+
+                  <div class="form-container__row">
+                     <div class="form-group">
+                        <label for="employmentDate">Data Angajării</label>
+                        <input type="date" name="employmentDate" id="employmentDate" formControlName="employmentDate">
+                     </div>
+                  </div>
+                  <div class="form-container__row">
+                     <div class="form-group">
+                        <label for="salatyNet">Salariu net</label>
+                        <input type="number" name="salatyNet" id="salatyNet" formControlName="salaryNet">
+                     </div>
+                  </div>
+                  <div class="form-container__row">
+                     <div class="form-group">
+                        <label for="manager">Manager</label>
+                        <input type="text" name="manager" id="manager" formControlName="manager">
+                     </div>
+                  </div>
+               </div>
+            </div>
+
+         </div>
+         <div class=" form-group form-buttons">
+            <input type="submit" class="btn btn-primary" value="{{(editMode!=='create' ? 'Actualizează' : 'Crează')}}">
+            <input type="button" class="btn btn-secondary" (click)="onCancel()" value="Renunță">
+         </div>
+
+      </div>
+   </form>
+</div>

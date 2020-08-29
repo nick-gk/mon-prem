@@ -1,0 +1,128 @@
+<div class="main__list">
+   <ngx-spinner [fullScreen]="false">Se încarcă...</ngx-spinner>
+   <h2 class="h2 page-title-h2">Profil Utilizator</h2>
+   <div class="order" *ngIf="account">
+
+      <h3>Date Cont</h3>
+      <hr>
+
+      <div class="order__box">
+         <div class="order__box-column">
+            <div class="order__box-row">
+               <div style="padding-right: 2rem;">
+                  <p><b>E-mail: </b></p>
+                  <p><b>Departament: </b></p>
+                  <p><b>Privilegii: </b></p>
+                  <p><b>Poziția</b></p>
+               </div>
+               <div style="padding-right: 2rem;">
+                  <span>{{account.email}}</span><br>
+                  <span>{{account.department}}</span><br>
+                  <span>{{account.privileges}}</span><br>
+                  <span>{{account.role}}</span>
+               </div>
+            </div>
+         </div>
+         <div class="order__box-column">
+            <div class="order__box-row">
+               <div style="padding-right: 2rem;">
+                  <p><b>Activ: </b></p>
+                  <p><b>Creat la: </b></p>
+                  <p><b>Ultima vizită: </b></p>
+               </div>
+               <div style="padding-right: 2rem;">
+                  <span>{{account.active}}</span><br>
+                  <span>{{account.creationTime}}</span><br>
+                  <span>{{account.lastSignIntTime}}</span>
+               </div>
+
+            </div>
+         </div>
+
+      </div>
+      <h3>Profil Angajat</h3>
+      <hr>
+      <div class="order__box">
+         <div class="order__box-column">
+            <div class="order__box-row">
+               <div style="padding-right: 2rem;">
+                  <p><b>Nume Prenume: </b></p>
+                  <p><b>Localitate: </b></p>
+                  <p><b>Nr. Telefon: </b></p>
+                  <p><b>Salariu brut: </b></p>
+                  <p><b>Salariu Net: </b></p>
+                  <p><b>Poza: </b></p>
+               </div>
+               <div style="padding-right: 2rem;" *ngIf="profile">
+                  <span>{{profile.fullName}}</span><br>
+                  <span>{{profile.city}}</span><br>
+                  <span>{{profile.phoneNumber}}</span><br>
+                  <span>{{profile.salaryBrut}}</span><br>
+                  <span>{{profile.salaryNet}}</span><br>
+                  <span>
+                     <a href="{{profile.picture}}" data-lightbox="piatra">
+                        <img height="100px" src="{{profile.picture}}" alt="">
+                     </a></span><br>
+               </div>
+            </div>
+            <div class="order__box-row">
+
+            </div>
+         </div>
+         <div class="order__box-column">
+            <div class="order__box-row">
+               <div style="padding-right: 2rem;">
+                  <p><b>Gen: </b></p>
+                  <p><b>Data Nașterii: </b></p>
+                  <p><b>CNP: </b></p>
+                  <p><b>Data Angajării: </b></p>
+                  <p><b>E-mail Personal: </b></p>
+                  <p><b>Manager: </b></p>
+               </div>
+               <div style="padding-right: 2rem;" *ngIf="profile">
+                  <span>{{profile.genre}}</span><br>
+                  <span>{{profile.birthDate}}</span><br>
+                  <span>{{profile.cnp}}</span><br>
+                  <span>{{profile.employmentDate}}</span><br>
+                  <span>{{profile.personalEmail}}</span><br>
+                  <span>{{profile.manager}}</span><br>
+               </div>
+
+            </div>
+         </div>
+      </div>
+
+      <h3>Salarii</h3>
+      <hr>
+      <div class="order__box  order__box-table">
+         <div class="table">
+            <b>&nbsp;</b>
+            <b>Luna</b>
+            <b style="flex-basis: 45%; text-align: left;">Comentariu</b>
+            <b>Salariu Brut</b>
+            <b>Taxe</b>
+            <b>Salariu Net</b>
+         </div>
+         <div class="table">
+            <span>+</span>
+            <span>Martie 2020</span>
+            <span style="flex-basis: 45%; text-align: left;">...</span>
+            <span>10000</span>
+            <span>1000</span>
+            <span>9000</span>
+         </div>
+
+      </div>
+
+      <div class="order__box">
+         <div class="form-buttons">
+            <button class="btn" (click)="onEditAccount()">Editează Cont</button>
+            <button class="btn" (click)="onEditProfile()">Editează Profil</button>
+            <button class="btn" (click)="onChangePassword()">Schimbă parola</button>
+         </div>
+      </div>
+
+
+   </div>
+
+</div>

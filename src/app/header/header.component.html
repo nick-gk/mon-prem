@@ -21,13 +21,19 @@
          <h2 class="sidebar__heading">{{menu.name}}</h2>
          <ul class="sidebar__nav">
             <li class="sidebar__nav-item" *ngFor="let item of menu.items">
-               <a routerLinkActive="activeLink" [routerLink]="item.routerLink" class="sidebar__nav-item--link">
+               <a *ngIf="item.name !== 'Profil'" routerLinkActive="activeLink" [routerLink]="item.routerLink"
+                  class="sidebar__nav-item--link">
+                  <i class="fas fa-arrow-right"></i>
+                  <span class="sidebar__nav-item--link--text">{{item.name}}</span>
+               </a>
+               <a *ngIf="item.name === 'Profil'" routerLinkActive="activeLink" [routerLink]="userId"
+                  class="sidebar__nav-item--link">
                   <i class="fas fa-arrow-right"></i>
                   <span class="sidebar__nav-item--link--text">{{item.name}}</span>
                </a>
          </ul>
       </div>
-      <div class="main">
+      <div class="main" style="position: relative;">
          <router-outlet></router-outlet>
       </div>
    </div>

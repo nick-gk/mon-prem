@@ -14,7 +14,7 @@ import { AngularFireAuthGuard } from "@angular/fire/auth-guard";
         path: "dashboard",
         component: DashboardComponent,
         canActivate: [AngularFireAuthGuard, AuthRoleGuard],
-        data: { roles: ["admin"] },
+        data: { roles: ["Admin"] },
       },
     ]),
   ],

@@ -21,6 +21,8 @@ import { AngularFireStorageModule } from "@angular/fire/storage";
 import { OrderComponent } from "./order/order.component";
 import { OrderPrintClientComponent } from "./order/order-print-client/order-print-client.component";
 import { AngularFireAuthGuardModule } from "@angular/fire/auth-guard/";
+import { SharedModule } from "../shared/shared.module";
+import { NgxSpinnerModule, NgxSpinnerService } from "ngx-spinner";
 
 @NgModule({
   declarations: [
@@ -40,6 +42,7 @@ import { AngularFireAuthGuardModule } from "@angular/fire/auth-guard/";
   imports: [
     OrdersRoutingModule,
     CommonModule,
+    SharedModule,
     RouterModule,
     ReactiveFormsModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),

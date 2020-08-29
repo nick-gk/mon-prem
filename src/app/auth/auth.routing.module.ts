@@ -7,6 +7,8 @@ import { AuthGuard } from "./guards/auth.guard";
 import { AuthComponent } from "./auth.component";
 import { AngularFireAuthGuard } from "@angular/fire/auth-guard";
 import { leaveRouteGuard } from "./guards/auth.leaveRoute.guard";
+import { UserPageComponent } from "./user/user-page/user-page.component";
+import { UserEditComponent } from "./user/user-edit/user-edit.component";
 
 const routes: Routes = [
   {
@@ -30,6 +32,25 @@ const routes: Routes = [
         component: UsersListComponent,
         canActivate: [AuthGuard],
         data: { roles: ["admin", "manager"] },
+      },
+      {
+        path: "user",
+        canActivate: [AuthGuard],
+        data: { roles: ["admin", "manager"] },
+        children: [
+          {
+            path: "add",
+            component: UserEditComponent,
+          },
+          {
+            path: ":id",
+            component: UserPageComponent,
+          },
+          {
+            path: ":id/edit",
+            component: UserEditComponent,
+          },
+        ],
       },
     ],
   },

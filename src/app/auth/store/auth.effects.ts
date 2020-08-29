@@ -10,14 +10,18 @@ import {
   map,
   take,
   exhaustMap,
+  concatMap,
 } from "rxjs/operators";
 import { User } from "../User";
-import { of, from } from "rxjs";
+import { of, from, Observable } from "rxjs";
 import { AuthService } from "../auth.service";
 import { AngularFireAuth } from "@angular/fire/auth";
 import * as firebase from "firebase/app";
 import { Store } from "@ngrx/store";
 import * as fromApp from "../../store/app.reducer";
+import { Account } from "../Account";
+import { AngularFireDatabase } from "@angular/fire/database";
+import { Profile } from "../Profile";
 
 export interface AuthResponseData {
   idToken: string;
@@ -77,7 +81,8 @@ export class AuthEffects {
     private router: Router,
     private authService: AuthService,
     private auth: AngularFireAuth,
-    private store: Store<fromApp.AppState>
+    private store: Store<fromApp.AppState>,
+    private db: AngularFireDatabase
   ) {}
 
   @Effect()
@@ -104,6 +109,113 @@ export class AuthEffects {
             return handleError(errorRes);
           })
         );
+    })
+  );
+
+  @Effect()
+  userCreation = this.actions$.pipe(
+    ofType(AuthActions.USER_CREATE),
+    map((data: AuthActions.UserCreate) => {
+      return data.payload;
+    }),
+    exhaustMap((creds) => {
+      return this.http
+        .post<{ uid: string }>(
+          "https://us-central1-mon-prem.cloudfunctions.net/api/users",
+          creds.credentials
+        )
+        .pipe(
+          map((res) => {
+            this.store.dispatch(new AuthActions.CreationSuccess());
+            return new AuthActions.ProfileCreate({
+              uid: res.uid,
+              profile: creds.profile,
+            });
+          })
+        );
+    }),
+    catchError((error, caught) => {
+      this.store.dispatch(new AuthActions.AuthenticateFail(error.message));
+      return caught;
+    })
+  );
+
+  @Effect()
+  profileUpdate = this.actions$.pipe(
+    ofType(AuthActions.PROFILE_UPDATE),
+    exhaustMap((data: AuthActions.ProfileUpdate) => {
+      return this.db
+        .object(`users/${data.payload.uid}`)
+        .valueChanges()
+        .pipe(
+          take(1),
+          exhaustMap((profile) => {
+            if (profile) {
+              const users = this.db.database.ref("users");
+              return users
+                .child(data.payload.uid)
+                .update(data.payload.profile)
+                .then(() => {
+                  return new AuthActions.CreationSuccess();
+                });
+            } else {
+              return of(
+                new AuthActions.ProfileCreate({
+                  uid: data.payload.uid,
+                  profile: data.payload.profile,
+                })
+              );
+            }
+          })
+        );
+    }),
+    catchError((error, caught) => {
+      console.log(error.message);
+      this.store.dispatch(new AuthActions.AuthenticateFail(error.message));
+      return caught;
+    })
+  );
+
+  @Effect({ dispatch: false })
+  accountUpdate = this.actions$.pipe(
+    ofType(AuthActions.ACCOUNT_UPDATE),
+    map((data: AuthActions.AccountUpdate) => {
+      return data.payload;
+    }),
+    exhaustMap((account) => {
+      return this.http.patch<{ user: Account }>(
+        `https://us-central1-mon-prem.cloudfunctions.net/api/users/${account.uid}`,
+        account
+      );
+    }),
+    map((res) => {
+      console.log(res);
+    }),
+    catchError((error, caught) => {
+      console.log(error.message);
+      this.store.dispatch(new AuthActions.AuthenticateFail(error.message));
+      return caught;
+    })
+  );
+
+  @Effect()
+  profileCreate = this.actions$.pipe(
+    ofType(AuthActions.PROFILE_CREATE),
+    map((data: AuthActions.ProfileCreate) => {
+      return { profile: data.payload.profile, uid: data.payload.uid };
+    }),
+    exhaustMap((data) => {
+      const users = this.db.database.ref("users");
+      return users
+        .child(data.uid)
+        .set(data.profile)
+        .then((res) => {
+          return new AuthActions.CreationSuccess();
+        });
+    }),
+    catchError((error, caught) => {
+      this.store.dispatch(new AuthActions.AuthenticateFail(error.message));
+      return caught;
     })
   );
 
@@ -143,29 +255,60 @@ export class AuthEffects {
     })
   );
 
-  //   // console.log("logging in...");
-  //   // return from(this.auth.auth
-  //   //   .setPersistence(firebase.auth.Auth.Persistence.SESSION)
-  //   //   .then(() => {
-  //   //     this.auth.auth
-  //   //       .signInWithEmailAndPassword(
-  //   //         authData.payload.email,
-  //   //         authData.payload.password
-  //   //       )})).pipe((user) => {
-  //   //         this.auth.idTokenResult.pipe(take(1)).subscribe((token) => {
-  //   //           console.log(token);
-  //   //           return new AuthActions.AuthenticateSuccess({
-  //   //             email: token.claims.email,
-  //   //             uid: token.claims.sub,
-  //   //           });
-  //   //           // return handleAuthentication(token);
-  //   //         });
-  //   //       })
-  //   //       .catch((errorRes) => {
-  //   //         return handleError(errorRes);
-  //   //       });
-  //   //   });
-  // })
+  @Effect()
+  loadProfiles = this.actions$.pipe(
+    ofType(AuthActions.REQUEST_PROFILES),
+    switchMap(() => {
+      return this.db.object(`users`).valueChanges();
+    }),
+    map((profiles) => {
+      console.log(profiles);
+      return new AuthActions.LoadProfiles(profiles as Profile[]);
+    })
+  );
+
+  @Effect()
+  loadProfile = this.actions$.pipe(
+    ofType(AuthActions.REQUEST_PROFILE),
+    switchMap((data: AuthActions.RequestProfile) => {
+      return this.db.object(`users/${data.payload}`).valueChanges();
+    }),
+    map((profile) => {
+      return new AuthActions.LoadProfile(profile as Profile);
+    }),
+    catchError((error, caught) => {
+      this.store.dispatch(new AuthActions.AuthenticateFail(error.message));
+      return caught;
+    })
+  );
+
+  @Effect()
+  loadAccounts = this.actions$.pipe(
+    ofType(AuthActions.REQUEST_ACCOUNTS),
+    switchMap(() => {
+      return this.http.get<{ users: Account[] }>(
+        "https://us-central1-mon-prem.cloudfunctions.net/api/users/"
+      );
+    }),
+    map((accounts) => {
+      console.log(accounts);
+      return new AuthActions.LoadAccounts(accounts.users as Account[]);
+    })
+  );
+
+  @Effect()
+  loadAccount = this.actions$.pipe(
+    ofType(AuthActions.REQUEST_ACCOUNT),
+    switchMap((data: AuthActions.RequestAccount) => {
+      return this.http.get<{ user: Account }>(
+        `https://us-central1-mon-prem.cloudfunctions.net/api/users/${data.payload}`
+      );
+    }),
+    map((account) => {
+      console.log(account);
+      return new AuthActions.LoadAccount(account.user as Account);
+    })
+  );
 
   @Effect({ dispatch: false })
   authRedirect = this.actions$.pipe(

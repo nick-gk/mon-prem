@@ -1,22 +1,25 @@
 <div class="main__list">
+   <ngx-spinner [fullScreen]="false">Se încarcă...</ngx-spinner>
    <h2 class="h2 page-title-h2">Lista Userilor</h2>
    <!-- <button class="btn btn-secondary" (click)="setRole()">Edit test</button> -->
    <ul class="list">
       <li class="list__item list__item--headers">
-         <span style="width: 14.28571%">ID</span>
-         <span>Email</span>
-         <span>Role</span>
+         <span style="width: 14.28571%">Email</span>
+         <span>Departament</span>
+         <span>Privilegii</span>
+         <span style="flex-basis: 20%;">Poziție</span>
          <!-- <span style="text-align: right;">Data intocmirii</span>
          <span style="text-align: right;">Data Limita</span>
          <span style="text-align: right;">Suma Totala</span>
          <span style="text-align: right;">Suma Ramasa</span> -->
       </li>
-      <a *ngFor="let user of users; let i = index" routerLink="/users/{{users.length-1-i}}"
+      <a *ngFor="let account of accounts; let i = index" routerLink="{{ '/auth/user/' + account.uid }}"
          style="text-decoration: none; color: inherit">
          <li class="list__item">
-            <span style="width:14.28571%">{{ user.uid | slice:1:20}}...</span>
-            <span>{{ user.email }}</span>
-            <span>{{ user.role }}</span>
+            <span style="width:14.28571%">{{ account.email}}</span>
+            <span>{{ account.department }}</span>
+            <span>{{ account.privileges }}</span>
+            <span style="flex-basis: 20%;">{{ account.role}}</span>
             <!-- <span style="text-align: right;">{{ order.termeniForm.today_date | date: 'dd MMM yyyy' }}</span>
             <span style="text-align: right;">{{ order.termeniForm.due_date | date: 'dd MMM yyyy' }}</span>
             <span style="text-align: right;">{{ order.summaryForm.total | number: "1.2-2" }} Lei</span>

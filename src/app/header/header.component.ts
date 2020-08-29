@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from "@angular/core";
+import { Component, OnInit, OnDestroy, ChangeDetectorRef } from "@angular/core";
 import { Store } from "@ngrx/store";
 import * as fromApp from "../store/app.reducer";
 import * as AuthActions from "../auth/store/auth.actions";
@@ -27,6 +27,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   selectedMenu: string = "main";
   menu = null;
   menuSub: Subscription;
+  userId = null;
 
   fullMenu = [
     {
@@ -41,7 +42,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
       name: "Setări",
       items: [
         { name: "Lista Userilor", routerLink: "/auth/users-list" },
-        { name: "Profil", routerLink: "/auth/profile" },
+        { name: "Profil", routerLink: `/auth/user/${this.userId}` },
+        { name: "Adaugă User", routerLink: `/auth/user/add` },
       ],
     },
   ];
@@ -52,12 +54,14 @@ export class HeaderComponent implements OnInit, OnDestroy {
     });
 
     this.auth.auth.onAuthStateChanged((user) => {
+      if (user) this.userId = `auth/user/${user.uid}`;
       this.isAuthenticated = !!user;
       this.loaded = true;
       if (!this.isAuthenticated) this.router.navigate(["auth/login"]);
 
       this.auth.idTokenResult.subscribe((token) => {
         if (token) {
+          console.log(token);
           this.email = token.claims.email;
           this.role = token.claims.role;
         }

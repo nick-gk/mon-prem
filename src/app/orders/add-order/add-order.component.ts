@@ -24,13 +24,7 @@ import { map } from "rxjs/operators";
   styleUrls: ["./add-order.component.css"],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AddOrderComponent
-  implements
-    OnInit,
-    OnDestroy,
-    AfterContentInit,
-    AfterViewChecked,
-    AfterViewInit {
+export class AddOrderComponent implements OnInit, OnDestroy, AfterViewInit {
   constructor(
     private form: FormBuilder,
     private store: Store<fromApp.AppState>,
@@ -74,13 +68,9 @@ export class AddOrderComponent
     });
   }
 
-  ngAfterContentInit() {}
-
   ngAfterViewInit() {
     this.createForm(this.editIndex != null ? this.editIndex : null);
   }
-
-  ngAfterViewChecked() {}
 
   onAddForm(e) {
     this[e.name] = e.group;
@@ -107,6 +97,7 @@ export class AddOrderComponent
 
     if (id !== null) {
       this.orderForm.patchValue(this.orders[id]);
+      //this.orderForm.patchValue({ id: id });
     }
 
     this.checkSums();

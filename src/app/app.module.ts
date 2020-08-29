@@ -1,4 +1,5 @@
 import { BrowserModule } from "@angular/platform-browser";
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { NgModule } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { AppComponent } from "./app.component";
@@ -16,15 +17,18 @@ import { OrdersEffects } from "./orders/store/orders.effects";
 import { AngularFireAuthModule } from "@angular/fire/auth";
 import { HeaderModule } from "./header/header.module.module";
 import { RouterModule } from "@angular/router";
+import { SharedModule } from "./shared/shared.module";
 
 @NgModule({
   declarations: [AppComponent],
   imports: [
     HttpClientModule,
     BrowserModule,
+    BrowserAnimationsModule,
     FormsModule,
     AuthModule,
     DashboardModule,
+    SharedModule,
     OrdersModule,
     HeaderModule,
     AngularFireAuthModule,

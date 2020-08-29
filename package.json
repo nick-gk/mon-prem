@@ -49,6 +49,7 @@
     "karma-jasmine-html-reporter": "^1.5.4",
     "lightbox2": "^2.11.3",
     "ng2-image-viewer": "^3.0.5",
+    "ngx-spinner": "^10.0.1",
     "protractor": "^5.4.4",
     "ts-node": "~7.0.0",
     "tslint": "~5.15.0",

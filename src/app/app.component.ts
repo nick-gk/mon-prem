@@ -1,4 +1,5 @@
 import { Component, OnInit, AfterContentInit, Injectable } from "@angular/core";
+import { NgxSpinnerService } from "ngx-spinner";
 
 @Component({
   selector: "app-root",
@@ -7,7 +8,12 @@ import { Component, OnInit, AfterContentInit, Injectable } from "@angular/core";
 })
 @Injectable()
 export class AppComponent implements OnInit {
-  constructor() {}
+  constructor(private spinner: NgxSpinnerService) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.spinner.show();
+    setTimeout(() => {
+      this.spinner.hide();
+    }, 3000);
+  }
 }
